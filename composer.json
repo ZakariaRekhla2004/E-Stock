@@ -1,0 +1,17 @@
+{
+    "name": "admin/e-stock",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+           
+            "App\\": "App/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ZakariaRekhla2004",
+            "email": "zakariaest49@gmail.com"
+        }
+    ],
+    "require": {}
+}
