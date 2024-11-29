@@ -4,10 +4,10 @@ class Database {
     private $connection; // Connexion PDO
 
     // Informations de connexion
-    private $host = "localhost";
-    private $dbname = "e-stock";
-    private $username = "root";
-    private $password = "";
+    private $host = "sql8.freemysqlhosting.net";
+    private $dbname = "sql8748356";
+    private $username = "sql8748356";
+    private $password = "phAAj7L7pj";
 
     // Constructeur privé pour empêcher la création d'instances directes
     private function __construct() {
