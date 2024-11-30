@@ -1,0 +1,14 @@
+.nav-item:hover {
+    transition: all 0.3s ease;
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu.active {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+}
