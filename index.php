@@ -1,4 +1,6 @@
 <?php
+
+use App\Controller\LoginController;
 session_start();
 require __DIR__ . '/vendor/autoload.php';
 
@@ -17,3 +19,8 @@ Router::get('/about', function (){
 Router::get('/contact', function (){
     (new Home())->contactForm();
 });
+
+Router::get('/login', function (){
+    (new LoginController())->index();
+});
+

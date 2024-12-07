@@ -9,7 +9,6 @@ class Database {
     private $username = "sql8748356";
     private $password = "phAAj7L7pj";
 
-    // Constructeur privé pour empêcher la création d'instances directes
     private function __construct() {
         try {
             $this->connection = new PDO(
