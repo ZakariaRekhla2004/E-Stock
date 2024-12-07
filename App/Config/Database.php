@@ -1,19 +1,26 @@
 <?php
+namespace App\Config;
+
+use PDO;
+use PDOException;
+use Exception;
+
 class Database {
     private static $instance = null; // Instance unique
     private $connection; // Connexion PDO
 
     // Informations de connexion
-    private $host = "sql8.freemysqlhosting.net";
-    private $dbname = "sql8748356";
-    private $username = "sql8748356";
-    private $password = "phAAj7L7pj";
+    private $host = "localhost"; // Serveur local
+    private $port = "3308"; // Port MySQL personnalisé
+    private $dbname = "gestion_stock"; // Nom de votre base de données locale
+    private $username = "root"; // Utilisateur local par défaut
+    private $password = ""; // Mot de passe (vide par défaut sur XAMPP/MAMP/WAMP)
 
     // Constructeur privé pour empêcher la création d'instances directes
     private function __construct() {
         try {
             $this->connection = new PDO(
-                "mysql:host={$this->host};dbname={$this->dbname};charset=utf8",
+                "mysql:host={$this->host};port={$this->port};dbname={$this->dbname};charset=utf8",
                 $this->username,
                 $this->password
             );
@@ -47,7 +54,6 @@ class Database {
 
 try {
     $db = Database::getInstance()->getConnection();
-    echo "Connection successful!";
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }

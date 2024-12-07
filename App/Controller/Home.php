@@ -5,8 +5,8 @@ class Home
     // Return main view
     public function index() :void
     {
-        $view = './App/Views/Home/Homepage/Main.php';
-        include_once './App/Views/Home/Layout/Layout.php';
+        $view = './App/Views/Homepage/Main.php';
+        include_once './App/Views/Layout/Layout.php';
     }
 
     // Return about view
