@@ -70,5 +70,15 @@ class CategorieDAO {
         $stmt->execute();
         return $stmt->rowCount();
     }
+    public function getCategoryById($id) {
+        $query = "SELECT nom FROM categorie WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Retourner le nom de la catégorie si trouvée
+        $category = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $category ? $category['nom'] : null; // Renvoie le nom ou null si non trouvé
+    }
 }
 ?>
