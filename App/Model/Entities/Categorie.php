@@ -1,4 +1,5 @@
 <?php
+namespace App\Model\Entities;
 class Categorie {
     private $id;
     private $nom;

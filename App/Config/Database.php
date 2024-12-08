@@ -11,12 +11,11 @@ class Database {
 
     // Informations de connexion
     private $host = "localhost"; // Serveur local
-    private $port = "3308"; // Port MySQL personnalisé
+    private $port = "3306"; // Port MySQL personnalisé
     private $dbname = "gestion_stock"; // Nom de votre base de données locale
     private $username = "root"; // Utilisateur local par défaut
     private $password = ""; // Mot de passe (vide par défaut sur XAMPP/MAMP/WAMP)
 
-    // Constructeur privé pour empêcher la création d'instances directes
     private function __construct() {
         try {
             $this->connection = new PDO(
