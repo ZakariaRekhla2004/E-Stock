@@ -1,5 +1,10 @@
 <?php
 
+use App\Controller\RemiseController;
+
+
+
+
 
 session_start();
 require __DIR__ . '/vendor/autoload.php';
@@ -10,7 +15,7 @@ use App\Controller\ClientController;
 use App\Controller\CommandeController;
 use App\Controller\CategorieController;
 use App\Controller\LoginController;
-
+use App\Controller\PrimeController;
 // Routes existantes
 Router::get('/', function () {
    (new Home())->index();
@@ -19,6 +24,7 @@ Router::get('/', function () {
 Router::get('/about', function (){
     (new Home())->aboutView();
 });
+
 
 Router::get('/contact', function (){
     (new Home())->contactForm();
@@ -88,6 +94,14 @@ Router::post('/Category/delete', function () {
     }
 });
 
+////////////////////////////////     Remise // Prime //////////////////////////////////
+Router::get('/Remise', function () {
+    (new RemiseController())->index();
+});
+
+Router::get('/Prime', function (){
+    (new PrimeController())->index();
+});
 
 
 ?>
