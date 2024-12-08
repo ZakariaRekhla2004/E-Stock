@@ -5,6 +5,7 @@ require __DIR__ . '/vendor/autoload.php';
 use App\Config\Router;
 use App\Controller\Home;
 use App\Controller\ClientController;
+use App\Controller\CommandeController;
 
 // Routes existantes
 Router::get('/', function () {
@@ -43,6 +44,11 @@ Router::post('/Client/delete', function () {
         exit;
     }
 });
+
+Router::get('/Commande', function () {
+    (new CommandeController())->index();
+ });
+ 
 
 
 ?>
