@@ -1,5 +1,7 @@
 <?php
 
+use App\Controller\ProduitController;
+
 
 session_start();
 require __DIR__ . '/vendor/autoload.php';
@@ -79,6 +81,38 @@ Router::post('/Category/delete', function () {
     } else {
         $_SESSION['error_message'] = 'Aucun ID fourni pour la suppression.';
         header('Location: /Category');
+        exit;
+    }
+});
+
+
+// Routes pour la gestion des produits
+Router::get('/Product', function () {
+    (new ProduitController())->index(); // Afficher la liste des produits
+});
+
+Router::post('/Product/add', function () {
+    (new ProduitController())->add(); // Ajouter un produit
+});
+
+Router::post('/Product/edit', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ProduitController())->update($id); // Modifier un produit
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la modification.';
+        header('Location: /Product');
+        exit;
+    }
+});
+
+Router::post('/Product/delete', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ProduitController())->delete($id); // Supprimer un produit
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la suppression.';
+        header('Location: /Product');
         exit;
     }
 });
