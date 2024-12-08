@@ -9,6 +9,7 @@ require __DIR__ . '/vendor/autoload.php';
 use App\Config\Router;
 use App\Controller\Home;
 use App\Controller\ClientController;
+use App\Controller\CommandeController;
 use App\Controller\CategorieController;
 use App\Controller\LoginController;
 
@@ -54,6 +55,10 @@ Router::post('/Client/delete', function () {
     }
 });
 
+Router::get('/Commande', function () {
+    (new CommandeController())->index();
+ });
+ 
 // Routes pour la gestion des catégories
 Router::get('/Category', function () {
     (new CategorieController())->index(); // Afficher la liste des catégories
