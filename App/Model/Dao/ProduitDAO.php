@@ -1,6 +1,7 @@
 <?php
-require_once '../Config/DatabaseConnection.php';
-require_once '../Model/Produit.php';
+// require_once '../Config/DatabaseConnection.php';
+// require_once '../Model/Produit.php';
+namespace App\Model\Dao;
 
 class ProduitDAO {
     private $db;

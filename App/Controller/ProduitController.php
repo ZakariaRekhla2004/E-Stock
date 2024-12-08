@@ -1,6 +1,6 @@
 <?php
-require_once '../Dao/ProduitDAO.php';
-
+// require_once '../Dao/ProduitDAO.php';
+namespace App\Controller;
 class ProduitController {
     private $produitDAO;
 

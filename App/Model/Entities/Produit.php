@@ -1,17 +1,20 @@
 <?php
+namespace App\Model\Entities;
 class Produit {
     private $id;
     private $designation;
     private $prix;
     private $qtt;
     private $deleted;
+    private $pathImage;
     private $idCategorie;
 
-    public function __construct($id = null, $designation = null, $prix = 0, $qtt = 0, $deleted = 0, $idCategorie = null) {
+    public function __construct($id = null, $designation = null, $prix = 0, $qtt = 0,$pathImage = null, $deleted = 0, $idCategorie = null) {
         $this->id = $id;
         $this->designation = $designation;
         $this->prix = $prix;
         $this->qtt = $qtt;
+        $this->pathImage = $pathImage;
         $this->deleted = $deleted;
         $this->idCategorie = $idCategorie;
     }
@@ -58,6 +61,13 @@ class Produit {
 
     public function setIdCategorie($idCategorie) {
         $this->idCategorie = $idCategorie;
+    }
+    
+    public function getPathImage() {
+        return $this->pathImage;
+    }
+    public function setPathImage($pathImage) {
+        $this->pathImage = $pathImage;
     }
 }
 ?>

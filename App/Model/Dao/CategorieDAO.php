@@ -1,6 +1,11 @@
 <?php
-require_once '../Config/DatabaseConnection.php';
-require_once '../Model/Categorie.php';
+namespace App\Model\Dao;
+
+use PDO;
+use App\Config\Database;
+use App\Model\Entities\Categorie;
+use PDOException; 
+use Exception;
 
 class CategorieDAO {
     private $db;
@@ -11,7 +16,7 @@ class CategorieDAO {
 
     // Create a new category
     public function create(Categorie $categorie) {
-        $query = "INSERT INTO categorie (nom_categorie, description, deleted) VALUES (:nom, :description, :deleted)";
+        $query = "INSERT INTO categorie (nom, description, deleted) VALUES (:nom, :description, :deleted)";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':nom', $categorie->getNom());
         $stmt->bindValue(':description', $categorie->getDescription());
@@ -22,32 +27,32 @@ class CategorieDAO {
 
     // Read all categories
     public function getAll() {
-        $query = "SELECT * FROM categorie";
+        $query = "SELECT * FROM categorie WHERE deleted = 0";
         $stmt = $this->db->query($query);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $categories = [];
         foreach ($results as $row) {
-            $categories[] = new Categorie($row['id_categorie'], $row['nom_categorie'], $row['description'], $row['deleted']);
+            $categories[] = new Categorie($row['id'], $row['nom'], $row['description'], $row['deleted']);
         }
         return $categories;
     }
 
     // Read a category by ID
     public function getById($id) {
-        $query = "SELECT * FROM categorie WHERE id_categorie = :id";
+        $query = "SELECT * FROM categorie WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new Categorie($row['id_categorie'], $row['nom_categorie'], $row['description'], $row['deleted']);
+            return new Categorie($row['id'], $row['nom'], $row['description'], $row['deleted']);
         }
         return null;
     }
 
     // Update a category
     public function update(Categorie $categorie) {
-        $query = "UPDATE categorie SET nom_categorie = :nom, description = :description, deleted = :deleted WHERE id_categorie = :id";
+        $query = "UPDATE categorie SET nom = :nom, description = :description, deleted = :deleted WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':nom', $categorie->getNom());
         $stmt->bindValue(':description', $categorie->getDescription());
@@ -59,7 +64,7 @@ class CategorieDAO {
 
     // Delete a category (soft delete)
     public function delete($id) {
-        $query = "UPDATE categorie SET deleted = 1 WHERE id_categorie = :id";
+        $query = "UPDATE categorie SET deleted = 1 WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id', $id);
         $stmt->execute();

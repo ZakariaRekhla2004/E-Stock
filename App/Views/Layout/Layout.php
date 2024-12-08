@@ -17,7 +17,7 @@
     <aside class="w-64 bg-white shadow-lg">
         <!-- Logo -->
         <div class="p-6 border-b flex justify-center items-center">
-            <img src="../../../public/assets/images/logo.png" alt="e-Stock" class="h-16 w-16">
+        <img src="/public/assets/images/logo.png" alt="E-Stock Logo" class="h-20 mb-6">
         </div>
 
         <!-- Navigation -->
