@@ -12,6 +12,8 @@ use App\Controller\ClientController;
 use App\Controller\CommandeController;
 use App\Controller\CategorieController;
 use App\Controller\LoginController;
+use App\Model\Dao\ProduitCommandeDAO;
+
 
 // Routes existantes
 Router::get('/', function () {
@@ -121,6 +123,62 @@ Router::post('/Product/delete', function () {
         exit;
     }
 });
+
+
+Router::post('/Commande/add', function () {
+    (new CommandeController())->add();
+});
+
+Router::get('/Commande', function ($id) {
+    (new CommandeController())->index();
+});
+
+
+Router::get('/categoriesPanier', function () {
+    $categorieDAO = new App\Model\Dao\CategorieDAO();
+    $categories = $categorieDAO->getAllForPanel();
+    header('Content-Type: application/json');
+    echo json_encode($categories);
+    exit;
+});
+
+
+Router::get('/productsPanier', function () {
+    $produitDAO = new App\Model\Dao\ProduitDAO();
+    $products = $produitDAO->getAllForPannel();
+    header('Content-Type: application/json');
+    echo json_encode($products);
+    exit;
+});
+
+Router::get('/clientPanier', function () {
+    $clientDAO = new App\Model\Dao\ClientDAO();
+    $clients = $clientDAO->getAll();
+    header('Content-Type: application/json');
+    echo json_encode($clients);
+    exit;
+});
+
+Router::get('/commandeListe', function () {
+    (new CommandeController())->indexListe();
+});
+Router::get('/Commande/produits', function () {
+    $id = $_GET['id'] ?? null;
+    if ($id) {
+        $produitCommandeDAO = new ProduitCommandeDAO();
+        $produits = $produitCommandeDAO->getByCommandeId($id);
+        header('Content-Type: application/json');
+        echo json_encode($produits);
+    } else {
+        http_response_code(400);
+        echo json_encode(['error' => 'ID commande manquant']);
+    }
+});
+
+Router::get('/Commande/imprime', function () {
+    (new CommandeController())->imprime();
+});
+
 
 
 

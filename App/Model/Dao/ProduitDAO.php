@@ -66,6 +66,23 @@ class ProduitDAO {
             throw new Exception("Erreur lors de la récupération des produits : " . $e->getMessage());
         }
     }
+    public function getAllForPannel() {
+        try {
+            $query = "SELECT * FROM produit WHERE deleted = 0 AND qtt > 0";
+            $stmt = $this->db->query($query);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Debugging
+            if (empty($results)) {
+                error_log("Aucun produit avec une quantité supérieure à 0 trouvé.");
+            }
+    
+            return $results; // Retourne directement le tableau associatif
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la récupération des produits : " . $e->getMessage());
+        }
+    }
+    
 
     // Lire un produit par ID
     public function getById($id) {
