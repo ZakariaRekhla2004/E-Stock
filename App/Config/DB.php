@@ -2,7 +2,7 @@
 
 class Database {
     private $host = 'localhost';
-    private $db_name = 'mvc_project';
+    private $db_name = 'estock';
     private $username = 'root';
     private $password = '';
     public $conn;
