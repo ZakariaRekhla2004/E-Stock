@@ -169,6 +169,7 @@ Router::get('/Commande/produits', function () {
         $produits = $produitCommandeDAO->getByCommandeId($id);
         header('Content-Type: application/json');
         echo json_encode($produits);
+        exit;
     } else {
         http_response_code(400);
         echo json_encode(['error' => 'ID commande manquant']);

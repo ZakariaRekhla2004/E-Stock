@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Model\Dao\CommandeDAO;
 use App\Model\Dao\ProduitDAO;
+use App\Model\Dao\ClientDao;
+
 
 use App\Model\Dao\ProduitCommandeDAO;
 use App\Model\Entities\Commande;
@@ -92,24 +94,19 @@ class CommandeController {
                 $produit->setQtt($produit->getQtt() - $quantity);
                 $produitDAO->update($produit);
             }
-    
+            $_SESSION['success_message'] = 'La commande ajoutée avec succès.';
+
             // Renvoie une réponse JSON de succès
             echo json_encode(['success' => true, 'message' => 'Commande ajoutée avec succès', 'idCommande' => $idCommande]);
         } catch (Exception $e) {
             http_response_code(500); // Erreur interne du serveur
             echo json_encode(['error' => 'Erreur interne: ' . $e->getMessage()]);
         }
+
+        header(header: 'Location: /Commande');
+
     }
-        public function view($id): void {
-        $commandeDAO = new CommandeDAO();
-        $produitCommandeDAO = new ProduitCommandeDAO();
-
-        $commande = $commandeDAO->getById($id);
-        $products = $produitCommandeDAO->getByCommandeId($id);
-
-        include_once './App/Views/Commande/Details.php';
-    }
-
+       
     public function imprime(): void
     {
         $id = $_GET['id'] ?? null;
@@ -127,6 +124,14 @@ class CommandeController {
     
         $produitCommandeDAO = new ProduitCommandeDAO();
         $produits = $produitCommandeDAO->getByCommandeId($id);
+    
+        // Récupération des informations du client
+        $clientDao = new ClientDao();
+        $client = $clientDao->getById($commande->getIdClient());
+    
+        if (!$client) {
+            die('Erreur : Client introuvable.');
+        }
     
         include_once './App/Views/CommandePage/Imprime.php';
     }

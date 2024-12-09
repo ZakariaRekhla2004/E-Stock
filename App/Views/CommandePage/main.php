@@ -28,14 +28,20 @@
             Total: <span id="cart-total">0</span> DH
         </div>
         <button id="print-invoice"
-            class="w-full mt-2 bg-green-500 text-white px-4 py-2 no-rounded hover:bg-green-600">Imprimer la
-            facture</button>
+            class="w-full mt-2 bg-green-500 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-green-600 transition duration-300 ease-in-out">
+            Imprimer la facture
+        </button>
 
         <button id="confirm-order"
-            class="w-full mt-6 bg-blue-500 text-white px-4 py-2 no-rounded hover:bg-blue-600">Confirmer la
-            commande</button>
-        <button id="close-cart" class="w-full mt-2 bg-red-500 text-white px-4 py-2 no-rounded hover:bg-red-600">Fermer
-            le panier</button>
+            class="w-full mt-6 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
+            Confirmer la commande
+        </button>
+
+        <button id="close-cart"
+            class="w-full mt-2 bg-red-500 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-red-600 transition duration-300 ease-in-out">
+            Fermer le panier
+        </button>
+
     </aside>
 
     <!-- Modal -->
@@ -71,10 +77,21 @@
                 .then(response => response.json())
                 .then(categories => {
                     categoriesContainer.innerHTML = '';
+
+                    // Bouton "Tous les catégories"
+                    const allButton = document.createElement('button');
+                    allButton.className =
+                        "category-tab rounded-full bg-gray-200 text-gray-700 px-4 py-2 hover:bg-gray-300 active:bg-blue-500 active:text-white";
+                    allButton.dataset.category = 'all';
+                    allButton.textContent = 'Tous les catégories';
+                    allButton.addEventListener('click', () => renderProducts());
+                    categoriesContainer.appendChild(allButton);
+
+                    // Autres catégories
                     categories.forEach(category => {
                         const button = document.createElement('button');
                         button.className =
-                            "category-tab no-rounded bg-gray-200 text-gray-700 px-4 py-2 hover:bg-gray-300";
+                            "category-tab rounded-full bg-gray-200 text-gray-700 px-4 py-2 hover:bg-gray-300 active:bg-blue-500 active:text-white";
                         button.dataset.category = category.id;
                         button.textContent = category.nom;
                         button.addEventListener('click', () => renderProducts(category.id));
@@ -83,6 +100,7 @@
                 })
                 .catch(error => console.error('Erreur lors du chargement des catégories:', error));
         }
+
 
         function loadProducts() {
             fetch('/productsPanier')
@@ -110,57 +128,62 @@
         }
 
         function renderProducts(categoryId = null) {
+            // Mettre à jour l'état actif des catégories
+            document.querySelectorAll('.category-tab').forEach(button => {
+                if (categoryId === null && button.dataset.category === 'all') {
+                    button.classList.add('bg-blue-500', 'text-white');
+                    button.classList.remove('bg-gray-200', 'text-gray-700');
+                } else if (parseInt(button.dataset.category, 10) === categoryId) {
+                    button.classList.add('bg-blue-500', 'text-white');
+                    button.classList.remove('bg-gray-200', 'text-gray-700');
+                } else {
+                    button.classList.add('bg-gray-200', 'text-gray-700');
+                    button.classList.remove('bg-blue-500', 'text-white');
+                }
+            });
+
+            // Filtrage des produits par catégorie
             productContainer.innerHTML = '';
             const filteredProducts = categoryId ? products.filter(p => p.idCategorie === categoryId) : products;
 
+            // Générer les produits
             filteredProducts.forEach(product => {
                 const productCard = `
-                <div class="border no-rounded p-4 hover:shadow-lg transition relative">
-                    <img src="${product.pathImage}" alt="${product.designation}" class="w-full h-32 object-cover mb-4">
-                    <h3 class="text-lg font-semibold">${product.designation}</h3>
-                    <p class="text-gray-600">${product.prix} DH</p>
-                    <p class="text-sm text-gray-500">Stock disponible: ${product.qtt}</p>
-                    <div class="flex justify-between items-center mt-4">
-                        <button class="view-details bg-gray-200 px-4 py-2 no-rounded" data-id="${product.id}">Voir aperçu</button>
-                        <button class="add-to-cart bg-blue-500 text-white px-4 py-2 no-rounded" data-id="${product.id}">Ajouter</button>
-                    </div>
-                </div>
-            `;
+        <div class="border rounded-lg p-4 hover:shadow-lg transition relative">
+            <img src="/E-Stock/public/${product.pathImage}" alt="${product.designation}" class="w-full h-32 object-cover mb-4 rounded-md">
+            <h3 class="text-lg font-semibold">${product.designation}</h3>
+            <p class="text-gray-600">${product.prix} DH</p>
+            <p class="text-sm text-gray-500">Stock disponible: ${product.qtt}</p>
+            <div class="flex justify-between items-center mt-4">
+                <button class="view-details bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300" data-id="${product.id}">Voir aperçu</button>
+                <button class="add-to-cart bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" data-id="${product.id}">Ajouter</button>
+            </div>
+        </div>
+        `;
                 productContainer.insertAdjacentHTML('beforeend', productCard);
             });
-
-            productContainer.addEventListener('click', (event) => {
-                if (event.target.classList.contains('add-to-cart')) {
-                    const productId = parseInt(event.target.dataset.id, 10);
-                    addToCart(productId, 1);
-                } else if (event.target.classList.contains('view-details')) {
-                    const productId = parseInt(event.target.dataset.id, 10);
-                    const product = products.find(p => p.id === productId);
-                    document.getElementById('modal-image').src = product.pathImage;
-                    document.getElementById('modal-title').textContent = product.designation;
-                    document.getElementById('modal-description').textContent =
-                        `Prix: ${product.prix} DH`;
-                    document.getElementById('modal-quantity').value = 1;
-                    document.getElementById('modal-add-to-cart').dataset.id = productId;
-                    document.getElementById('product-modal').classList.remove('hidden');
-                }
-            });
+            initializeProductButtons(products);
+            initializeAddToCartButtons();
         }
+
 
         function addToCart(productId, quantity) {
             const product = products.find(p => p.id === productId);
-            const existing = cart.find(item => item.id === productId);
+            if (!product) {
+                alert('Produit non trouvé.');
+                return;
+            }
 
-            if (existing) {
-                const newQuantity = existing.quantity + quantity;
-                if (newQuantity > product.qtt) {
-                    alert(`Quantité demandée dépasse le stock disponible (${product.qtt} unités).`);
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                if (existingItem.quantity + quantity > product.qtt) {
+                    alert(`Stock insuffisant. Disponible : ${product.qtt}`);
                     return;
                 }
-                existing.quantity = newQuantity;
+                existingItem.quantity += quantity;
             } else {
                 if (quantity > product.qtt) {
-                    alert(`Quantité demandée dépasse le stock disponible (${product.qtt} unités).`);
+                    alert(`Stock insuffisant. Disponible : ${product.qtt}`);
                     return;
                 }
                 cart.push({
@@ -169,6 +192,17 @@
                 });
             }
             updateCart();
+        }
+
+
+
+        function initializeAddToCartButtons() {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const productId = parseInt(event.target.dataset.id, 10);
+                    addToCart(productId, 1); // Ajout avec une quantité de 1
+                });
+            });
         }
 
         function updateCart() {
@@ -222,16 +256,16 @@
         }
 
         function printInvoice() {
-    const clientId = clientSelect.value;
-    if (!clientId) {
-        alert('Veuillez sélectionner un client avant d\'imprimer la facture.');
-        return;
-    }
+            const clientId = clientSelect.value;
+            if (!clientId) {
+                alert('Veuillez sélectionner un client avant d\'imprimer la facture.');
+                return;
+            }
 
-    const clientName = clientSelect.options[clientSelect.selectedIndex].text;
+            const clientName = clientSelect.options[clientSelect.selectedIndex].text;
 
-    let invoiceWindow = window.open('', '_blank');
-    invoiceWindow.document.write(`
+            let invoiceWindow = window.open('', '_blank');
+            invoiceWindow.document.write(`
         <html>
             <head>
                 <title>Facture</title>
@@ -269,9 +303,9 @@
             </body>
         </html>
     `);
-    invoiceWindow.document.close();
-    invoiceWindow.print();
-}
+            invoiceWindow.document.close();
+            invoiceWindow.print();
+        }
 
 
         document.getElementById('cart-icon').addEventListener('click', () => {
@@ -283,14 +317,25 @@
         document.getElementById('confirm-order').addEventListener('click', () => {
             const clientId = clientSelect.value;
             const userId = userIdField.value;
+
             if (!clientId) {
-                alert('Veuillez sélectionner un client.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Veuillez sélectionner un client.',
+                });
                 return;
             }
+
             if (cart.length === 0) {
-                alert('Votre panier est vide.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Panier vide',
+                    text: 'Votre panier est vide.',
+                });
                 return;
             }
+
             const orderData = {
                 idClient: parseInt(clientId, 10),
                 idUser: parseInt(userId, 10),
@@ -299,6 +344,7 @@
                     quantity: item.quantity
                 }))
             };
+
             fetch('/Commande/add', {
                     method: 'POST',
                     headers: {
@@ -306,14 +352,33 @@
                     },
                     body: JSON.stringify(orderData)
                 })
-                .then(response => response.json())
+                .then(response => {
+                    // Vérifiez si la réponse contient du JSON
+                    const contentType = response.headers.get('Content-Type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json();
+                    }
+                    // Si la réponse n'est pas JSON, renvoyez un message vide
+                    return null;
+                })
                 .then(data => {
-                    alert('Commande confirmée avec succès.');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Succès',
+                        text: 'Commande confirmée avec succès.',
+                    });
                     cart = [];
                     updateCart();
                     clientSelect.value = '';
                 })
-                .catch(error => console.error('Erreur lors de la confirmation de la commande:', error));
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue lors de la confirmation de la commande. Veuillez réessayer.',
+                    });
+                    console.error('Erreur lors de la confirmation de la commande:', error);
+                });
         });
 
         document.getElementById('modal-add-to-cart').addEventListener('click', () => {
@@ -333,4 +398,60 @@
         loadProducts();
         loadClients();
     });
+
+    function initializeProductButtons(prdcs) {
+        const modal = document.getElementById('product-modal');
+        if (!modal) {
+            console.error("Modal avec l'ID 'product-modal' introuvable.");
+            return;
+        }
+
+        // Ajout d'écouteurs d'événements sur tous les boutons "Voir aperçu"
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productId = parseInt(event.target.dataset.id, 10);
+                const product = prdcs.find(p => p.id === productId);
+
+                console.log('Button clicked. Product ID:', productId);
+
+                if (product) {
+                    // Mettre à jour le contenu du modal
+                    document.getElementById('modal-title').textContent = product.designation;
+                    document.getElementById('modal-description').textContent = product.description ||
+                        'Aucune description disponible.';
+                    document.getElementById('modal-image').src = `/E-Stock/public/${product.pathImage}`;
+                    document.getElementById('modal-quantity').value = 1;
+                    document.getElementById('modal-add-to-cart').dataset.id = product.id;
+
+                    // Afficher le modal
+                    modal.classList.remove('hidden');
+                } else {
+                    alert('Produit non trouvé.');
+                    console.error('Produit avec ID introuvable:', productId);
+                }
+            });
+        });
+    }
+
+    // Gestion de la fermeture du modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+        const modal = document.getElementById('product-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        } else {
+            console.error("Modal avec l'ID 'product-modal' introuvable.");
+        }
+    });
 </script>
+<style>
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+</style>

@@ -22,11 +22,26 @@ class ProduitCommandeDAO {
         $stmt->execute();
     }
 
-    public function getByCommandeId($idCommande) {
-        $query = "SELECT * FROM commande_produit WHERE idCommande = :idCommande";
+    public function getByCommandeId($commandeId): array
+    {
+        $query = "
+            SELECT 
+                pc.idCommande,
+                p.id AS idProduit,
+                p.designation AS nom,
+                p.prix,
+                p.pathImage,
+                pc.quantity
+            FROM commande_produit pc
+            JOIN produit p ON pc.idProduit = p.id
+            WHERE pc.idCommande = :commandeId
+        ";
+    
         $stmt = $this->db->prepare($query);
-        $stmt->bindValue(':idCommande', $idCommande);
+        $stmt->bindParam(':commandeId', $commandeId, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retourne toutes les informations nécessaires
     }
+    
 }

@@ -39,6 +39,7 @@ class CommandeDAO {
             $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
             $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
             $stmt->execute();
+            echo "hahaha";
         } catch (Exception $e) {
             throw new Exception('Erreur lors de l\'ajout du produit à la commande: ' . $e->getMessage());
         }
