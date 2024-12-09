@@ -39,17 +39,23 @@ class ClientDao
 
     // Read all clients
     // Get all active clients
-    public function getAll()
-    {
-        $query = 'SELECT * FROM client WHERE is_deleted = FALSE';
-        $stmt = $this->db->query($query);
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $clients = [];
-        foreach ($results as $row) {
-            $clients[] = new Client($row['nom'], $row['prenom'], $row['adresse'], $row['ville'], $row['id']);
+    public function getAll() {
+        try {
+            $query = "SELECT * FROM client WHERE is_deleted = FALSE";
+            $stmt = $this->db->query($query);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Debugging
+            if (empty($results)) {
+                error_log("Aucun client trouvé.");
+            }
+    
+            return $results; // Retourne directement le tableau associatif
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la récupération des clients : " . $e->getMessage());
         }
-        return $clients;
     }
+    
 
     // Get a client by ID (only active)
     public function getById($id)

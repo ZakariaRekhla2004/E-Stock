@@ -76,7 +76,7 @@ class ProduitController
                 $_SESSION['error_message'] = 'Erreur : ' . $e->getMessage();
             }
 
-            header('Location: /Product');
+            header(header: 'Location: /Product');
             exit;
         }
     }

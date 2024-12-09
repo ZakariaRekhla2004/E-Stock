@@ -26,7 +26,6 @@
             <table class="table-auto w-full border-collapse border">
                 <thead>
                     <tr class="bg-blue-600 text-white uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left border">ID</th>
                         <th class="py-3 px-6 text-left border">Nom</th>
                         <th class="py-3 px-6 text-left border">Description</th>
                         <th class="py-3 px-6 text-center border">Actions</th>
@@ -35,7 +34,6 @@
                 <tbody class="text-gray-700 text-sm font-medium">
                     <?php foreach ($categories as $category): ?>
                     <tr class="hover:bg-gray-100 transition-colors duration-200">
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($category->getId()) ?></td>
                         <td class="py-3 px-6 border"><?= htmlspecialchars($category->getNom()) ?></td>
                         <td class="py-3 px-6 border"><?= htmlspecialchars($category->getDescription()) ?></td>
                         <td class="py-3 px-6 text-center border flex justify-center space-x-4">
