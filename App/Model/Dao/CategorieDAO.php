@@ -37,6 +37,24 @@ class CategorieDAO {
         return $categories;
     }
 
+    public function getAllForPanel() {
+        try {
+            $query = "SELECT * FROM categorie WHERE deleted = 0";
+            $stmt = $this->db->query($query);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Debugging
+            if (empty($results)) {
+                error_log("Aucune catégorie trouvée.");
+            }
+    
+            return $results; // Retourne directement le tableau associatif
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la récupération des catégories : " . $e->getMessage());
+        }
+    }
+    
+
     // Read a category by ID
     public function getById($id) {
         $query = "SELECT * FROM categorie WHERE id = :id";
@@ -69,6 +87,16 @@ class CategorieDAO {
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         return $stmt->rowCount();
+    }
+    public function getCategoryById($id) {
+        $query = "SELECT nom FROM categorie WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Retourner le nom de la catégorie si trouvée
+        $category = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $category ? $category['nom'] : null; // Renvoie le nom ou null si non trouvé
     }
 }
 ?>

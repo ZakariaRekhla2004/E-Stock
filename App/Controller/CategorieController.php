@@ -92,4 +92,5 @@ class CategorieController
         header('Location: /Category');
         exit;
     }
+
 }
