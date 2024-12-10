@@ -2,6 +2,7 @@
 namespace App\Config;
 
 use App\Model\Dao\UserDao;
+use App\Model\Entities\User;
 
 class Auth
 {
@@ -35,6 +36,17 @@ class Auth
         // Example:
         return isset($_SESSION['user']['role']) && 
                in_array($_SESSION['user']['role'], $allowedRoles);
+    }
+
+    
+    /**
+     * Get User session
+     * @return User
+     */
+
+    public static function getUser() {
+    $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+    return new User( $user['email'], null, $user['nom'], $user['prenom'], null, $user['role'],$user['user_id']);
     }
 
     /**

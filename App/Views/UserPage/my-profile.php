@@ -11,7 +11,7 @@
             <div class="flex-1">
                 <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
                 <div class="mt-2">
-                    <input type="text" name="nom" id="nom" value="<?php echo $user['nom']; ?>"
+                    <input type="text" name="nom" id="nom" value="<?php echo $user->getNom(); ?>"
                         class="input-style" required disabled>
                 </div>
             </div>
@@ -20,7 +20,7 @@
             <div class="flex-1">
                 <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom</label>
                 <div class="mt-2">
-                    <input type="text" name="prenom" id="prenom" value="<?php echo $user['prenom']; ?>"
+                    <input type="text" name="prenom" id="prenom" value="<?php echo $user->getPrenom(); ?>"
                         class="input-style" required disabled>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="flex-1">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <div class="mt-2">
-                    <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>"
+                    <input type="email" name="email" id="email" value="<?php echo $user->getEmail(); ?>"
                         class="input-style" required disabled>
                 </div>
             </div>

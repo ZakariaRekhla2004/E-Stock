@@ -68,7 +68,7 @@ class UserDao {
                       VALUES (:email, :password, :nom, :prenom, :year_prime, :role)";
             $stmt = $this->db->prepare($query);
 
-            $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+            $hashedPassword = $this->hashPassword($user->getPassword());
 
             $stmt->bindValue(":email", $user->getEmail());
             $stmt->bindValue(":password", $hashedPassword);
