@@ -168,5 +168,7 @@ class ProduitController
         header('Location: /Product');
         exit;
     }
+
+
 }
 ?>
