@@ -11,24 +11,37 @@
             <span>Gestion des Clients</span>
         </h1>
 
+        <div class="flex items-center justify-between mb-6">
 
-        <!-- Bouton Ajouter un client -->
-        <button
-            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
-            onclick="toggleModal('addClientModal')">
-            <!-- Icône SVG -->
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-            </svg>
-            <span>Ajouter Client</span>
-        </button>
+            <!-- Bouton Ajouter un client -->
+            <button
+                class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
+                onclick="toggleModal('addClientModal')">
+                <!-- Icône SVG -->
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span>Ajouter Client</span>
+            </button>
+
+            <div class="flex items-center space-x-2 border border-gray-300 rounded-lg px-2 py-1">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 4a7 7 0 100 14 7 7 0 000-14zm10 10l-3.867-3.867"></path>
+                </svg>
+                <input type="text" id="searchBar" placeholder="Rechercher..."
+                    class="w-64 p-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    onkeyup="filterTable()" />
+            </div>
+        </div>
 
         </br>
 
         <!-- Tableau des clients -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <table class="table-auto w-full border-collapse border">
+            <table class="table-auto w-full border-collapse border" id="ClientTable">
                 <thead>
                     <tr class="bg-blue-600 text-white uppercase text-sm leading-normal">
                         <th class="py-3 px-6 text-left border">ID</th>
@@ -41,47 +54,46 @@
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
                     <?php foreach ($clients as $client): ?>
-                    <tr class="hover:bg-gray-100 transition-colors duration-200">
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getId()) ?></td>
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getNom()) ?></td>
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getPrenom()) ?></td>
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getAdresse()) ?></td>
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getVille()) ?></td>
-                        <td class="py-3 px-6 text-center border flex justify-center space-x-4">
-                            <!-- Modifier bouton -->
-                            <button class="text-green-500 hover:text-green-700 flex items-center"
-                                onclick='openEditModal(<?= json_encode([
-        'id'=> $client->getId(),
-                                'nom' => $client->getNom(),
-                                'prenom' => $client->getPrenom(),
-                                'adresse' => $client->getAdresse(),
-                                'ville' => $client->getVille(),
+                        <tr class="hover:bg-gray-100 transition-colors duration-200">
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($client->getId()) ?></td>
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($client->getNom()) ?></td>
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($client->getPrenom()) ?></td>
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($client->getAdresse()) ?></td>
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($client->getVille()) ?></td>
+                            <td class="py-3 px-6 text-center border flex justify-center space-x-4">
+                                <!-- Modifier bouton -->
+                                <button class="text-green-500 hover:text-green-700 flex items-center" onclick='openEditModal(<?= json_encode([
+                                    'id' => $client->getId(),
+                                    'nom' => $client->getNom(),
+                                    'prenom' => $client->getPrenom(),
+                                    'adresse' => $client->getAdresse(),
+                                    'ville' => $client->getVille(),
                                 ]) ?>)'>
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536-12.02 12.02H3v-3.536l12.02-12.02zM17.768 2.732a2.5 2.5 0 113.536 3.536L18.5 8.072 15.232 4.804l2.536-2.536z" />
-                                </svg>
-                            </button>
-
-
-
-
-                            <form method="POST" action="/Client/delete"
-                                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce client ? Cette action est irréversible.')">
-                                <input type="hidden" name="id" value="<?= htmlspecialchars($client->getId()) ?>">
-                                <button type="submit" class="text-red-500 hover:text-red-700 flex items-center">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L6 6M10 6h4m4 0h2m-2 0v12a2 2 0 01-2 2H8a2 2 0 01-2-2V6m14 0H4" />
+                                            d="M15.232 5.232l3.536 3.536-12.02 12.02H3v-3.536l12.02-12.02zM17.768 2.732a2.5 2.5 0 113.536 3.536L18.5 8.072 15.232 4.804l2.536-2.536z" />
                                     </svg>
                                 </button>
-                            </form>
 
 
-                        </td>
-                    </tr>
+
+
+                                <form method="POST" action="/Client/delete"
+                                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce client ? Cette action est irréversible.')">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($client->getId()) ?>">
+                                    <button type="submit" class="text-red-500 hover:text-red-700 flex items-center">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L6 6M10 6h4m4 0h2m-2 0v12a2 2 0 01-2 2H8a2 2 0 01-2-2V6m14 0H4" />
+                                        </svg>
+                                    </button>
+                                </form>
+
+
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -95,8 +107,8 @@
             <form method="POST" action="/Client/add">
                 <div class="mb-4">
                     <label for="nom" class="block text-sm font-semibold mb-2">Nom</label>
-                    <input type="text" name="nom" placeholder="Entrez le nom"
-                        class="w-full border rounded-lg px-3 py-2" required>
+                    <input type="text" name="nom" placeholder="Entrez le nom" class="w-full border rounded-lg px-3 py-2"
+                        required>
                 </div>
                 <div class="mb-4">
                     <label for="prenom" class="block text-sm font-semibold mb-2">Prénom</label>
@@ -195,23 +207,43 @@
         // Afficher le modal
         toggleModal('editClientModal');
     }
+
+    function filterTable() {
+        const searchInput = document.getElementById('searchBar').value.toLowerCase();
+        const table = document.getElementById('ClientTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j] && cells[j].innerText.toLowerCase().includes(searchInput)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
 </script>
 <script>
     <?php if (!empty($_SESSION['error_message'])): ?>
-    Swal.fire({
-        icon: 'error',
-        title: 'Erreur',
-        text: '<?= addslashes($_SESSION['error_message']) ?>',
-    });
-    <?php unset($_SESSION['error_message']); ?>
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: '<?= addslashes($_SESSION['error_message']) ?>',
+        });
+        <?php unset($_SESSION['error_message']); ?>
     <?php endif; ?>
 
     <?php if (!empty($_SESSION['success_message'])): ?>
-    Swal.fire({
-        icon: 'success',
-        title: 'Succès',
-        text: '<?= addslashes($_SESSION['success_message']) ?>',
-    });
-    <?php unset($_SESSION['success_message']); ?>
+        Swal.fire({
+            icon: 'success',
+            title: 'Succès',
+            text: '<?= addslashes($_SESSION['success_message']) ?>',
+        });
+        <?php unset($_SESSION['success_message']); ?>
     <?php endif; ?>
 </script>

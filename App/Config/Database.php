@@ -5,18 +5,20 @@ use PDO;
 use PDOException;
 use Exception;
 
-class Database {
+class Database
+{
     private static $instance = null; // Instance unique
     private $connection; // Connexion PDO
 
     // Informations de connexion
     private $host = "localhost"; // Serveur local
-    private $port = "3308"; // Port MySQL personnalisé
+    private $port = "3306"; // Port MySQL personnalisé
     private $dbname = "gestion_stock"; // Nom de votre base de données locale
     private $username = "root"; // Utilisateur local par défaut
     private $password = ""; // Mot de passe (vide par défaut sur XAMPP/MAMP/WAMP)
 
-    private function __construct() {
+    private function __construct()
+    {
         try {
             $this->connection = new PDO(
                 "mysql:host={$this->host};port={$this->port};dbname={$this->dbname};charset=utf8",
@@ -30,7 +32,8 @@ class Database {
     }
 
     // Méthode pour récupérer l'instance unique
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance === null) {
             self::$instance = new Database();
         }
@@ -38,15 +41,20 @@ class Database {
     }
 
     // Méthode pour récupérer la connexion PDO
-    public function getConnection() {
+    public function getConnection()
+    {
         return $this->connection;
     }
 
     // Empêcher la copie de l'instance
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 
     // Empêcher la désérialisation
-    public function __wakeup() {}
+    public function __wakeup()
+    {
+    }
 }
 
 // Pour tester la classe

@@ -22,6 +22,8 @@ use App\Model\Dao\ProduitCommandeDAO;
 use App\Controller\ProduitController;
 use App\Controller\DashboardController;
 use App\Controller\RemiseController;
+use App\Controller\AuditController;
+
 
 
 // Routes existantes
@@ -243,5 +245,8 @@ Router::get('/', function () {
     (new DashboardController())->index();
 });
 
+Router::get('/audit', function () {
+    (new AuditController())->index();
+});
 
 ?>
