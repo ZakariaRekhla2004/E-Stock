@@ -141,5 +141,24 @@ class ProduitDAO {
             throw new Exception("Erreur lors de la suppression du produit : " . $e->getMessage());
         }
     }
+
+    public function getByCategory($categoryId) {
+        $query = "SELECT * FROM produit WHERE idCategorie = :categoryId AND deleted = 0";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = [];
+        foreach ($results as $row) {
+            $products[] = new Produit(
+                $row['id'], $row['designation'], $row['prix'], 
+                $row['qtt'], $row['pathImage'], $row['deleted'], $row['idCategorie']
+            );
+        }
+        return $products;
+    }
+    
+    
 }
 ?>
