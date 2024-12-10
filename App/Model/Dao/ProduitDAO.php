@@ -66,6 +66,23 @@ class ProduitDAO {
             throw new Exception("Erreur lors de la récupération des produits : " . $e->getMessage());
         }
     }
+    public function getAllForPannel() {
+        try {
+            $query = "SELECT * FROM produit WHERE deleted = 0 AND qtt > 0";
+            $stmt = $this->db->query($query);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Debugging
+            if (empty($results)) {
+                error_log("Aucun produit avec une quantité supérieure à 0 trouvé.");
+            }
+    
+            return $results; // Retourne directement le tableau associatif
+        } catch (PDOException $e) {
+            throw new Exception("Erreur lors de la récupération des produits : " . $e->getMessage());
+        }
+    }
+    
 
     // Lire un produit par ID
     public function getById($id) {
@@ -124,5 +141,35 @@ class ProduitDAO {
             throw new Exception("Erreur lors de la suppression du produit : " . $e->getMessage());
         }
     }
+
+    public function getByCategory($categoryId) {
+        $query = "SELECT * FROM produit WHERE idCategorie = :categoryId AND deleted = 0";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = [];
+        foreach ($results as $row) {
+            $products[] = new Produit(
+                $row['id'], $row['designation'], $row['prix'], 
+                $row['qtt'], $row['pathImage'], $row['deleted'], $row['idCategorie']
+            );
+        }
+        return $products;
+    }
+    
+    
+
+    public function getTopSellingProducts(): array
+{
+    $query = "SELECT p.designation, SUM(cp.quantity) as total_vendus 
+              FROM produit p 
+              JOIN commande_produit cp ON p.id = cp.idProduit 
+              GROUP BY p.id ORDER BY total_vendus DESC LIMIT 5";
+    $stmt = $this->db->query($query);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

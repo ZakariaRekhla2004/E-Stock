@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Config\Auth;
+
 class LoginController
 {
     /**
@@ -14,5 +16,30 @@ class LoginController
         
         // Inclusion du layout principal
         include_once './App/Views/Layout/LoginLayout.php';
+    }
+
+    public function login()  {
+
+        if (!isset($_POST['email']) || !isset($_POST['password'])) {
+            $_SESSION['error_message'] = 'Remplire tous les champs';
+            header("Location: /login");
+            exit;
+        }
+
+        if(Auth::authenticate($_POST['email'] ,$_POST['password'])){
+            header("Location: /");
+            exit;
+        }else{
+            $_SESSION['error_message'] = 'Remplire tous les champs';
+            header("Location: /login");
+            exit;
+        }
+        
+    }
+
+    function logout()  {
+        Auth::logout();
+        header("Location: /login");
+        exit;
     }
 }

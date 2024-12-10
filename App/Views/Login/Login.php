@@ -10,7 +10,7 @@
 
 
         <!-- Formulaire -->
-        <form action="process_login.php" method="POST" class="w-full max-w-sm">
+        <form action="login" method="POST" class="w-full max-w-sm">
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" id="email" name="email" placeholder="Entrer votre email"
@@ -45,3 +45,17 @@
 
 
 </section>
+
+<script>
+    <?php if (!empty($_SESSION['error_message'])): ?>
+    Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: '<?= addslashes($_SESSION['error_message']) ?>',
+    });
+    <?php unset($_SESSION['error_message']); ?>
+    <?php endif; ?>
+</script>
+
+<?php 
+var_dump($_SESSION);
