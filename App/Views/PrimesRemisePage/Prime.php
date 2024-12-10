@@ -13,59 +13,21 @@
         </h1>
         <div class="flex items-center justify-between mb-6">
 
-            <!-- Bouton Ajouter une catégorie -->
-            <button
-                class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-end justify-end space-x-2"
-                onclick="toggleModal('addCategoryModal')">
-                <!-- Icône SVG -->
-                <!-- <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <div class="flex items-center justify-center w-full">
-        <div class="mb-4 flex items-center justify-start space-x-4 w-[35%] ">
-            <div class="relative w-full">
-                <input type="text" id="searchInput" placeholder="Rechercher par nom ou année"
-                    class="w-full px-3 py-2 border rounded-md pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <!-- Icone de recherche -->
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M11 4a7 7 0 011.405 13.834l3.674 3.675a1 1 0 01-1.415 1.414l-3.675-3.674A7 7 0 1111 4z" />
-                </svg>
-        </div>
-    </div>
-    <!-- <button
-                class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-end justify-end space-x-2"
-                onclick="toggleModal('addCategoryModal')">
-                <!-- Icône SVG -->
-    <!-- <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-            </svg> -->
-    <span>Génération de PDF</span>
-    </button>
-    <div class="flex items-center space-x-2 border border-gray-300 rounded-lg px-2 py-1">
-        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M11 4a7 7 0 100 14 7 7 0 000-14zm10 10l-3.867-3.867"></path>
-        </svg>
-        <input type="text" id="searchBar" placeholder="Rechercher..."
-            class="w-64 p-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-            onkeyup="filterTable()" />
-    </div>
-    <div class="flex items-center justify-end w-full">
-        <button onclick="window.location.href='/primes/pdf'"
-            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-end justify-end space-x-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <span>Génération de PDF</span>
-        </button>
 
-        <!-- <span>Génération de PDF</span> -->
-        <!-- </button> -->
-    </div>
+        </div>
+
+        <div class="flex items-center justify-end w-full">
+            <button onclick="window.open('/Primes/pdf', '_blank')"
+                class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-end justify-end space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Génération de PDF</span>
+            </button>
+        </div>
+
     </div>
 
     <br>
@@ -85,8 +47,7 @@
                 </thead>
 
                 <tbody>
-                    <?php foreach (
-                        $primes as $prime): ?>
+                    <?php foreach ($primes as $prime): ?>
                         <tr class="border-b hover:bg-gray-100">
                             <td class="py-3 px-6 text-left">
                                 <?= htmlspecialchars($prime->getCommercialName() ?? $prime->getIdCommercial()) ?>
