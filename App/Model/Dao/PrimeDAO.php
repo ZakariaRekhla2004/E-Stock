@@ -19,7 +19,8 @@ class PrimeDAO {
             $stmt = $this->db->prepare("
                 SELECT 
                     u.user_id AS commercial_id,
-                    u.nom AS commercial_name, 
+                    u.nom AS commercial_name,
+                    u.prenom AS commercial_prenom, 
                     YEAR(cmd.date) AS year,
                     SUM(cp.quantity * p.prix) AS chiffre_affaire
                 FROM users u
@@ -27,14 +28,16 @@ class PrimeDAO {
                 JOIN commande_produit cp ON cp.idCommande = cmd.id
                 JOIN produit p ON p.id = cp.idProduit
                 WHERE u.role = 'COMERCIAL' 
-                AND u.year_prime != YEAR(CURRENT_DATE())
+                AND (u.year_prime IS NULL OR u.year_prime < YEAR(CURRENT_DATE()))
                 GROUP BY 
                     u.user_id,
                     u.nom, 
+                    u.prenom ,
                     YEAR(cmd.date)
                 ORDER BY 
                     year, 
-                    commercial_name
+                    commercial_name,
+                    commercial_prenom
             ");
             
             $stmt->execute();
@@ -45,7 +48,7 @@ class PrimeDAO {
             foreach ($results as $row) {
                 $mappedResults[] = [
                     'commercial_id' => $row['commercial_id'],
-                    'commercial_name' => $row['commercial_name'],
+                    'commercial_name' => $row['commercial_name']." ".$row['commercial_prenom'],
                     'year' => (int)$row['year'],
                     'chiffre_affaire' => (float)$row['chiffre_affaire']
                 ];
@@ -67,7 +70,6 @@ class PrimeDAO {
         try {
             $this->db->beginTransaction();
     
-            // Insert prime record
             $primeStmt = $this->db->prepare(
                 "INSERT INTO primes (id_commercial, chiffre_affaire, prime, year) 
                  VALUES (:id_commercial, :chiffre_affaire, :prime, :year)"
@@ -79,7 +81,6 @@ class PrimeDAO {
                 'year' => $year,
             ]);
     
-            // Update user's prime year
             $userStmt = $this->db->prepare(
                 "UPDATE users SET year_prime = :year WHERE user_id = :id"
             );
@@ -150,43 +151,15 @@ class PrimeDAO {
             throw new Exception("Erreur lors de la suppression de la prime : " . $e->getMessage());
         }
     }
-    
-    
-
-
-
-    // public function getAllPrime(): array {
-    //     try {
-    //         // Prepare the SQL query to fetch all primes where deleted = 0 (if needed)
-    //         $query = "SELECT * FROM primes";
-    //         $stmt = $this->db->query($query);
-    //         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    //         $primes = [];
-    //         // Iterate over the results and map each row to a Prime object
-    //         foreach ($results as $row) {
-    //             $primes[] = new Prime(
-    //                 $row['id'], $row['id_commercial'], $row['chiffre_affaire'], 
-    //                 $row['prime'], $row['year']
-    //             );
-    //         }
-    //         return $primes;
-    //     } catch (PDOException $e) {
-    //         // Throw an exception in case of any error
-    //         throw new Exception("Erreur lors de la récupération des primes : " . $e->getMessage());
-    //     }
-    // }
     public function getAllPrime(): array {
         try {
-            // Prepare the SQL query to join primes with users to get commercial name
-            $query = "SELECT p.*, u.nom AS commercial_name 
+            $query = "SELECT p.*, u.nom AS commercial_name , u.prenom AS prenom
                       FROM primes p
-                      LEFT JOIN users u ON p.id_commercial = u.user_id";
+                      JOIN users u ON p.id_commercial = u.user_id";
             $stmt = $this->db->query($query);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
      
             $primes = [];
-            // Iterate over the results and map each row to a Prime object
             foreach ($results as $row) {
                 $prime = new Prime(
                     $row['id'], 
@@ -196,14 +169,12 @@ class PrimeDAO {
                     $row['year']
                 );
                 
-                // Add a method to set commercial name
-                $prime->setCommercialName($row['commercial_name']);
+                $prime->setCommercialName($row['commercial_name']. " " . $row['prenom'] );
                 
                 $primes[] = $prime;
             }
             return $primes;
         } catch (PDOException $e) {
-            // Throw an exception in case of any error
             throw new Exception("Erreur lors de la récupération des primes : " . $e->getMessage());
         }
     }

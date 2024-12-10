@@ -103,7 +103,7 @@
         })
         .then(data => {
             if (data.success) {
-                alert(`Remise calculée: ${data.remise} €`);
+                alert(`Remise calculée: ${data.remise.toFixed(2)} €`);
                 location.reload();
             } else {
                 alert(data.message || 'Erreur lors du calcul de la prime');

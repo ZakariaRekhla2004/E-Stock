@@ -19,6 +19,7 @@ class RemiseDAO {
                 SELECT 
                     c.id AS client_id,
                     c.nom AS client_name,
+                    c.prenom AS client_prenom,
                     YEAR(cmd.date) AS year,
                     SUM(cp.quantity * p.prix) AS total_achats
                 FROM commande cmd
@@ -30,10 +31,12 @@ class RemiseDAO {
                 GROUP BY 
                     c.id, 
                     c.nom, 
+                    c.prenom,
                     YEAR(cmd.date)
                 ORDER BY 
                     year, 
-                    client_name
+                    client_name,
+                    client_prenom
             ");
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -42,7 +45,7 @@ class RemiseDAO {
             foreach ($results as $row) {
                 $mappedResults[] = [
                     'client_id' => $row['client_id'],
-                    'client_name' => $row['client_name'],
+                    'client_name' => $row['client_name']. " " .$row['client_prenom'],
                     'year' => (int)$row['year'],
                     'total_achats' => (float)$row['total_achats']
                 ];
@@ -55,7 +58,7 @@ class RemiseDAO {
             throw new Exception("Unexpected error in getRemiseFromClient: " . $e->getMessage(), 0, $e);
         }
     }
-    public function calculateAndSaveRemise(int $idClient, int $year, float $totalAchats): bool {
+    public function calculateAndSaveRemise(int $idClient, int $year, float $totalAchats): float {
             $remise = $totalAchats * 0.025;
             try {
             $this->db->beginTransaction();
@@ -70,7 +73,6 @@ class RemiseDAO {
                 'remise' => $remise,
                 'annee' => $year,
             ]);
-            // Update user's prime year
             $userStmt = $this->db->prepare(
                 "UPDATE client SET remis_year = :year WHERE id = :id"
             );
@@ -86,13 +88,12 @@ class RemiseDAO {
     }    
     public function getAllRemises(): array {
         try {
-            // Modify the SQL query to join the remises with the client table to get the client name
-            $query = "SELECT r.*, c.nom AS client_name
-                      FROM remises r
-                      JOIN client c ON r.id_client = c.id";
+            $query = "SELECT r.*, c.nom AS client_name, c.prenom AS client_prenom
+            FROM remises r
+                        JOIN client c ON r.id_client = c.id";
             $stmt = $this->db->query($query);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
             $remises = [];
             foreach ($results as $row) {
                 $remise = new Remise(
@@ -102,14 +103,14 @@ class RemiseDAO {
                     $row['total_achats'],
                     $row['remise']
                 );
-                $remise->setClientName($row['client_name']);
-    
+                $remise->setClientName($row['client_name'] . " " . $row['client_prenom']);
+
                 $remises[] = $remise;
             }
             return $remises;
-        } catch (PDOException $e) {
+            } catch (PDOException $e) {
             throw new Exception("Erreur lors de la récupération des remises : " . $e->getMessage());
-        }
+            }
     }
     public function delete(int $id, int $clientId): bool {
         try {

@@ -89,35 +89,7 @@
        }
    });
 
-    </script>
-
-    <!-- <script>
-        function openEditCategoryModal(category) {
-            document.getElementById('editCategoryId').value = category.id || '';
-            document.getElementById('editCategoryNom').value = category.nom || '';
-            document.getElementById('editCategoryDescription').value = category.description || '';
-            toggleModal('editCategoryModal');
-        }
-        function toggleModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.toggle('hidden');
-    <script>
-        document.getElementById('searchInput').addEventListener('keyup', function () {
-            const searchValue = this.value.toLowerCase();
-            const table = document.getElementById('commercialsTable');
-            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
-            for (let row of rows) {
-                const commercialName = row.cells[0].textContent.toLowerCase();
-                const year = row.cells[3].textContent;
-
-                if (commercialName.includes(searchValue) || year.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            }
-        });
+    
         function deleteremise(remiseId, clientId) {
             const clientName = event.target.closest('tr').cells[1].textContent; // Get client name from the row
             console.log(remiseId, clientId);
@@ -154,6 +126,6 @@
                     alert('Une erreur est survenue lors de la suppression');
                 });
             }
-        }
+        } 
     </script>
 </main>

@@ -8,36 +8,36 @@ class PrimesPDF extends FPDF {
     private $title;
     private $logoPath;
 
-    public function __construct($primes, $title = 'Primes Calculation Report', $logoPath = "/public/assets/images/logo.png") {
+    public function __construct($primes, $title = 'Primes Calculation Report') {
         parent::__construct();
         $this->primes = $primes;
         $this->title = $title;
-        $this->logoPath = $logoPath;
+        $this->logoPath =  '/public/assets/images/logo.png';
     }
 
     function Header() {
         // Set up page width
         $pageWidth = $this->GetPageWidth();
-        
-        // Left side: Title
-        $this->SetFont('Arial', 'B', 15);
-        $this->SetXY(10, 10);
-        $this->Cell(100, 10, $this->title, 0, 0, 'L');
-        
-        // Right side: Logo (if provided)
+
+        // Logo on the left
         if ($this->logoPath && file_exists($this->logoPath)) {
             // Get logo dimensions and maintain aspect ratio
             list($logoWidth, $logoHeight) = getimagesize($this->logoPath);
             $maxLogoHeight = 20; // Maximum logo height in mm
             $scaleFactor = $maxLogoHeight / $logoHeight;
             $scaledLogoWidth = $logoWidth * $scaleFactor;
-            
-            // Position logo on the right side
-            $this->SetXY($pageWidth - $scaledLogoWidth - 10, 10);
-            $this->Image($this->logoPath, null, null, $scaledLogoWidth, $maxLogoHeight);
+
+            $this->Image($this->logoPath, 10, 10, $scaledLogoWidth, $maxLogoHeight);
+        } else {
+            error_log("Logo file not found or invalid path: " . $this->logoPath);
         }
-        
-        $this->Ln(20);
+
+        // Title in the center
+        $this->SetFont('Arial', 'B', 15);
+        $this->SetXY(0, 10);
+        $this->Cell($pageWidth, 20, $this->title, 0, 1, 'C'); // Centered title with a line break
+
+        $this->Ln(10); // Additional line break for spacing
     }
 
     function Footer() {
@@ -54,8 +54,9 @@ class PrimesPDF extends FPDF {
         $header = ['Commercial', 'Chiffre d\'Affaire', 'Prime', 'Année'];
         $w = [60, 40, 40, 50];
         
-        for($i = 0; $i < count($header); $i++)
+        for($i = 0; $i < count($header); $i++) {
             $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', true);
+        }
         $this->Ln();
         
         // Table Content
