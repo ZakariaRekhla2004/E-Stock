@@ -52,20 +52,20 @@ Router::get('/logout', function (){
 
 
 // Routes pour la gestion des clients
-Router::get('/client', function () {
+Router::get('/Client', function () {
     (new ClientController())->index(); // Afficher la liste des clients
 });
 
-Router::post('/client/add', function () {
+Router::post('/Client/add', function () {
     (new ClientController())->add(); // Ajouter un client
 });
 
-Router::post('/client/edit', function () {
+Router::post('/Client/edit', function () {
     (new ClientController())->update($_POST['id']);
 });
 
 
-Router::post('/client/delete', function () {
+Router::post('/Client/delete', function () {
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new ClientController())->delete($id);
@@ -81,32 +81,32 @@ Router::get('/Commande', function () {
  });
  
 // Routes pour la gestion des catégories
-Router::get('/category', function () {
+Router::get('/Category', function () {
     (new CategorieController())->index(); // Afficher la liste des catégories
 });
 
-Router::post('/category/add', function () {
+Router::post('/Category/add', function () {
     (new CategorieController())->add(); // Ajouter une catégorie
 });
 
-Router::post('/category/edit', function () {
+Router::post('/Category/edit', function () {
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new CategorieController())->update($id); // Modifier une catégorie
     } else {
         $_SESSION['error_message'] = 'Aucun ID fourni pour la modification.';
-        header('Location: /category');
+        header('Location: /Category');
         exit;
     }
 });
 
-Router::post('/category/delete', function () {
+Router::post('/Category/delete', function () {
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new CategorieController())->delete($id); // Supprimer une catégorie
     } else {
         $_SESSION['error_message'] = 'Aucun ID fourni pour la suppression.';
-        header('Location: /category');
+        header('Location: /Category');
         exit;
     }
 });
@@ -132,16 +132,19 @@ Router::post('/user/delete', function () {
     } else {
         $_SESSION['error_message'] = 'Aucun ID fourni pour la suppression.';
         header('Location: /user');
+    }
+});
+
 // Routes pour la gestion des produits
-Router::get('/Product', function () {
+Router::get('/product', function () {
     (new ProduitController())->index(); // Afficher la liste des produits
 });
 
-Router::post('/Product/add', function () {
+Router::post('/product/add', function () {
     (new ProduitController())->add(); // Ajouter un produit
 });
 
-Router::post('/Product/edit', function () {
+Router::post('/product/edit', function () {
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new ProduitController())->update($id); // Modifier un produit
@@ -160,7 +163,7 @@ Router::get('/my-profile', function () {
 Router::post('/my-profile/update', function () {
     (new UserController())->updateprofile();
 });
-Router::post('/Product/delete', function () {
+Router::post('/product/delete', function () {
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new ProduitController())->delete($id); // Supprimer un produit
@@ -172,19 +175,19 @@ Router::post('/Product/delete', function () {
 });
 
 ////////////////////////////////     Remise // Prime //////////////////////////////////
-Router::get('/Remise', function () {
+Router::get('/remise', function () {
     (new RemiseController())->index();
 });
 
-Router::get('/Prime', function (){
+Router::get('/prime', function (){
     (new PrimeController())->index();
 });
 
-Router::post('/Commande/add', function () {
+Router::post('/commande/add', function () {
     (new CommandeController())->add();
 });
 
-Router::get('/Commande', function ($id) {
+Router::get('/commande', function ($id) {
     (new CommandeController())->index();
 });
 
