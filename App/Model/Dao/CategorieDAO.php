@@ -108,5 +108,30 @@ class CategorieDAO {
         $stmt = $this->db->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Récupérer les catégories supprimées (soft-deleted)
+public function getDeletedCategories(): array {
+    try {
+        $query = "SELECT * FROM categorie WHERE deleted = 1";
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la récupération des catégories supprimées : ' . $e->getMessage());
+    }
+}
+
+// Restaurer une catégorie supprimée
+public function restore($id): bool {
+    try {
+        $query = "UPDATE categorie SET deleted = 0 WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la restauration de la catégorie : ' . $e->getMessage());
+    }
+}
+
 }
 ?>
