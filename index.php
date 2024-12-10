@@ -25,15 +25,15 @@ use App\Model\Dao\ProduitCommandeDAO;
 use App\Controller\ProduitController;
 use App\Controller\DashboardController;
 use App\Controller\RemiseController;
+use App\Controller\AuditController;
+
 use App\Controllers\PDFController;
 
 
 
 
 // Routes existantes
-Router::get('/', function () {
-    (new Home())->index();
-});
+
 
 Router::get('/about', function () {
     (new Home())->aboutView();
@@ -319,9 +319,12 @@ Router::get('/Commande/imprime', function () {
     (new CommandeController())->imprime();
 });
 
-Router::get('/Dashbord', function () {
+Router::get('/', function () {
     (new DashboardController())->index();
 });
 
+Router::get('/audit', function () {
+    (new AuditController())->index();
+});
 
 ?> -->

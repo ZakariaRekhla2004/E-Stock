@@ -1,9 +1,22 @@
 <main class="p-6">
     <div class="container mx-auto">
-        <h1 class="text-3xl font-bold mb-6 text-gray-800">Liste des Commandes</h1>
+        <div class="flex items-center justify-between mb-6">
+
+            <h1 class="text-3xl font-bold mb-6 text-gray-800">Liste des Commandes</h1>
+            <div class="flex items-center space-x-2 border border-gray-300 rounded-lg px-2 py-1">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 4a7 7 0 100 14 7 7 0 000-14zm10 10l-3.867-3.867"></path>
+                </svg>
+                <input type="text" id="searchBar" placeholder="Rechercher..."
+                    class="w-64 p-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    onkeyup="filterTable()" />
+            </div>
+        </div>
 
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <table class="table-auto w-full border-collapse border">
+            <table class="table-auto w-full border-collapse border" id="CommandeListeTable">
                 <thead>
                     <tr class="bg-blue-600 text-white uppercase text-sm leading-normal">
                         <th class="py-3 px-6 text-left border">ID Commande</th>
@@ -15,40 +28,40 @@
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
                     <?php foreach ($commandes as $commande): ?>
-                    <tr class="hover:bg-gray-100 transition-colors duration-200">
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($commande['id']) ?></td>
-                        <td class="py-3 px-6 border">
-                            <?= htmlspecialchars($commande['client_nom']) . ' ' . htmlspecialchars($commande['client_prenom']) ?>
-                        </td>
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($commande['date']) ?></td>
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($commande['total']) ?> DH</td>
-                        <td class="py-3 px-6 text-center border space-x-2">
-                            <!-- Bouton pour imprimer la facture -->
-                            <a href="javascript:void(0);"
-                                onclick="imprimerCommande('<?= htmlspecialchars($commande['id']) ?>')"
-                                class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v8m4-4H8"></path>
-                                </svg>
-                                Imprimer
-                            </a>
+                        <tr class="hover:bg-gray-100 transition-colors duration-200">
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($commande['id']) ?></td>
+                            <td class="py-3 px-6 border">
+                                <?= htmlspecialchars($commande['client_nom']) . ' ' . htmlspecialchars($commande['client_prenom']) ?>
+                            </td>
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($commande['date']) ?></td>
+                            <td class="py-3 px-6 border"><?= htmlspecialchars($commande['total']) ?> DH</td>
+                            <td class="py-3 px-6 text-center border space-x-2">
+                                <!-- Bouton pour imprimer la facture -->
+                                <a href="javascript:void(0);"
+                                    onclick="imprimerCommande('<?= htmlspecialchars($commande['id']) ?>')"
+                                    class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v8m4-4H8"></path>
+                                    </svg>
+                                    Imprimer
+                                </a>
 
-                            <!-- Bouton pour afficher les produits -->
-                            <button
-                                class="inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out"
-                                onclick="openProductsModal(<?= htmlspecialchars(json_encode($commande)) ?>)">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v16m8-8H4"></path>
-                                </svg>
-                                Voir Produits
-                            </button>
-                        </td>
+                                <!-- Bouton pour afficher les produits -->
+                                <button
+                                    class="inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out"
+                                    onclick="openProductsModal(<?= htmlspecialchars(json_encode($commande)) ?>)">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Voir Produits
+                                </button>
+                            </td>
 
-                    </tr>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -118,9 +131,29 @@
         function imprimerCommande(id) {
             // Préparer le contenu à imprimer
             const printWindow = window.open('/Commande/imprime?id=' + id, '_blank');
-            printWindow.onload = function() {
+            printWindow.onload = function () {
                 printWindow.print();
             };
+        }
+
+        function filterTable() {
+            const searchInput = document.getElementById('searchBar').value.toLowerCase();
+            const table = document.getElementById('CommandeListeTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j] && cells[j].innerText.toLowerCase().includes(searchInput)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = match ? '' : 'none';
+            }
         }
     </script>
 </main>
