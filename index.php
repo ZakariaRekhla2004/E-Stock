@@ -229,7 +229,7 @@ Router::get('/remise', function () {
     (new RemiseController())->index();
 });
 
-Router::get('/Prime', function (){
+Router::get('/prime', function (){
     (new PrimeController())->primesCalculated();
 });
 Router::get('/WithoutPrime', function (){
