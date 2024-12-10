@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Config\Auth;
 use App\Model\Dao\UserDAO;
 use App\Model\Entities\User;
 use InvalidArgumentException;
@@ -25,6 +26,8 @@ class UserController
 
     public function profile()
     {
+        $user = Auth::getUser();
+    public function profile() {
         $user = Auth::getUser();
 
         $view = './App/Views/userPage/my-profile.php'; // Vue de my-profile
