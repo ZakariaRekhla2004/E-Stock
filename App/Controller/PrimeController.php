@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\Dao\PrimeDAO;
+use App\Model\Dao\PrimesPDF;
 use Exception;
 use InvalidArgumentException;
 
@@ -49,6 +50,8 @@ class PrimeController
             exit;
         }
     }
+
+
      public function primesNotCalculated(): void
     {
 
@@ -80,7 +83,11 @@ class PrimeController
     }
     
     
-
+public function generatePDF() {
+    $primes = $this->primeDAO->getAllPrime();
+    $pdf = new PrimesPDF($primes);
+    $pdf->RenderPDF();
+}
     
 
 }
