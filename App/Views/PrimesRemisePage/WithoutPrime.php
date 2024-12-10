@@ -7,14 +7,31 @@
            <span>Primes non Calculées</span>
        </h1>
 
-       <div class="mb-4 flex items-center space-x-4">
-           <input 
-               type="text" 
-               id="searchInput" 
-               placeholder="Rechercher par nom ou année" 
-               class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-           >
-       </div>
+            <div class="mb-4 flex items-center space-x-4">
+            <div class="relative w-[30%]">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Rechercher par nom ou année" 
+                    class="w-full px-3 py-2 border rounded-md pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                <!-- Icone de recherche -->
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                >
+                    <path 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        stroke-width="2" 
+                        d="M11 4a7 7 0 011.405 13.834l3.674 3.675a1 1 0 01-1.415 1.414l-3.675-3.674A7 7 0 1111 4z"
+                    />
+                </svg>
+            </div>
+        </div>
 
        <div class="bg-white rounded-lg shadow-md overflow-hidden">
            <table id="commercialsTable" class="table-auto w-full border-collapse border">

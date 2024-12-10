@@ -49,7 +49,7 @@ class PrimeController
             exit;
         }
     }
-    public function primesNotCalculated(): void
+     public function primesNotCalculated(): void
     {
 
         $currentYear = date('Y');
