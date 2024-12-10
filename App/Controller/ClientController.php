@@ -140,4 +140,42 @@ class ClientController
         exit;
     }
 
+    public function archives(): void {
+        $clientDAO = new ClientDAO();
+        $deletedClients = $clientDAO->getDeletedClients(); // Récupérer les clients supprimés
+    
+        $view = './App/Views/ClientPage/Archives.php'; // Vue des archives
+        include_once './App/Views/Layout/Layout.php';
+    }
+    public function restore($id): void {
+        try {
+            if (!is_numeric($id)) {
+                throw new InvalidArgumentException('ID invalide.');
+            }
+    
+            $clientDAO = new ClientDAO();
+            $clientDAO->restore($id); // Restaurer le client
+    
+            $userId = Auth::getUser()->getId();
+            $audit = new Audit(
+                null,
+                AuditTables::CLIENT->value,
+                AuditActions::RESTORE->value,
+                'Le client avec l\'ID ' . $id . ' a été restauré !',
+                date('Y-m-d H:i:s'),
+                $userId
+            );
+            $auditDAO = new AuditDAO();
+            $auditDAO->logAudit($audit);
+    
+            $_SESSION['success_message'] = 'Client restauré avec succès.';
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = 'Erreur : ' . $e->getMessage();
+        }
+    
+        header('Location: /Client/archives');
+        exit;
+    }
+        
+
 }

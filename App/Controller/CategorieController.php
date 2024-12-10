@@ -148,6 +148,43 @@ class CategorieController
         header('Location: /Category');
         exit;
     }
+    public function archives(): void {
+        $categorieDAO = new CategorieDAO();
+        $deletedCategories = $categorieDAO->getDeletedCategories(); // Récupérer les catégories supprimées
+    
+        $view = './App/Views/CategoryPage/Archives.php'; // Vue des archives
+        include_once './App/Views/Layout/Layout.php';
+    }
+    public function restore($id): void {
+        try {
+            if (!is_numeric($id)) {
+                throw new InvalidArgumentException('ID invalide.');
+            }
+    
+            $categorieDAO = new CategorieDAO();
+            $categorieDAO->restore($id); // Restaurer la catégorie
+    
+            $userId = Auth::getUser()->getId();
+            $audit = new Audit(
+                null,
+                AuditTables::CATEGORY->value,
+                AuditActions::RESTORE->value,
+                'La catégorie avec l\'ID ' . $id . ' a été restaurée !',
+                date('Y-m-d H:i:s'),
+                $userId
+            );
+            $auditDAO = new AuditDAO();
+            $auditDAO->logAudit($audit);
+    
+            $_SESSION['success_message'] = 'Catégorie restaurée avec succès.';
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = 'Erreur : ' . $e->getMessage();
+        }
+    
+        header('Location: /Category/archives');
+        exit;
+    }
+        
 
 
 }

@@ -12,8 +12,6 @@ use App\Model\Enums\AuditActions;
 use App\Model\Enums\AuditTables;
 class UserController
 {
-
-
     public function index(): void
     {
         $userDAO = new UserDAO();
@@ -23,8 +21,8 @@ class UserController
         include_once './App/Views/Layout/Layout.php';
     }
 
-    
-    public function profile() {
+    public function profile()
+    {
         $user = Auth::getUser();
 
         $view = './App/Views/userPage/my-profile.php'; // Vue de my-profile
@@ -50,14 +48,7 @@ class UserController
                 $userDAO->create($user);
 
                 $userId = Auth::getUser()->getId();
-                $audit = new Audit(
-                    null,
-                    AuditTables::USER->value,
-                    AuditActions::CREATE->value,
-                    'L\'utilisateur avec l\'email' . $email . ' a été créé !',
-                    date('Y-m-d H:i:s'),
-                    $userId
-                );
+                $audit = new Audit(null, AuditTables::USER->value, AuditActions::CREATE->value, 'L\'utilisateur avec l\'email' . $email . ' a été créé !', date('Y-m-d H:i:s'), $userId);
                 $auditDAO = new AuditDAO();
                 $auditDAO->logAudit($audit);
 
@@ -69,7 +60,7 @@ class UserController
             }
 
             header('Location: /user');
-            exit;
+            exit();
         }
     }
 
@@ -91,14 +82,7 @@ class UserController
                 $userDAO->update($id, $user);
 
                 $userId = Auth::getUser()->getId();
-                $audit = new Audit(
-                    null,
-                    AuditTables::USER->value,
-                    AuditActions::UPDATE->value,
-                    'L\'utilisateur avec l\'ID ' . $id . ' a été mis à jour !',
-                    date('Y-m-d H:i:s'),
-                    $userId
-                );
+                $audit = new Audit(null, AuditTables::USER->value, AuditActions::UPDATE->value, 'L\'utilisateur avec l\'ID ' . $id . ' a été mis à jour !', date('Y-m-d H:i:s'), $userId);
                 $auditDAO = new AuditDAO();
                 $auditDAO->logAudit($audit);
 
@@ -110,10 +94,9 @@ class UserController
             }
 
             header('Location: /user');
-            exit;
+            exit();
         }
     }
-
 
     public function delete($id): void
     {
@@ -126,15 +109,7 @@ class UserController
             $userDAO->delete($id);
 
             $userId = Auth::getUser()->getId();
-            $audit = new Audit(
-                null,
-                AuditTables::USER->value,
-                AuditActions::DELETE->value,
-                'L\'utilisateur avec l\'ID ' . $id . ' a été supprimé !'
-                ,
-                date('Y-m-d H:i:s'),
-                $userId
-            );
+            $audit = new Audit(null, AuditTables::USER->value, AuditActions::DELETE->value, 'L\'utilisateur avec l\'ID ' . $id . ' a été supprimé !', date('Y-m-d H:i:s'), $userId);
             $auditDAO = new AuditDAO();
             $auditDAO->logAudit($audit);
 
@@ -145,7 +120,7 @@ class UserController
 
         // Redirection après la suppression
         header('Location: /user');
-        exit;
+        exit();
     }
 
     function updateprofile()
@@ -174,15 +149,7 @@ class UserController
                 $_SESSION['user']['password'] = $password;
 
                 $userId = Auth::getUser()->getId();
-                $audit = new Audit(
-                    null,
-                    AuditTables::USER->value,
-                    AuditActions::UPDATE->value,
-                    'L\'utilisateur avec l\'ID ' . $id . ' a été mis à jour !'
-                    ,
-                    date('Y-m-d H:i:s'),
-                    $userId
-                );
+                $audit = new Audit(null, AuditTables::USER->value, AuditActions::UPDATE->value, 'L\'utilisateur avec l\'ID ' . $id . ' a été mis à jour !', date('Y-m-d H:i:s'), $userId);
                 $auditDAO = new AuditDAO();
                 $auditDAO->logAudit($audit);
 
@@ -193,8 +160,39 @@ class UserController
                 $_SESSION['error_message'] = 'Erreur : ' . $e->getMessage();
             }
             header('Location: /my-profile');
-            exit;
+            exit();
         }
     }
 
+    public function archives(): void
+    {
+        $userDAO = new UserDAO();
+        $deletedUsers = $userDAO->getDeletedUsers(); // Récupérer les utilisateurs supprimés
+
+        $view = './App/Views/userPage/archives.php'; // Vue des archives
+        include_once './App/Views/Layout/Layout.php';
+    }
+    public function restore($id): void
+    {
+        try {
+            if (!is_numeric($id)) {
+                throw new InvalidArgumentException('ID invalide.');
+            }
+
+            $userDAO = new UserDAO();
+            $userDAO->restore($id); // Restaurer l'utilisateur
+
+            $userId = Auth::getUser()->getId();
+            $audit = new Audit(null, AuditTables::USER->value, AuditActions::RESTORE->value, 'L\'utilisateur avec l\'ID ' . $id . ' a été restauré !', date('Y-m-d H:i:s'), $userId);
+            $auditDAO = new AuditDAO();
+            $auditDAO->logAudit($audit);
+
+            $_SESSION['success_message'] = 'Utilisateur restauré avec succès.';
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = 'Erreur : ' . $e->getMessage();
+        }
+
+        header('Location: /user/archives');
+        exit();
+    }
 }

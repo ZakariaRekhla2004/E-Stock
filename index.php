@@ -189,13 +189,13 @@ Router::post('/my-profile/update', function () {
 // });
 
 
-Router::get('/Remise', function (){
+Router::get('/Remise', function () {
     (new RemiseController())->remiseCalculated();
 });
-Router::get('/WithoutRemise', function (){
+Router::get('/WithoutRemise', function () {
     (new RemiseController())->remiseNotCalculated();
 });
-Router::post('/WithoutRemise/calculate', function() {
+Router::post('/WithoutRemise/calculate', function () {
     $data = json_decode(file_get_contents('php://input'), true);
     $client_id = $data['client_id'] ?? null;
     $year = $data['year'] ?? null;
@@ -210,38 +210,38 @@ Router::post('/WithoutRemise/calculate', function() {
     }
 });
 
-Router::post("/Remise/delete", function() {
+Router::post("/Remise/delete", function () {
     $data = json_decode(file_get_contents('php://input'), true);
     $remiseId = $data['remiseId'] ?? null;
     $clientId = $data['clientId'] ?? null;
-       if ($remiseId&& $clientId) { 
+    if ($remiseId && $clientId) {
         (new RemiseController())->deleteRemise($remiseId, $clientId);
     } else {
         http_response_code(400);
         echo json_encode([
-            'success' => false, 
+            'success' => false,
             'message' => 'ID de prime invalide'
         ]);
     }
 });
 
-Router::get('/remise', function () {
+Router::get('/Remise', function () {
     (new RemiseController())->index();
 });
 
-Router::get('/Prime', function (){
+Router::get('/Prime', function () {
     (new PrimeController())->primesCalculated();
 });
-Router::get('/WithoutPrime', function (){
+Router::get('/WithoutPrime', function () {
     (new PrimeController())->primesNotCalculated();
 });
-Router::post('/WithoutPrime/calculate', function() {
+Router::post('/WithoutPrime/calculate', function () {
 
     $data = json_decode(file_get_contents('php://input'), true);
     $commercialId = $data['commercialId'] ?? null;
     $year = $data['year'] ?? null;
     $chiffreAffaire = $data['chiffreAffaire'] ?? null;
-    
+
 
     if ($commercialId && $year && $chiffreAffaire) {
         (new PrimeController())->Calculate($commercialId, $year, $chiffreAffaire);
@@ -250,12 +250,12 @@ Router::post('/WithoutPrime/calculate', function() {
         echo json_encode(['success' => false, 'message' => 'Données invalides']);
     }
 });
-Router::post("Prime/delete", function() {
+Router::post("/Prime/delete", function () {
     (new PrimeController())->deletePrimes();
 });
-Router::get("/Primes/pdf", function(Request $request) {
+Router::get("/Primes/pdf", function (Request $request) {
     (new PrimeController())->generatePDF();
-    
+
 });
 Router::get('/', function () {
     (new DashboardController())->index();
@@ -326,5 +326,63 @@ Router::get('/audit', function () {
     (new AuditController())->index();
 });
 
-?>
+Router::get('/user/archives', function () {
+    (new UserController())->archives(); // Afficher les utilisateurs supprimés
+});
 
+Router::post('/user/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new UserController())->restore($id); // Restaurer un utilisateur
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /user/archives');
+    }
+});
+
+
+// Routes pour les archives des catégories
+Router::get('/Category/archives', function () {
+    (new CategorieController())->archives(); // Afficher les catégories supprimées
+});
+
+Router::post('/Category/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new CategorieController())->restore($id); // Restaurer une catégorie
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Category/archives');
+    }
+});
+
+Router::get('/Client/archives', function () {
+    (new ClientController())->archives(); // Afficher les clients supprimés
+});
+
+Router::post('/Client/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ClientController())->restore($id); // Restaurer un client
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Client/archives');
+    }
+});
+
+Router::get('/Product/archives', function () {
+    (new ProduitController())->archives(); // Afficher les produits supprimés
+});
+
+Router::post('/Product/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ProduitController())->restore($id); // Restaurer un produit
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Product/archives');
+    }
+});
+
+
+?>

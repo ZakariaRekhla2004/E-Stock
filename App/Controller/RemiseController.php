@@ -4,12 +4,18 @@ namespace App\Controller;
 
 use App\Model\Dao\RemiseDAO;
 use Exception;
+use App\Config\Auth;
+use App\Model\Dao\AuditDAO;
+use App\Model\Entities\Audit;
+use App\Model\Enums\AuditActions;
+use App\Model\Enums\AuditTables;
 
 class RemiseController
 {
     private $remiseDao;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->remiseDao = new RemiseDAO();
     }
 
@@ -33,50 +39,59 @@ class RemiseController
         include_once './App/Views/Layout/Layout.php';
     }
     public function Calculate(int $client_id, int $year, float $total_achats): void
-{
-    try {
-        $remise = $this->remiseDao->calculateAndSaveRemise($client_id, $year, $total_achats);
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => true, 
-            'remise' => $remise
-        ]);
-        exit;
-    } catch (Exception $e) {
-        error_log($e->getMessage()); // Log de l'erreur pour analyse
-        header('Content-Type: application/json');
-        http_response_code(500);
-        echo json_encode([
-            'success' => false, 
-            'message' => $e->getMessage()
-        ]);
-        exit;
+    {
+        try {
+            $remise = $this->remiseDao->calculateAndSaveRemise($client_id, $year, $total_achats);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => true,
+                'remise' => $remise
+            ]);
+            exit;
+        } catch (Exception $e) {
+            error_log($e->getMessage()); // Log de l'erreur pour analyse
+            header('Content-Type: application/json');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+            exit;
+        }
     }
-}
-public function deleteRemise(int $id, int $clientId): void {
-    try {
-        $result = $this->remiseDao->delete($id, $clientId);
+    public function deleteRemise(int $id, int $clientId): void
+    {
+        try {
+            $result = $this->remiseDao->delete($id, $clientId);
 
-        header(header: 'Content-Type: application/json'); 
-      
-        $response = [
-            'success' => $result,
-            'message' => $result ? 'remise supprimée avec succès.' : 'Échec de la suppression de la prime.'
-        ];
+            header(header: 'Content-Type: application/json');
 
-        echo json_encode($response);
-        exit; 
-       
-    } catch (Exception $e) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Erreur lors de la suppression de la prime : ' . $e->getMessage()
-        ]);
+            $response = [
+                'success' => $result,
+                'message' => $result ? 'remise supprimée avec succès.' : 'Échec de la suppression de la prime.'
+            ];
+
+            $userId = Auth::getUser()->getId();
+            $audit = new Audit(
+                null,
+                AuditTables::REMISE->value,
+                AuditActions::DELETE->value,
+                'La remise avec l\'id ' . $id . ' a été supprimée !'
+                ,
+                date('Y-m-d H:i:s'),
+                $userId
+            );
+            $auditDAO = new AuditDAO();
+            $auditDAO->logAudit($audit);
+
+            echo json_encode($response);
+            exit;
+
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression de la prime : ' . $e->getMessage()
+            ]);
+        }
     }
-}
-
-
-
-
-
 }
