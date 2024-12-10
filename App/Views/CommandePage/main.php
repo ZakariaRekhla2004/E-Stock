@@ -22,7 +22,7 @@
                 <option value="">Chargement des clients...</option>
             </select>
         </div>
-        <input type="hidden" id="user-id" value="1">
+        <input type="hidden" id="user-id" value="<?= App\Config\Auth::getUser()->getId() ?>">
         <ul id="cart-list" class="space-y-4"></ul>
         <div class="mt-4 text-lg font-semibold">
             Total: <span id="cart-total">0</span> DH

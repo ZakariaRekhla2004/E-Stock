@@ -25,9 +25,7 @@ use App\Controller\RemiseController;
 
 
 // Routes existantes
-Router::get('/', function () {
-    (new Home())->index();
-});
+
 
 Router::get('/about', function () {
     (new Home())->aboutView();
@@ -241,7 +239,7 @@ Router::get('/Commande/imprime', function () {
     (new CommandeController())->imprime();
 });
 
-Router::get('/Dashbord', function () {
+Router::get('/', function () {
     (new DashboardController())->index();
 });
 
