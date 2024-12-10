@@ -129,13 +129,84 @@ Router::post('/Product/delete', function () {
 });
 
 ////////////////////////////////     Remise // Prime //////////////////////////////////
-Router::get('/Remise', function () {
-    (new RemiseController())->index();
+// Router::get('/Remise', function () {
+//     (new RemiseController())->index();
+// });
+
+
+Router::get('/Remise', function (){
+    (new RemiseController())->remiseCalculated();
 });
+Router::get('/WithoutRemise', function (){
+    (new RemiseController())->remiseNotCalculated();
+});
+Router::post('/WithoutRemise/calculate', function() {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $client_id = $data['client_id'] ?? null;
+    $year = $data['year'] ?? null;
+    $total_achats = $data['total_achats'] ?? null;
+    // var_dump($client_id, $year, $total_achats);
+    // exit;
+    if ($client_id && $year && $total_achats) {
+        (new RemiseController())->Calculate($client_id, $year, $total_achats);
+    } else {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Données invalides']);
+    }
+});
+
+Router::post("/Remise/delete", function() {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $remiseId = $data['remiseId'] ?? null;
+    $clientId = $data['clientId'] ?? null;
+       if ($remiseId&& $clientId) { 
+        (new RemiseController())->deleteRemise($remiseId, $clientId);
+    } else {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false, 
+            'message' => 'ID de prime invalide'
+        ]);
+    }
+});
+
+
+
 
 Router::get('/Prime', function (){
-    (new PrimeController())->index();
+    (new PrimeController())->primesCalculated();
 });
+Router::get('/WithoutPrime', function (){
+    (new PrimeController())->primesNotCalculated();
+});
+Router::post('/WithoutPrime/calculate', function() {
 
+    $data = json_decode(file_get_contents('php://input'), true);
+    $commercialId = $data['commercialId'] ?? null;
+    $year = $data['year'] ?? null;
+    $chiffreAffaire = $data['chiffreAffaire'] ?? null;
+    
+
+    if ($commercialId && $year && $chiffreAffaire) {
+        (new PrimeController())->Calculate($commercialId, $year, $chiffreAffaire);
+    } else {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Données invalides']);
+    }
+});
+Router::post("Prime/delete", function() {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $primeId = $data['primeId'] ?? null;
+    $idCommercial = $data['idCommercial'] ?? null;
+       if ($primeId&& $idCommercial) { 
+        (new PrimeController())->deletePrimes($primeId, $idCommercial);
+    } else {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false, 
+            'message' => 'ID de prime invalide'
+        ]);
+    }
+});
 
 ?>

@@ -1,42 +1,49 @@
-<?php
-namespace App\Model\Entities;
+<?php 
+namespace App\Model\Entities;  
 
-class Prime {
-    private $id;
-    private $idCommercial;
-    private $chiffreAffaireTotal;
-    private $prime;
-    private $year;
+class Prime {     
+    private $id;     
+    private $idCommercial;     
+    private $chiffreAffaire;  
+    private $prime;     
+    private $year;      
+    private $commercialName;
+    
+    
+    
+    
+    public function __construct($id = null, $idCommercial, $chiffreAffaire, $prime, $year) {         
+        $this->id = $id;         
+        $this->idCommercial = $idCommercial;         
+        $this->chiffreAffaire = $chiffreAffaire;  
+        $this->prime = $prime;         
+        $this->year = $year;     
+    }      
 
-    public function __construct($id = null, $idCommercial, $chiffreAffaireTotal,$prime, $year) {
-        $this->id = $id;
-        $this->idCommercial = $idCommercial;
-        $this->chiffreAffaireTotal = $chiffreAffaireTotal;
-        $this->prime = 0;
-        $this->year = $year;
+    public function setCommercialName($name) {
+        $this->commercialName = $name;
     }
 
-    private function calculerPrime() {
-        return $this->chiffreAffaireTotal * 0.10; // 10% du CA total
+    public function getCommercialName() {
+        return $this->commercialName;
     }
+    public function getId() {         
+        return $this->id;     
+    }      
 
-    public function getId() {
-        return $this->id;
-    }
+    public function getIdCommercial() {         
+        return $this->idCommercial;     
+    }      
 
-    public function getIdCommercial() {
-        return $this->idCommercial;
-    }
+    public function getChiffreAffaire() {  // Changed from getChiffreAffaireTotal
+        return $this->chiffreAffaire;     
+    }      
 
-    public function getChiffreAffaireTotal() {
-        return $this->chiffreAffaireTotal;
-    }
+    public function getPrime() {         
+        return $this->prime;     
+    }      
 
-    public function getPrime() {
-        return $this->prime;
-    }
-
-    public function getYear() {
-        return $this->year;
-    }
+    public function getYear() {         
+        return $this->year;     
+    } 
 }

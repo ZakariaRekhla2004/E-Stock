@@ -1,46 +1,49 @@
 <?php
+namespace App\Model\Entities;  
+
 class Remise {
     private $id;
-    private $clientId;
-    private $year;
-    private $totalAchats;
-    private $montantRemise;
+    private $id_client;
+    private $annee;
+    private $total_achats;
+    private $remise;
+    private $client_name;
 
-   
-    public function __construct($id,$clientId, $year, $totalAchats, $montantRemise) {
+    public function __construct($id, $id_client, $annee, $total_achats, $remise) {
         $this->id = $id;
-        $this->clientId = $clientId;
-        $this->year = $year;
-        $this->totalAchats = $totalAchats;
-        $this->montantRemise = $montantRemise;
+        $this->id_client = $id_client;
+        $this->annee = $annee;
+        $this->total_achats = $total_achats;
+        $this->remise = $remise;
     }
-    // public function __construct($clientId, $year, $totalAchats, $montantRemise) {
-        
-    //     $this->clientId = $clientId;
-    //     $this->year = $year;
-    //     $this->totalAchats = $totalAchats;
-    //     $this->montantRemise = $montantRemise;
-    // }
 
     // Getters
     public function getId() {
         return $this->id;
     }
 
-    public function getClientId() {
-        return $this->clientId;
+    public function getClientName() {
+        return $this->client_name;
     }
 
-    public function getyear() {
-        return $this->year;
+    public function setClientName($client_name) {
+        $this->client_name = $client_name;
+    }
+
+    public function getIdClient() {
+        return $this->id_client;
+    }
+
+    public function getAnnee() {
+        return $this->annee;
     }
 
     public function getTotalAchats() {
-        return $this->totalAchats;
+        return $this->total_achats;
     }
 
-    public function getMontantRemise() {
-        return $this->montantRemise;
+    public function getRemise() {
+        return $this->remise;
     }
 
     // Setters
@@ -49,18 +52,18 @@ class Remise {
     }
 
     public function setClientId($clientId) {
-        $this->clientId = $clientId;
+        $this->id_client = $clientId;
     }
 
-    public function setyear($year) {
-        $this->year = $year;
+    public function setAnnee($annee) {
+        $this->annee = $annee;
     }
 
     public function setTotalAchats($totalAchats) {
-        $this->totalAchats = $totalAchats;
+        $this->total_achats = $totalAchats;
     }
 
     public function setMontantRemise($montantRemise) {
-        $this->montantRemise = $montantRemise;
+        $this->remise = $montantRemise;
     }
 }
