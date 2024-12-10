@@ -57,12 +57,11 @@ class ClientDao
         }
     }
 
-    public function getAll()
-    {
+    public function getAll() {
         $query = "SELECT * FROM client WHERE is_deleted = FALSE";
         $stmt = $this->db->query($query);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    
         $clients = [];
         foreach ($results as $row) {
             // Mappez chaque ligne de la base de données vers un objet Client
@@ -74,11 +73,11 @@ class ClientDao
                 $row['id'] // L'identifiant est facultatif dans le constructeur
             );
         }
-
+    
         return $clients;
     }
-
-
+    
+    
 
     // Get a client by ID (only active)
     public function getById($id)

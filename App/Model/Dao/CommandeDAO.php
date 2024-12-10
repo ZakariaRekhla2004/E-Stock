@@ -99,5 +99,30 @@ public function getByCommandeId($commandeId): array
 }
 
 
+public function getTotalOrders(): int
+{
+    $query = "SELECT COUNT(*) as total FROM commande";
+    $stmt = $this->db->query($query);
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+}
 
+public function getTotalRevenue(): float
+{
+    $query = "SELECT SUM(p.prix * cp.quantity) as total FROM commande_produit cp 
+              JOIN produit p ON cp.idProduit = p.id";
+    $stmt = $this->db->query($query);
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+}
+
+
+public function getMonthlySales(): array
+{
+    $query = "SELECT DATE_FORMAT(c.date, '%Y-%m') as mois, SUM(p.prix * cp.quantity) as total 
+              FROM commande c 
+              JOIN commande_produit cp ON c.id = cp.idCommande 
+              JOIN produit p ON cp.idProduit = p.id 
+              GROUP BY mois ORDER BY mois ASC";
+    $stmt = $this->db->query($query);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }

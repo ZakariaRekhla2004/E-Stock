@@ -98,5 +98,15 @@ class CategorieDAO {
         $category = $stmt->fetch(PDO::FETCH_ASSOC);
         return $category ? $category['nom'] : null; // Renvoie le nom ou null si non trouvé
     }
+    public function getProductsByCategory(): array
+    {
+        $query = "SELECT c.nom, COUNT(p.id) as total 
+                  FROM categorie c 
+                  LEFT JOIN produit p ON c.id = p.idCategorie 
+                  WHERE p.deleted = 0 
+                  GROUP BY c.id";
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
