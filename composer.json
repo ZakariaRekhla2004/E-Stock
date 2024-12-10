@@ -13,5 +13,7 @@
             "email": "zakariaest49@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "tecnickcom/tcpdf": "^6.7"
+    }
 }

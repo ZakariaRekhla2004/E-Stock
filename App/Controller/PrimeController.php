@@ -57,27 +57,28 @@ class PrimeController
         $view = './App/Views/PrimesRemisePage/WithoutPrime.php';
         include_once './App/Views/Layout/Layout.php';
     }
-    public function deletePrimes(int $id, int $idCommercial): void {
+    public function deletePrimes(): void {
         try {
-            $result = $this->primeDAO->delete($id, $idCommercial);
-
-            header('Content-Type: application/json'); 
-          
-            $response = [
-                'success' => $result,
-                'message' => $result ? 'Prime supprimée avec succès.' : 'Échec de la suppression de la prime.'
-            ];
+            $primeId = $_POST['primeId'] ?? null;
+            $idCommercial = $_POST['idCommercial'] ?? null;
+            $result = $this->primeDAO->delete( $primeId,$idCommercial);
     
-            echo json_encode($response);
-            exit; 
-           
+            // Message de succès ou d'échec
+            if ($result) {
+                $_SESSION['success_message'] = 'Prime supprimée avec succès.';
+            } else {
+                $_SESSION['error_message'] = 'Échec de la suppression de la prime.';
+            }
+            
         } catch (Exception $e) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Erreur lors de la suppression de la prime : ' . $e->getMessage()
-            ]);
+            $_SESSION['error_message'] = 'Erreur lors de la suppression de la prime : ' . $e->getMessage();
         }
+    
+        // Redirection vers la page des primes après suppression
+        header('Location: /Prime');
+        exit;
     }
+    
     
 
     

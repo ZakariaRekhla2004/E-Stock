@@ -126,9 +126,10 @@ class PrimeDAO {
      * Récupérer toutes les primes pour une année donnée
      */
    
-     public function delete(int $id,int $idCommercial): bool {
+     public function delete(int $id, int $idCommercial): bool {
         try {
             $this->db->beginTransaction();
+    
             $updateStmt = $this->db->prepare("
                 UPDATE users 
                 SET year_prime = 0 
@@ -144,12 +145,12 @@ class PrimeDAO {
     
             $this->db->commit();
             return true;
-    
         } catch (Exception $e) {
             $this->db->rollBack();
             throw new Exception("Erreur lors de la suppression de la prime : " . $e->getMessage());
         }
     }
+    
     
 
 

@@ -70,6 +70,57 @@
                             </div>
                         </div>
 
+                        <?php   if (App\Config\Auth::hasRole([‘RH’])): ?>
+                        <div class="nav-group">
+                            <button
+                                class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                    Gestion du Prime
+                                </div>
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div class="submenu pl-11 space-y-2">
+                                <a href="/Prime"
+                                    class="block py-2 text-sm text-gray-600 hover:text-blue-600">Primes Calculées</a>
+                                <a href="/WithoutPrime" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Primes Non Calculées</a>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        <?php   if (App\Config\Auth::hasRole([‘DIRECTION’])): ?>
+
+
+                        <div class="nav-group">
+                            <button
+                                class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                    Gestion du Remise
+                                </div>
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div class="submenu pl-11 space-y-2">
+                                <a href="/Remise"
+                                    class="block py-2 text-sm text-gray-600 hover:text-blue-600">Remises Calculées</a>
+                                <a href="/WithoutRemise" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Remises Non Calculées</a>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
                         <!-- Gestion du Stock -->
                         <div class="nav-group">
                             <button

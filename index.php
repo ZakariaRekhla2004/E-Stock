@@ -1,5 +1,8 @@
 <?php
 
+use App\Config\Request;
+
+
 
 
 
@@ -22,6 +25,9 @@ use App\Model\Dao\ProduitCommandeDAO;
 use App\Controller\ProduitController;
 use App\Controller\DashboardController;
 use App\Controller\RemiseController;
+use App\Controllers\PDFController;
+
+
 
 
 // Routes existantes
@@ -219,8 +225,6 @@ Router::post("/Remise/delete", function() {
     }
 });
 
-
-
 Router::get('/remise', function () {
     (new RemiseController())->index();
 });
@@ -247,22 +251,15 @@ Router::post('/WithoutPrime/calculate', function() {
     }
 });
 Router::post("Prime/delete", function() {
-    $data = json_decode(file_get_contents('php://input'), true);
-    $primeId = $data['primeId'] ?? null;
-    $idCommercial = $data['idCommercial'] ?? null;
-       if ($primeId&& $idCommercial) { 
-        (new PrimeController())->deletePrimes($primeId, $idCommercial);
-    } else {
-        http_response_code(400);
-        echo json_encode([
-            'success' => false, 
-            'message' => 'ID de prime invalide'
-        ]);
-    }
+    (new PrimeController())->deletePrimes();
 });
 
+Router::get("/PdfController/generatePdf", function(Request $request) {
+    $controller = new PDFController();
+    $controller->generatePdf();
+});
 ?>
-
+<!-- 
 Router::get('/prime', function () {
     (new PrimeController())->index();
 });
@@ -327,4 +324,4 @@ Router::get('/Dashbord', function () {
 });
 
 
-?>
+?> -->

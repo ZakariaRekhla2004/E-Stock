@@ -57,7 +57,7 @@ public function deleteRemise(int $id, int $clientId): void {
     try {
         $result = $this->remiseDao->delete($id, $clientId);
 
-        header('Content-Type: application/json'); 
+        header(header: 'Content-Type: application/json'); 
       
         $response = [
             'success' => $result,
