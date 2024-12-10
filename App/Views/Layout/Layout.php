@@ -70,7 +70,7 @@
                             </div>
                         </div>
 
-                        <?php   if (App\Config\Auth::hasRole([‘RH’])): ?>
+                        <?php   if (App\Config\Auth::hasRole(allowedRoles: [‘RH’])): ?>
                         <div class="nav-group">
                             <button
                                 class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
@@ -94,9 +94,7 @@
                             </div>
                         </div>
                         <?php endif; ?>
-                        <?php   if (App\Config\Auth::hasRole([‘DIRECTION’])): ?>
-
-
+                        <?php   if (App\Config\Auth::hasRole(allowedRoles: [‘DIRECTION’])): ?>
                         <div class="nav-group">
                             <button
                                 class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">

@@ -30,8 +30,9 @@
                    <?php foreach ($clients as $client): ?>
                    <tr class="border-b hover:bg-gray-100">
                        <td class="py-3 px-6 text-left"><?= htmlspecialchars($client['client_name']) ?></td>
-                       <td class="py-3 px-6 text-left"><?= htmlspecialchars($client['year']) ?></td>
                        <td class="py-3 px-6 text-left"><?= number_format($client['total_achats'], 2) ?> €</td>
+                       <td class="py-3 px-6 text-left"><?= htmlspecialchars($client['year']) ?></td>
+                      
                        <td class="py-3 px-6 text-center">
                        <button onclick="calculateRemise(<?= $client['client_id'] ?>,<?= $client['year'] ?>, <?= $client['total_achats'] ?>)" 
                        class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
@@ -62,7 +63,6 @@
            }
        }
    });
-
    function calculateRemise(client_id, year, total_achats) {
     const clientlName = event.target.closest('tr').cells[0].textContent;
 
