@@ -212,7 +212,43 @@ class ProduitController
         header('Location: /Product');
         exit;
     }
-
+    public function archives(): void {
+        $produitDAO = new ProduitDAO();
+        $deletedProducts = $produitDAO->getDeletedProducts(); // Récupérer les produits supprimés
+    
+        $view = './App/Views/ProduitPage/Archives.php'; // Vue des archives
+        include_once './App/Views/Layout/Layout.php';
+    }
+    public function restore($id): void {
+        try {
+            if (!is_numeric($id)) {
+                throw new InvalidArgumentException('ID invalide.');
+            }
+    
+            $produitDAO = new ProduitDAO();
+            $produitDAO->restore($id); // Restaurer le produit
+    
+            $userId = Auth::getUser()->getId();
+            $audit = new Audit(
+                null,
+                AuditTables::PRODUCT->value,
+                AuditActions::RESTORE->value,
+                'Le produit avec l\'ID ' . $id . ' a été restauré !',
+                date('Y-m-d H:i:s'),
+                $userId
+            );
+            $auditDAO = new AuditDAO();
+            $auditDAO->logAudit($audit);
+    
+            $_SESSION['success_message'] = 'Produit restauré avec succès.';
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = 'Erreur : ' . $e->getMessage();
+        }
+    
+        header('Location: /Product/archives');
+        exit;
+    }
+        
 
 }
 ?>

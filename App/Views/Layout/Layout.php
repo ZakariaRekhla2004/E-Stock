@@ -201,4 +201,25 @@
 
     </script>
 
+<?php if (isset($_SESSION['success_message'])): ?>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Succès',
+        text: <?= json_encode($_SESSION['success_message']) ?>
+    });
+</script>
+<?php unset($_SESSION['success_message']); endif; ?>
+
+<?php if (isset($_SESSION['error_message'])): ?>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: <?= json_encode($_SESSION['error_message']) ?>
+    });
+</script>
+<?php unset($_SESSION['error_message']); endif; ?>
+
+
 </body>

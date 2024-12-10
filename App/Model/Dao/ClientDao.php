@@ -42,26 +42,27 @@ class ClientDao
     public function getAllForPanel()
     {
         try {
-            $query = "SELECT * FROM client WHERE is_deleted = FALSE";
+            $query = 'SELECT * FROM client WHERE is_deleted = FALSE';
             $stmt = $this->db->query($query);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Debugging
             if (empty($results)) {
-                error_log("Aucun client trouvé.");
+                error_log('Aucun client trouvé.');
             }
 
             return $results; // Retourne directement le tableau associatif
         } catch (PDOException $e) {
-            throw new Exception("Erreur lors de la récupération des clients : " . $e->getMessage());
+            throw new Exception('Erreur lors de la récupération des clients : ' . $e->getMessage());
         }
     }
 
-    public function getAll() {
-        $query = "SELECT * FROM client WHERE is_deleted = FALSE";
+    public function getAll()
+    {
+        $query = 'SELECT * FROM client WHERE is_deleted = FALSE';
         $stmt = $this->db->query($query);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
         $clients = [];
         foreach ($results as $row) {
             // Mappez chaque ligne de la base de données vers un objet Client
@@ -70,14 +71,12 @@ class ClientDao
                 $row['prenom'],
                 $row['adresse'],
                 $row['ville'],
-                $row['id'] // L'identifiant est facultatif dans le constructeur
+                $row['id'], // L'identifiant est facultatif dans le constructeur
             );
         }
-    
+
         return $clients;
     }
-    
-    
 
     // Get a client by ID (only active)
     public function getById($id)
@@ -109,11 +108,6 @@ class ClientDao
     }
 
     // Restore a soft-deleted client
-    public function restore(int $id): void
-    {
-        $stmt = $this->db->prepare('UPDATE client SET is_deleted = FALSE WHERE id = :id');
-        $stmt->execute(['id' => $id]);
-    }
 
     // Soft delete a client
     public function delete(int $id): void
@@ -131,6 +125,29 @@ class ClientDao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Récupérer les clients supprimés
+    public function getDeletedClients(): array
+    {
+        try {
+            $query = 'SELECT * FROM client WHERE is_deleted = TRUE';
+            $stmt = $this->db->query($query);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception('Erreur lors de la récupération des clients supprimés : ' . $e->getMessage());
+        }
+    }
+
+    // Restaurer un client supprimé
+    public function restore(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare('UPDATE client SET is_deleted = FALSE WHERE id = :id');
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception('Erreur lors de la restauration du client : ' . $e->getMessage());
+        }
+    }
 }
 
 ?>

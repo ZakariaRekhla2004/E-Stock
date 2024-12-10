@@ -7,38 +7,40 @@ use App\Model\Entities\User;
 use PDOException;
 use Exception;
 
-class UserDao {   
+class UserDao
+{
     private $db;
 
     // this is working good
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // this is working good
     public function getAll() {
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM users WHERE deleted_at IS NULL";
         $stmt = $this->db->query($query);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach ($results as $row) {
             $users[] = new User($row['email'], $row['password'], $row['nom'], $row['prenom'], $row['year_prime'], $row['role'], $row['user_id']);
-
         }
         return $users;
     }
-
+    
     // this is working good
-    public function authenticate($email, $password) {
+    public function authenticate($email, $password)
+    {
         var_dump($this->hashPassword($password));
         try {
             // Sanitize input
             $email = htmlspecialchars(strip_tags($email));
 
             // Prepare query to prevent SQL injection
-            $query = "SELECT * FROM users WHERE email = :email";
+            $query = 'SELECT * FROM users WHERE email = :email';
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(":email", $email);
+            $stmt->bindParam(':email', $email);
             $stmt->execute();
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,12 +59,13 @@ class UserDao {
     }
 
     // this is working good
-    function verifyPassword($password, $dbpasword)  {
-        return $this->hashPassword($password)== $dbpasword;
+    function verifyPassword($password, $dbpasword)
+    {
+        return $this->hashPassword($password) == $dbpasword;
     }
 
-
-    public function create(User $user) {
+    public function create(User $user)
+    {
         try {
             $query = "INSERT INTO users (email, password, nom, prenom, year_prime, role) 
                       VALUES (:email, :password, :nom, :prenom, :year_prime, :role)";
@@ -70,15 +73,15 @@ class UserDao {
 
             $hashedPassword = $this->hashPassword($user->getPassword());
 
-            $stmt->bindValue(":email", $user->getEmail());
-            $stmt->bindValue(":password", $hashedPassword);
-            $stmt->bindValue(":nom", $user->getNom());
-            $stmt->bindValue(":prenom", $user->getPrenom());
-            $stmt->bindValue(":year_prime", $user->getYearPrime());
-            $stmt->bindValue(":role", $user->getRole());
+            $stmt->bindValue(':email', $user->getEmail());
+            $stmt->bindValue(':password', $hashedPassword);
+            $stmt->bindValue(':nom', $user->getNom());
+            $stmt->bindValue(':prenom', $user->getPrenom());
+            $stmt->bindValue(':year_prime', $user->getYearPrime());
+            $stmt->bindValue(':role', $user->getRole());
 
             $result = $stmt->execute();
-            
+
             $user->setId($this->db->lastInsertId());
 
             return $result;
@@ -88,12 +91,14 @@ class UserDao {
     }
 
     // this is working good
-    private function hashPassword($password) {
+    private function hashPassword($password)
+    {
         // Use PHP's built-in password hashing
         return md5($password);
     }
 
-    public function update($id, User $user) {
+    public function update($id, User $user)
+    {
         try {
             $query = "UPDATE users SET 
                       email = :email, 
@@ -104,12 +109,12 @@ class UserDao {
                       WHERE user_id = :id";
             $stmt = $this->db->prepare($query);
 
-            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-            $stmt->bindValue(":email", $user->getEmail());
-            $stmt->bindValue(":nom", $user->getNom());
-            $stmt->bindValue(":prenom", $user->getPrenom());
-            $stmt->bindValue(":year_prime", $user->getYearPrime());
-            $stmt->bindValue(":role", $user->getRole());
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':email', $user->getEmail());
+            $stmt->bindValue(':nom', $user->getNom());
+            $stmt->bindValue(':prenom', $user->getPrenom());
+            $stmt->bindValue(':year_prime', $user->getYearPrime());
+            $stmt->bindValue(':role', $user->getRole());
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -120,7 +125,7 @@ class UserDao {
     public function getById($id) {
         try {
             $query = "SELECT user_id, email, nom, prenom, year_prime, role 
-                      FROM users WHERE user_id = :id";
+                      FROM users WHERE user_id = :id AND deleted_at IS NULL";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
@@ -140,23 +145,23 @@ class UserDao {
             throw new Exception('Error fetching user: ' . $e->getMessage());
         }
     }
-
+    
     public function delete($id) {
         try {
-            $query = "DELETE FROM users WHERE user_id = :id";
+            $query = "UPDATE users SET deleted_at = NOW() WHERE user_id = :id";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-
+    
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception('Error deleting user: ' . $e->getMessage());
+            throw new Exception('Error performing soft delete: ' . $e->getMessage());
         }
     }
-
+    
     public function findByEmail($email) {
         try {
             $query = "SELECT user_id, email, nom, prenom, year_prime, role 
-                      FROM users WHERE email = :email";
+                      FROM users WHERE email = :email AND deleted_at IS NULL";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(":email", $email);
             $stmt->execute();
@@ -176,21 +181,24 @@ class UserDao {
             throw new Exception('Error finding user by email: ' . $e->getMessage());
         }
     }
+    
 
-    public function emailExists($email) {
+    public function emailExists($email)
+    {
         try {
-            $query = "SELECT COUNT(*) FROM users WHERE email = :email";
+            $query = 'SELECT COUNT(*) FROM users WHERE email = :email';
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(":email", $email);
+            $stmt->bindParam(':email', $email);
             $stmt->execute();
-            
+
             return $stmt->fetchColumn() > 0;
         } catch (PDOException $e) {
             throw new Exception('Error checking email existence: ' . $e->getMessage());
         }
     }
 
-    function updateProfile($id, User $user){
+    function updateProfile($id, User $user)
+    {
         try {
             $query = "UPDATE users SET 
                       email = :email, 
@@ -199,10 +207,10 @@ class UserDao {
                       WHERE user_id = :id";
             $stmt = $this->db->prepare($query);
 
-            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-            $stmt->bindValue(":email", $user->getEmail());
-            $stmt->bindValue(":nom", $user->getNom());
-            $stmt->bindValue(":prenom", $user->getPrenom());
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':email', $user->getEmail());
+            $stmt->bindValue(':nom', $user->getNom());
+            $stmt->bindValue(':prenom', $user->getPrenom());
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -210,7 +218,8 @@ class UserDao {
         }
     }
 
-    function updatePassword($id, $password)  {
+    function updatePassword($id, $password)
+    {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         try {
             $query = "UPDATE users SET 
@@ -218,9 +227,9 @@ class UserDao {
             WHERE user_id = :id";
             $stmt = $this->db->prepare($query);
 
-            $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-            $stmt->bindValue(":password", $hashedPassword);
-        }catch (PDOException $e) {
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':password', $hashedPassword);
+        } catch (PDOException $e) {
             throw new Exception('Error updating user: ' . $e->getMessage());
         }
     }
@@ -238,6 +247,30 @@ LIMIT 5;
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getDeletedUsers(): array
+{
+    try {
+        $query = "SELECT * FROM users WHERE deleted_at IS NOT NULL";
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Error fetching deleted users: ' . $e->getMessage());
+    }
 }
-?>
+public function restore($id): bool
+{
+    try {
+        $query = "UPDATE users SET deleted_at = NULL WHERE user_id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Error restoring user: ' . $e->getMessage());
+    }
+}
+
+}
+
+
+?>

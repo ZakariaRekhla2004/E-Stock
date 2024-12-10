@@ -243,5 +243,63 @@ Router::get('/', function () {
     (new DashboardController())->index();
 });
 
+Router::get('/user/archives', function () {
+    (new UserController())->archives(); // Afficher les utilisateurs supprimés
+});
+
+Router::post('/user/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new UserController())->restore($id); // Restaurer un utilisateur
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /user/archives');
+    }
+});
+
+
+// Routes pour les archives des catégories
+Router::get('/Category/archives', function () {
+    (new CategorieController())->archives(); // Afficher les catégories supprimées
+});
+
+Router::post('/Category/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new CategorieController())->restore($id); // Restaurer une catégorie
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Category/archives');
+    }
+});
+
+Router::get('/Client/archives', function () {
+    (new ClientController())->archives(); // Afficher les clients supprimés
+});
+
+Router::post('/Client/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ClientController())->restore($id); // Restaurer un client
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Client/archives');
+    }
+});
+
+Router::get('/Product/archives', function () {
+    (new ProduitController())->archives(); // Afficher les produits supprimés
+});
+
+Router::post('/Product/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ProduitController())->restore($id); // Restaurer un produit
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Product/archives');
+    }
+});
+
 
 ?>
