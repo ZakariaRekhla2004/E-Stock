@@ -11,7 +11,10 @@
             <span>Gestion des Clients</span>
         </h1>
 
-
+        <?php if (App\Config\Auth::hasRole([
+            App\Model\Enums\UserRoles::COMERCIAL->value,
+            App\Model\Enums\UserRoles::ADMIN->value,
+        ])) { ?>
         <!-- Bouton Ajouter un client -->
         <button
             class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
@@ -23,6 +26,7 @@
             </svg>
             <span>Ajouter Client</span>
         </button>
+        <?php } ?>
 
         </br>
 
@@ -36,7 +40,12 @@
                         <th class="py-3 px-6 text-left border">Prénom</th>
                         <th class="py-3 px-6 text-left border">Adresse</th>
                         <th class="py-3 px-6 text-left border">Ville</th>
+                        <?php if (App\Config\Auth::hasRole([
+                            App\Model\Enums\UserRoles::COMERCIAL->value,
+                            App\Model\Enums\UserRoles::ADMIN->value,
+                        ])) { ?>
                         <th class="py-3 px-6 text-center border">Actions</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
@@ -47,6 +56,10 @@
                         <td class="py-3 px-6 border"><?= htmlspecialchars($client->getPrenom()) ?></td>
                         <td class="py-3 px-6 border"><?= htmlspecialchars($client->getAdresse()) ?></td>
                         <td class="py-3 px-6 border"><?= htmlspecialchars($client->getVille()) ?></td>
+                        <?php if (App\Config\Auth::hasRole([
+                            App\Model\Enums\UserRoles::COMERCIAL->value,
+                            App\Model\Enums\UserRoles::ADMIN->value,
+                        ])) { ?>
                         <td class="py-3 px-6 text-center border flex justify-center space-x-4">
                             <!-- Modifier bouton -->
                             <button class="text-green-500 hover:text-green-700 flex items-center"
@@ -81,12 +94,18 @@
 
 
                         </td>
+                        <?php } ?>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <?php if (App\Config\Auth::hasRole([
+        App\Model\Enums\UserRoles::COMERCIAL->value,
+        App\Model\Enums\UserRoles::ADMIN->value,
+    ])) { ?>
     <!-- Modal Ajouter -->
     <div id="addClientModal"
         class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
@@ -162,9 +181,10 @@
             </form>
         </div>
     </div>
-</main>
+    <?php } ?>
 
-<!-- Modal Ajouter -->
+    
+</main>
 
 <script>
     // Afficher ou masquer un modal

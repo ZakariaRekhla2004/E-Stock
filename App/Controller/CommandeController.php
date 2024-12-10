@@ -24,7 +24,7 @@ class CommandeController
     {
         $commandeDAO = new CommandeDAO();
 
-        $view = './App/Views/CommandePage/Main.php'; // Vue principale des commandes
+        $view = './App/Views/CommandePage/main.php'; // Vue principale des commandes
         include_once './App/Views/Layout/Layout.php';
     }
 
