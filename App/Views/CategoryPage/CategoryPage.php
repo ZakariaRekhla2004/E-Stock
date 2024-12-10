@@ -30,6 +30,7 @@
             <table class="table-auto w-full border-collapse border">
                 <thead>
                     <tr class="bg-blue-600 text-white uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left border">Id</th>
                         <th class="py-3 px-6 text-left border">Nom</th>
                         <th class="py-3 px-6 text-left border">Description</th>
                         <th class="py-3 px-6 text-left border">Produits</th>
@@ -38,20 +39,6 @@
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
                     <?php foreach ($categories as $category): ?>
-                    <tr class="hover:bg-gray-100 transition-colors duration-200">
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($category->getNom()) ?></td>
-                        <td class="py-3 px-6 border"><?= htmlspecialchars($category->getDescription()) ?></td>
-                        <td class="py-3 px-6 text-center border flex justify-center space-x-4">
-                            <!-- Modifier bouton -->
-                            <button class="text-green-500 hover:text-green-700 flex items-center" onclick='openEditCategoryModal(<?= json_encode([
-                                'id' => $category->getId(),
-                                'nom' => $category->getNom(),
-                                'description' => $category->getDescription(),
-                            ]) ?>)'>
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536-12.02 12.02H3v-3.536l12.02-12.02zM17.768 2.732a2.5 2.5 0 113.536 3.536L18.5 8.072 15.232 4.804l2.536-2.536z" />
-                                </svg>
-                            </button>
                         <tr class="hover:bg-gray-100 transition-colors duration-200">
                             <td class="py-3 px-6 border"><?= htmlspecialchars($category->getId()) ?></td>
                             <td class="py-3 px-6 border"><?= htmlspecialchars($category->getNom()) ?></td>
@@ -86,28 +73,6 @@
                                     Afficher produits
                                 </button>
                             </td>
-
-
-                            <!-- Section des produits (à droite) -->
-                            <div id="rightSidebar" class="hidden fixed top-0 right-0 w-1/3 bg-white shadow-lg p-6 h-full">
-                                <h2 id="productTitle" class="text-lg font-bold mb-4">Produits de la catégorie</h2>
-                                <ul class="list-disc pl-5" id="productItems">
-                                    <!-- Les produits de la catégorie sélectionnée seront affichés ici -->
-                                </ul>
-                                <div class="flex justify-end">
-
-                                    <button class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-500 mt-4"
-                                        onclick="hideProducts()">
-                                        Fermer
-                                    </button>
-                                </div>
-
-                            </div>
-
-
-
-
-
                             <td class="py-3 px-6 text-center border flex justify-center space-x-4">
                                 <!-- Modifier bouton -->
                                 <button class="text-green-500 hover:text-green-700 flex items-center" onclick='openEditCategoryModal(<?= json_encode([
@@ -134,6 +99,29 @@
                                     </button>
                                 </form>
                             </td>
+
+
+                            <!-- Section des produits (à droite) -->
+                            <div id="rightSidebar" class="hidden fixed top-0 right-0 w-1/3 bg-white shadow-lg p-6 h-full">
+                                <h2 id="productTitle" class="text-lg font-bold mb-4">Produits de la catégorie</h2>
+                                <ul class="list-disc pl-5" id="productItems">
+                                    <!-- Les produits de la catégorie sélectionnée seront affichés ici -->
+                                </ul>
+                                <div class="flex justify-end">
+
+                                    <button class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-500 mt-4"
+                                        onclick="hideProducts()">
+                                        Fermer
+                                    </button>
+                                </div>
+
+                            </div>
+
+
+
+
+
+
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

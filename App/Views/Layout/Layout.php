@@ -10,6 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50">
@@ -24,8 +30,9 @@
             <!-- Navigation -->
             <nav class="p-4">
                 <div class="space-y-4">
+
                     <!-- Accueil -->
-                    <a href="#"
+                    <a href="/"
                         class="nav-item flex items-center p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -35,63 +42,73 @@
                         Accueil
                     </a>
 
-                    <!-- Gestion des clients -->
-                    <?php
-                        if (App\Config\Auth::isAuthenticated()) {
-                    ?>
-                    <div class="nav-group">
-                        <button
-                            class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <?php if (App\Config\Auth::isAuthenticated()): ?>
+                        <!-- Gestion des Clients -->
+                        <div class="nav-group">
+                            <button
+                                class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                                        </path>
+                                    </svg>
+                                    Gestion des Clients
+                                </div>
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                                    </path>
+                                        d="M19 9l-7 7-7-7"></path>
                                 </svg>
-                                Gestion des clients
+                            </button>
+                            <div class="submenu pl-11 space-y-2">
+                                <a href="/Client" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Liste des
+                                    clients</a>
+                                <a href="/Client/add" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Ajouter
+                                    client</a>
                             </div>
-                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="submenu pl-11 space-y-2">
-                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Ajouter client</a>
-                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Liste des
-                                clients</a>
                         </div>
-                    </div>
 
-                    <?php
-                        }
-                    ?>
-
-                    <!-- Gestion du stock -->
-                    <div class="nav-group">
-                        <button
-                            class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <!-- Gestion du Stock -->
+                        <div class="nav-group">
+                            <button
+                                class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                    </svg>
+                                    Gestion du Stock
+                                </div>
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                        d="M19 9l-7 7-7-7"></path>
                                 </svg>
-                                Gestion du stock
+                            </button>
+                            <div class="submenu pl-11 space-y-2">
+                                <a href="/Category"
+                                    class="block py-2 text-sm text-gray-600 hover:text-blue-600">Catégories</a>
+                                <a href="/Product" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Produits</a>
                             </div>
-                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="submenu pl-11 space-y-2">
-                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Catégories</a>
-                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Produits</a>
                         </div>
-                    </div>
+
+                        <!-- Commandes -->
+                        <a href="/Commande"
+                            class="nav-item flex items-center p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3M8 7a2 2 0 002-2V3m4 4a2 2 0 002-2V3M8 7h8">
+                                </path>
+                            </svg>
+                            Commandes
+                        </a>
+                    <?php endif; ?>
+
                 </div>
             </nav>
         </aside>
+
 
         <!-- Main Content -->
         <div class="flex-1" style="background-color: #f5fcff;">
@@ -102,48 +119,55 @@
                     <div class="flex items-center space-x-4">
 
                         <!-- Profile Dropdown -->
-<div x-data="{ open: false }" class="relative inline-block text-left">
-    <div>
-        <button @click="open = !open" 
-                type="button" 
-                class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white p-0 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            <!-- Profile Icon (Updated Male User) -->
-            <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-            </svg>
-        </button>
-    </div>
+                        <div x-data="{ open: false }" class="relative inline-block text-left">
+                            <div>
+                                <button @click="open = !open" type="button"
+                                    class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white p-0 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                    <!-- Profile Icon (Updated Male User) -->
+                                    <svg class="h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
 
-    <div x-show="open" 
-         x-transition:enter="transition ease-out duration-100"
-         x-transition:enter-start="transform opacity-0 scale-95"
-         x-transition:enter-end="transform opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-75"
-         x-transition:leave-start="transform opacity-100 scale-100"
-         x-transition:leave-end="transform opacity-0 scale-95"
-         @click.outside="open = false" 
-         class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-         role="menu">
-        <div class="py-1">
-            <a href="my-profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
-                <!-- Profile Menu Icon (Updated Male User) -->
-                <svg class="h-5 w-5 text-gray-600 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-                </svg>
-                Mon Profile
-            </a>
-            <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
-                <!-- Logout Icon (Clear Exit Style) -->
-                <svg class="h-5 w-5 text-gray-600 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-                Se Déconnecter
-            </a>
-        </div>
-    </div>
-</div>
+                            <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95" @click.outside="open = false"
+                                class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu">
+                                <div class="py-1">
+                                    <a href="my-profile"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                                        <!-- Profile Menu Icon (Updated Male User) -->
+                                        <svg class="h-5 w-5 text-gray-600 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        Mon Profile
+                                    </a>
+                                    <a href="/logout"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                                        <!-- Logout Icon (Clear Exit Style) -->
+                                        <svg class="h-5 w-5 text-gray-600 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                            <polyline points="16 17 21 12 16 7"></polyline>
+                                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                                        </svg>
+                                        Se Déconnecter
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
 
 

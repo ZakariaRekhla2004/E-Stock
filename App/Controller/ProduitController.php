@@ -7,9 +7,14 @@ use App\Model\Entities\Produit;
 use App\Model\Dao\CategorieDAO;
 use InvalidArgumentException;
 use Exception;
-
+use App\Config\Auth;
+use App\Model\Dao\AuditDAO;
+use App\Model\Entities\Audit;
+use App\Model\Enums\AuditActions;
+use App\Model\Enums\AuditTables;
 class ProduitController
 {
+
     public function index(): void
     {
         $produitDAO = new ProduitDAO();
@@ -68,6 +73,19 @@ class ProduitController
                 $produitDAO = new ProduitDAO();
                 $produit = new Produit(null, $designation, $prix, $qtt, $relativeImagePath, 0, $idCategorie);
                 $produitDAO->create($produit);
+
+                $userId = Auth::getUser()->getId();
+                $audit = new Audit(
+                    null,
+                    AuditTables::PRODUCT->value,
+                    AuditActions::CREATE->value,
+                    'Le produit avec : ' . $designation . ' a été créé !'
+                    ,
+                    date('Y-m-d H:i:s'),
+                    $userId
+                );
+                $auditDAO = new AuditDAO();
+                $auditDAO->logAudit($audit);
 
                 $_SESSION['success_message'] = 'Produit ajouté avec succès.';
             } catch (InvalidArgumentException $e) {
@@ -138,6 +156,19 @@ class ProduitController
                 $produit = new Produit($id, $designation, $prix, $qtt, $relativeImagePath, 0, $idCategorie);
                 $produitDAO->update($produit);
 
+                $userId = Auth::getUser()->getId();
+                $audit = new Audit(
+                    null,
+                    AuditTables::PRODUCT->value,
+                    AuditActions::UPDATE->value,
+                    'Le produit avec l\'ID ' . $id . ' a été mis à jour !'
+                    ,
+                    date('Y-m-d H:i:s'),
+                    $userId
+                );
+                $auditDAO = new AuditDAO();
+                $auditDAO->logAudit($audit);
+
                 $_SESSION['success_message'] = 'Produit modifié avec succès.';
             } catch (InvalidArgumentException $e) {
                 $_SESSION['error_message'] = $e->getMessage();
@@ -159,6 +190,19 @@ class ProduitController
 
             $produitDAO = new ProduitDAO();
             $produitDAO->delete($id); // Soft delete the product
+
+            $userId = Auth::getUser()->getId();
+            $audit = new Audit(
+                null,
+                AuditTables::PRODUCT->value,
+                AuditActions::DELETE->value,
+                'Le produit avec l\'ID ' . $id . ' a été supprimé !'
+                ,
+                date('Y-m-d H:i:s'),
+                $userId
+            );
+            $auditDAO = new AuditDAO();
+            $auditDAO->logAudit($audit);
 
             $_SESSION['success_message'] = 'Produit supprimé avec succès.';
         } catch (Exception $e) {

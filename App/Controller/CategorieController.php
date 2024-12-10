@@ -7,9 +7,16 @@ use App\Model\Entities\Categorie;
 use InvalidArgumentException;
 use Exception;
 use App\Model\Dao\ProduitDAO;
+use App\Config\Auth;
+use App\Model\Dao\AuditDAO;
+use App\Model\Entities\Audit;
+use App\Model\Enums\AuditActions;
+use App\Model\Enums\AuditTables;
+
 
 class CategorieController
 {
+
     public function index(): void
     {
         $categorieDAO = new CategorieDAO();
@@ -42,6 +49,20 @@ class CategorieController
                 $categorie = new Categorie(null, $nom, $description, 0); // Créer une nouvelle catégorie (pas supprimée)
                 $categorieDAO->create($categorie);
 
+                $userId = Auth::getUser()->getId();
+                $audit = new Audit(
+                    null,
+                    AuditTables::CATEGORY->value,
+                    AuditActions::CREATE->value,
+                    'La catégorie avec le nom ' . $nom . ' a été créée !'
+                    ,
+                    date('Y-m-d H:i:s'),
+                    $userId
+                );
+                $auditDAO = new AuditDAO();
+                $auditDAO->logAudit($audit);
+
+
                 $_SESSION['success_message'] = 'Catégorie ajoutée avec succès.';
             } catch (InvalidArgumentException $e) {
                 $_SESSION['error_message'] = $e->getMessage();
@@ -71,6 +92,19 @@ class CategorieController
                 $categorie = new Categorie($id, $nom, $description, 0); // Update category
                 $categorieDAO->update($categorie);
 
+                $userId = Auth::getUser()->getId();
+                $audit = new Audit(
+                    null,
+                    AuditTables::CATEGORY->value,
+                    AuditActions::UPDATE->value,
+                    'La catégorie avec l\'ID ' . $id . ' a été mise à jour !'
+                    ,
+                    date('Y-m-d H:i:s'),
+                    $userId
+                );
+                $auditDAO = new AuditDAO();
+                $auditDAO->logAudit($audit);
+
                 $_SESSION['success_message'] = 'Catégorie modifiée avec succès.';
             } catch (InvalidArgumentException $e) {
                 $_SESSION['error_message'] = $e->getMessage();
@@ -91,7 +125,20 @@ class CategorieController
             }
 
             $categorieDAO = new CategorieDAO();
-            $categorieDAO->delete($id); // Soft delete the category
+            $categorieDAO->delete($id);
+
+            $userId = Auth::getUser()->getId();
+            $audit = new Audit(
+                null,
+                AuditTables::CATEGORY->value,
+                AuditActions::DELETE->value,
+                'La catégorie avec l\'ID ' . $id . ' a été supprimée !'
+                ,
+                date('Y-m-d H:i:s'),
+                $userId
+            );
+            $auditDAO = new AuditDAO();
+            $auditDAO->logAudit($audit);
 
             $_SESSION['success_message'] = 'Catégorie supprimée avec succès.';
         } catch (Exception $e) {

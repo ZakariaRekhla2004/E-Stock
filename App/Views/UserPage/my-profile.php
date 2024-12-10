@@ -11,7 +11,7 @@
             <div class="flex-1">
                 <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
                 <div class="mt-2">
-                    <input type="text" name="nom" id="nom" value="<?php echo $user['nom']; ?>"
+                    <input type="text" name="nom" id="nom" value="<?php echo $user->getNom(); ?>"
                         class="input-style" required disabled>
                 </div>
             </div>
@@ -20,7 +20,7 @@
             <div class="flex-1">
                 <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom</label>
                 <div class="mt-2">
-                    <input type="text" name="prenom" id="prenom" value="<?php echo $user['prenom']; ?>"
+                    <input type="text" name="prenom" id="prenom" value="<?php echo $user->getPrenom(); ?>"
                         class="input-style" required disabled>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="flex-1">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <div class="mt-2">
-                    <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>"
+                    <input type="email" name="email" id="email" value="<?php echo $user->getEmail(); ?>"
                         class="input-style" required disabled>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="flex-1 relative">
                 <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
                 <div class="mt-2 relative">
-                    <input type="password" name="password" id="password" value="********"
+                    <input type="password" name="password" id="password" value=""
                         class="input-style" required disabled>
                     <button type="button" id="togglePasswordBtn" class="absolute inset-y-0 right-2 flex items-center justify-center text-gray-500 hover:text-gray-700 focus:outline-none hidden">
                         <i class="fas fa-eye w-5 h-5"></i> <!-- Icône d'œil de Font Awesome -->
@@ -145,7 +145,7 @@
         nom: document.getElementById('nom').value,
         prenom: document.getElementById('prenom').value,
         email: document.getElementById('email').value,
-        password: '********' // Valeur initiale du mot de passe
+        password: '' // Valeur initiale du mot de passe
     };
 
     // Activer le mode édition

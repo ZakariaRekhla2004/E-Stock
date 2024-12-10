@@ -8,7 +8,8 @@ class Client {
     private $adresse;
     private $ville;
 
-    public function __construct($nom, $prenom, $adresse, $ville, $id = null) {
+    public function __construct($nom = '', $prenom = '', $adresse = '', $ville = '', $id = null)
+    {
         $this->id = $id;
         $this->nom = $nom;
         $this->prenom = $prenom;

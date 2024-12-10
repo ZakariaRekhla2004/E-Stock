@@ -28,25 +28,25 @@ Router::get('/', function () {
     (new Home())->index();
 });
 
-Router::get('/about', function (){
+Router::get('/about', function () {
     (new Home())->aboutView();
 });
 
 
-Router::get('/contact', function (){
+Router::get('/contact', function () {
     (new Home())->contactForm();
 });
 
-Router::get('/login', function (){
+Router::get('/login', function () {
     (new LoginController())->index();
 });
 
 
-Router::post('/login', function (){
+Router::post('/login', function () {
     (new LoginController())->login();
 });
 
-Router::get('/logout', function (){
+Router::get('/logout', function () {
     (new LoginController())->logout();
 });
 
@@ -78,8 +78,8 @@ Router::post('/Client/delete', function () {
 
 Router::get('/Commande', function () {
     (new CommandeController())->index();
- });
- 
+});
+
 // Routes pour la gestion des catégories
 Router::get('/Category', function () {
     (new CategorieController())->index(); // Afficher la liste des catégories
@@ -136,20 +136,31 @@ Router::post('/user/delete', function () {
 });
 
 // Routes pour la gestion des produits
-Router::get('/product', function () {
+Router::get('/Product', function () {
     (new ProduitController())->index(); // Afficher la liste des produits
 });
 
-Router::post('/product/add', function () {
+Router::post('/Product/add', function () {
     (new ProduitController())->add(); // Ajouter un produit
 });
 
-Router::post('/product/edit', function () {
+Router::post('/Product/edit', function () {
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new ProduitController())->update($id); // Modifier un produit
     } else {
         $_SESSION['error_message'] = 'Aucun ID fourni pour la modification.';
+        header('Location: /Product');
+        exit;
+    }
+});
+
+Router::post('/Product/delete', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ProduitController())->delete($id); // Supprimer un produit
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la suppression.';
         header('Location: /Product');
         exit;
     }
@@ -163,31 +174,22 @@ Router::get('/my-profile', function () {
 Router::post('/my-profile/update', function () {
     (new UserController())->updateprofile();
 });
-Router::post('/product/delete', function () {
-    $id = $_POST['id'] ?? null;
-    if ($id) {
-        (new ProduitController())->delete($id); // Supprimer un produit
-    } else {
-        $_SESSION['error_message'] = 'Aucun ID fourni pour la suppression.';
-        header('Location: /Product');
-        exit;
-    }
-});
+
 
 ////////////////////////////////     Remise // Prime //////////////////////////////////
 Router::get('/remise', function () {
     (new RemiseController())->index();
 });
 
-Router::get('/prime', function (){
+Router::get('/prime', function () {
     (new PrimeController())->index();
 });
 
-Router::post('/commande/add', function () {
+Router::post('/Commande/add', function () {
     (new CommandeController())->add();
 });
 
-Router::get('/commande', function ($id) {
+Router::get('/Commande', function ($id) {
     (new CommandeController())->index();
 });
 
@@ -211,13 +213,13 @@ Router::get('/productsPanier', function () {
 
 Router::get('/clientPanier', function () {
     $clientDAO = new App\Model\Dao\ClientDAO();
-    $clients = $clientDAO->getAll();
+    $clients = $clientDAO->getAllForPanel();
     header('Content-Type: application/json');
     echo json_encode($clients);
     exit;
 });
 
-Router::get('/commandeListe', function () {
+Router::get('/CommandeListe', function () {
     (new CommandeController())->indexListe();
 });
 Router::get('/Commande/produits', function () {
