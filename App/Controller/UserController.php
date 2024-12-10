@@ -6,7 +6,6 @@ use App\Model\Dao\UserDAO;
 use App\Model\Entities\User;
 use InvalidArgumentException;
 use Exception;
-use App\Config\Auth;
 use App\Model\Dao\AuditDAO;
 use App\Model\Entities\Audit;
 use App\Model\Enums\AuditActions;
@@ -24,9 +23,7 @@ class UserController
         include_once './App/Views/Layout/Layout.php';
     }
 
-    public function profile()
-    {
-        $user = Auth::getUser();
+    
     public function profile() {
         $user = Auth::getUser();
 
