@@ -11,6 +11,7 @@
             <span>Gestion des Catégories</span>
         </h1>
 
+<<<<<<< HEAD
         <div class="flex items-center justify-between mb-6">
             <!-- Bouton Ajouter une catégorie -->
             <button
@@ -36,6 +37,25 @@
                     onkeyup="filterTable()" />
             </div>
         </div>
+=======
+        
+        <?php if (App\Config\Auth::hasRole([
+            App\Model\Enums\UserRoles::ACHAT->value,
+            App\Model\Enums\UserRoles::ADMIN->value,
+        ])) { ?>
+        <!-- Bouton Ajouter une catégorie -->
+        <button
+            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
+            onclick="toggleModal('addCategoryModal')">
+            <!-- Icône SVG -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span>Ajouter Catégorie</span>
+        </button>
+        <?php } ?>
+>>>>>>> Bsaad
 
         </br>
 
@@ -48,7 +68,12 @@
                         <th class="py-3 px-6 text-left border">Nom</th>
                         <th class="py-3 px-6 text-left border">Description</th>
                         <th class="py-3 px-6 text-left border">Produits</th>
+                        <?php if (App\Config\Auth::hasRole([
+                            App\Model\Enums\UserRoles::ACHAT->value,
+                            App\Model\Enums\UserRoles::ADMIN->value,
+                        ])) { ?>
                         <th class="py-3 px-6 text-center border">Actions</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
@@ -87,6 +112,10 @@
                                     Afficher produits
                                 </button>
                             </td>
+                            <?php if (App\Config\Auth::hasRole([
+                                App\Model\Enums\UserRoles::ACHAT->value,
+                                App\Model\Enums\UserRoles::ADMIN->value,
+                            ])) { ?>
                             <td class="py-3 px-6 text-center border flex justify-center space-x-4">
                                 <!-- Modifier bouton -->
                                 <button class="text-green-500 hover:text-green-700 flex items-center" onclick='openEditCategoryModal(<?= json_encode([
@@ -113,7 +142,7 @@
                                     </button>
                                 </form>
                             </td>
-
+                            <?php } ?>
 
                             <!-- Section des produits (à droite) -->
                             <div id="rightSidebar" class="hidden fixed top-0 right-0 w-1/3 bg-white shadow-lg p-6 h-full">
@@ -145,6 +174,10 @@
 
 
 
+    <?php if (App\Config\Auth::hasRole([
+        App\Model\Enums\UserRoles::ACHAT->value,
+        App\Model\Enums\UserRoles::ADMIN->value,
+    ])) { ?>
     <!-- Modal Ajouter -->
     <div id="addCategoryModal"
         class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
@@ -200,6 +233,7 @@
             </form>
         </div>
     </div>
+    <?php } ?>
 
     <script>
         function openEditCategoryModal(category) {

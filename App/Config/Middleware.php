@@ -39,7 +39,7 @@ class Middleware
         }
 
         // Check user role
-        if (Auth::hasRole($allowedRoles)) {
+        if (!Auth::hasRole($allowedRoles)) {
             header('Location: /unauthorized');
             exit;
         }
