@@ -8,7 +8,7 @@
        </h1>
 
             <div class="mb-4 flex items-center space-x-4">
-            <div class="relative w-[30%]">
+                <div class="relative w-[30%]">
                 <input 
                     type="text" 
                     id="searchInput" 

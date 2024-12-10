@@ -253,10 +253,9 @@ Router::post('/WithoutPrime/calculate', function() {
 Router::post("Prime/delete", function() {
     (new PrimeController())->deletePrimes();
 });
-
-Router::get("/PdfController/generatePdf", function(Request $request) {
-    $controller = new PDFController();
-    $controller->generatePdf();
+Router::get("/Primes/pdf", function(Request $request) {
+    (new PrimeController())->generatePDF();
+    
 });
 Router::get('/', function () {
     (new DashboardController())->index();
