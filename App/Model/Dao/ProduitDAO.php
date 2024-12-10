@@ -141,5 +141,16 @@ class ProduitDAO {
             throw new Exception("Erreur lors de la suppression du produit : " . $e->getMessage());
         }
     }
+
+    public function getTopSellingProducts(): array
+{
+    $query = "SELECT p.designation, SUM(cp.quantity) as total_vendus 
+              FROM produit p 
+              JOIN commande_produit cp ON p.id = cp.idProduit 
+              GROUP BY p.id ORDER BY total_vendus DESC LIMIT 5";
+    $stmt = $this->db->query($query);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

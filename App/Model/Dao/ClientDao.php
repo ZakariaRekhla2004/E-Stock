@@ -39,7 +39,7 @@ class ClientDao
 
     // Read all clients
     // Get all active clients
-    public function getAll() {
+    public function getAllForPanel() {
         try {
             $query = "SELECT * FROM client WHERE is_deleted = FALSE";
             $stmt = $this->db->query($query);
@@ -55,6 +55,27 @@ class ClientDao
             throw new Exception("Erreur lors de la récupération des clients : " . $e->getMessage());
         }
     }
+
+    public function getAll() {
+        $query = "SELECT * FROM client WHERE is_deleted = FALSE";
+        $stmt = $this->db->query($query);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        $clients = [];
+        foreach ($results as $row) {
+            // Mappez chaque ligne de la base de données vers un objet Client
+            $clients[] = new Client(
+                $row['nom'],
+                $row['prenom'],
+                $row['adresse'],
+                $row['ville'],
+                $row['id'] // L'identifiant est facultatif dans le constructeur
+            );
+        }
+    
+        return $clients;
+    }
+    
     
 
     // Get a client by ID (only active)
@@ -99,5 +120,16 @@ class ClientDao
         $stmt = $this->db->prepare('UPDATE client SET is_deleted = TRUE WHERE id = :id');
         $stmt->execute(['id' => $id]);
     }
+    public function getTopClients(): array
+{
+    $query = "SELECT c.nom, c.prenom, COUNT(co.id) as commandes 
+              FROM client c 
+              JOIN commande co ON c.id = co.idClient 
+              GROUP BY c.id ORDER BY commandes DESC LIMIT 5";
+    $stmt = $this->db->query($query);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+}
+
 ?>

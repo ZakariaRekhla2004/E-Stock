@@ -1,8 +1,6 @@
 <?php
 
-use App\Controller\ProduitController;
 
-use App\Controller\RemiseController;
 
 
 
@@ -19,6 +17,9 @@ use App\Controller\CategorieController;
 use App\Controller\LoginController;
 use App\Controller\PrimeController;
 use App\Model\Dao\ProduitCommandeDAO;
+use App\Controller\ProduitController;
+use App\Controller\DashboardController;
+use App\Controller\RemiseController;
 
 
 // Routes existantes
@@ -168,7 +169,7 @@ Router::get('/productsPanier', function () {
 
 Router::get('/clientPanier', function () {
     $clientDAO = new App\Model\Dao\ClientDAO();
-    $clients = $clientDAO->getAll();
+    $clients = $clientDAO->getAllForPanel();
     header('Content-Type: application/json');
     echo json_encode($clients);
     exit;
@@ -195,7 +196,9 @@ Router::get('/Commande/imprime', function () {
     (new CommandeController())->imprime();
 });
 
-
+Router::get('/Dashbord', function () {
+    (new DashboardController())->index();
+});
 
 
 ?>
