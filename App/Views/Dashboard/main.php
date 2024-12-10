@@ -70,18 +70,18 @@
 
             <!-- Utilisateurs les Plus Actifs -->
             <div class="bg-white rounded-lg shadow-md p-4">
-                <h3 class="text-lg font-semibold mb-4 text-[#003366]">Utilisateurs les Plus Actifs</h3>
+                <h3 class="text-lg font-semibold mb-4 text-[#003366]">Vendeurs les Plus Actifs</h3>
                 <table class="table-auto w-full border-collapse border rounded-lg">
                     <thead>
                         <tr class="bg-[#FFC107] text-white text-sm">
-                            <th class="px-4 py-2 border">Utilisateur</th>
+                            <th class="px-4 py-2 border">Vendeur</th>
                             <th class="px-4 py-2 border">Commandes</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($utilisateursActifs as $user): ?>
                         <tr class="hover:bg-gray-100">
-                            <td class="px-4 py-2 border"><?= htmlspecialchars($user['username']) ?></td>
+                            <td class="px-4 py-2 border"> <?= htmlspecialchars($user['nom']) ?> <?= htmlspecialchars($user['prenom']) ?></td>
                             <td class="px-4 py-2 border"><?= $user['commandes'] ?></td>
                         </tr>
                         <?php endforeach; ?>
