@@ -70,7 +70,6 @@
                             </div>
                         </div>
 
-                        <?php   if (App\Config\Auth::hasRole(allowedRoles: [‘RH’])): ?>
                         <div class="nav-group">
                             <button
                                 class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
@@ -93,8 +92,7 @@
                                 <a href="/WithoutPrime" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Primes Non Calculées</a>
                             </div>
                         </div>
-                        <?php endif; ?>
-                        <?php   if (App\Config\Auth::hasRole(allowedRoles: [‘DIRECTION’])): ?>
+                        
                         <div class="nav-group">
                             <button
                                 class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
@@ -117,7 +115,6 @@
                                 <a href="/WithoutRemise" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Remises Non Calculées</a>
                             </div>
                         </div>
-                        <?php endif; ?>
 
                         <!-- Gestion du Stock -->
                         <div class="nav-group">

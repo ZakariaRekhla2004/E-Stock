@@ -258,8 +258,10 @@ Router::get("/PdfController/generatePdf", function(Request $request) {
     $controller = new PDFController();
     $controller->generatePdf();
 });
-?>
-<!-- 
+Router::get('/', function () {
+    (new DashboardController())->index();
+});
+
 Router::get('/prime', function () {
     (new PrimeController())->index();
 });
@@ -319,12 +321,11 @@ Router::get('/Commande/imprime', function () {
     (new CommandeController())->imprime();
 });
 
-Router::get('/', function () {
-    (new DashboardController())->index();
-});
+
 
 Router::get('/audit', function () {
     (new AuditController())->index();
 });
 
-?> -->
+?>
+
