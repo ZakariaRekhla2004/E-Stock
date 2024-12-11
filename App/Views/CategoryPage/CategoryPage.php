@@ -11,8 +11,11 @@
             <span>Gestion des Catégories</span>
         </h1>
 
-<<<<<<< HEAD
         <div class="flex items-center justify-between mb-6">
+            <?php if (App\Config\Auth::hasRole([
+                App\Model\Enums\UserRoles::ACHAT->value,
+                App\Model\Enums\UserRoles::ADMIN->value,
+            ])) { ?>
             <!-- Bouton Ajouter une catégorie -->
             <button
                 class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
@@ -24,6 +27,7 @@
                 </svg>
                 <span>Ajouter Catégorie</span>
             </button>
+            <?php } ?>
 
             <!-- Search Bar with Icon -->
             <div class="flex items-center space-x-2 border border-gray-300 rounded-lg px-2 py-1">
@@ -37,25 +41,6 @@
                     onkeyup="filterTable()" />
             </div>
         </div>
-=======
-        
-        <?php if (App\Config\Auth::hasRole([
-            App\Model\Enums\UserRoles::ACHAT->value,
-            App\Model\Enums\UserRoles::ADMIN->value,
-        ])) { ?>
-        <!-- Bouton Ajouter une catégorie -->
-        <button
-            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
-            onclick="toggleModal('addCategoryModal')">
-            <!-- Icône SVG -->
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-            </svg>
-            <span>Ajouter Catégorie</span>
-        </button>
-        <?php } ?>
->>>>>>> Bsaad
 
         </br>
 
