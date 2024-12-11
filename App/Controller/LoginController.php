@@ -30,8 +30,7 @@ class LoginController
             header("Location: /");
             exit;
         }else{
-            $_SESSION['error_message'] = 'Remplire tous les champs';
-            header("Location: /login");
+            $_SESSION['error_message'] = 'Les identifiants sont incorrects. Veuillez réessayer.';            header("Location: /login");
             exit;
         }
         

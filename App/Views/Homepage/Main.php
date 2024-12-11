@@ -19,18 +19,41 @@
         <!-- En-tête -->
         <header class="bg-[#eeeeee] text-[#003060] py-4 px-6 shadow-lg fixed top-0 left-0 w-full z-50">
             <div class="container mx-auto flex justify-between items-center">
+                <!-- Logo and Title -->
                 <div class="flex items-center">
                     <img src="/public/assets/images/logo.png" alt="Logo E-Stock" class="h-12 w-12 mr-3">
                     <h1 class="text-3xl text-[#003060] font-extrabold">E-Stock</h1>
                 </div>
+
+                <!-- Navigation Menu -->
                 <nav>
-                    <ul class="flex space-x-6">
+                    <ul class="hidden lg:flex space-x-6">
                         <li><a href="#accueil" class="hover:text-indigo-300 transition">Accueil</a></li>
                         <li><a href="#a-propos" class="hover:text-indigo-300 transition">À propos</a></li>
                         <li><a href="#entreprise" class="hover:text-indigo-300 transition">Entreprise</a></li>
                         <li><a href="#equipe" class="hover:text-indigo-300 transition">Équipe</a></li>
                     </ul>
                 </nav>
+
+                <!-- Mobile Menu Toggle -->
+                <button id="menu-toggle"
+                    class="lg:hidden text-[#003060] focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden bg-[#eeeeee] shadow-lg">
+                <ul class="flex flex-col space-y-2 py-4 px-6">
+                    <li><a href="#accueil" class="block hover:text-indigo-300 transition">Accueil</a></li>
+                    <li><a href="#a-propos" class="block hover:text-indigo-300 transition">À propos</a></li>
+                    <li><a href="#entreprise" class="block hover:text-indigo-300 transition">Entreprise</a></li>
+                    <li><a href="#equipe" class="block hover:text-indigo-300 transition">Équipe</a></li>
+                </ul>
             </div>
         </header>
 
@@ -70,6 +93,12 @@
                 <div class="container mx-auto px-4 md:flex md:justify-center md:items-center">
                     <div class="text-center md:text-left md:mr-4"> <!-- Réduire la marge à droite -->
                         <!-- Réduire la marge sous le titre -->
+            <section id="entreprise" class="md:flex-row items-center py-20 bg-white">
+
+                <h2 class="text-4xl text-center font-bold text-gray-800 mb-4">À propos de l'entreprise</h2>
+                <div class="container mx-auto px-4 md:flex md:justify-center md:items-center">
+                    <div class="text-center md:text-left md:mr-4"> <!-- Réduire la marge à droite -->
+                        <!-- Réduire la marge sous le titre -->
                         <p class="text-lg text-gray-600 max-w-2xl">
                             E-Stock a été développé par F.H.L.R. Digitalize, une entreprise leader en développement de
                             logiciels spécialisés dans les outils innovants de gestion d'entreprise. Notre mission est
@@ -77,6 +106,9 @@
                             tout en anticipant leurs besoins futurs.
                         </p>
                     </div>
+                    <div class="mt-4 md:mt-0 flex justify-center items-center md:ml-4">
+                        <!-- Réduire la marge du logo -->
+                        <img src="/public/assets/images/FHLR.png" alt="Logo de l'entreprise" class="h-48">
                     <div class="mt-4 md:mt-0 flex justify-center items-center md:ml-4">
                         <!-- Réduire la marge du logo -->
                         <img src="/public/assets/images/FHLR.png" alt="Logo de l'entreprise" class="h-48">
@@ -206,5 +238,14 @@
         </footer>
     </div>
 </body>
+<script>
+    // Mobile Menu Toggle Script
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
 
 </html>
