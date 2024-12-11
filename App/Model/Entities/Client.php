@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entities;
-class Client {
+class Client
+{
 
     private $id;
     private $nom;
@@ -17,40 +18,49 @@ class Client {
         $this->ville = $ville;
     }
     // Getters
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getNom() {
+    public function getNom()
+    {
         return $this->nom;
     }
 
-    public function getPrenom() {
+    public function getPrenom()
+    {
         return $this->prenom;
     }
 
-    public function getAdresse() {
+    public function getAdresse()
+    {
         return $this->adresse;
     }
 
-    public function getVille() {
+    public function getVille()
+    {
         return $this->ville;
     }
 
     // Setters
-    public function setNom($nom) {
+    public function setNom($nom)
+    {
         $this->nom = $nom;
     }
 
-    public function setPrenom($prenom) {
+    public function setPrenom($prenom)
+    {
         $this->prenom = $prenom;
     }
 
-    public function setAdresse($adresse) {
+    public function setAdresse($adresse)
+    {
         $this->adresse = $adresse;
     }
 
-    public function setVille($ville) {
+    public function setVille($ville)
+    {
         $this->ville = $ville;
     }
 }
