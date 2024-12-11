@@ -86,13 +86,7 @@
                 </div>
             </section>
 
-            <!-- Section Entreprise -->
-            <section id="entreprise" class="md:flex-row items-center py-20 bg-white">
-
-                <h2 class="text-4xl text-center font-bold text-gray-800 mb-4">À propos de l'entreprise</h2>
-                <div class="container mx-auto px-4 md:flex md:justify-center md:items-center">
-                    <div class="text-center md:text-left md:mr-4"> <!-- Réduire la marge à droite -->
-                        <!-- Réduire la marge sous le titre -->
+            
             <section id="entreprise" class="md:flex-row items-center py-20 bg-white">
 
                 <h2 class="text-4xl text-center font-bold text-gray-800 mb-4">À propos de l'entreprise</h2>
@@ -106,9 +100,7 @@
                             tout en anticipant leurs besoins futurs.
                         </p>
                     </div>
-                    <div class="mt-4 md:mt-0 flex justify-center items-center md:ml-4">
-                        <!-- Réduire la marge du logo -->
-                        <img src="/public/assets/images/FHLR.png" alt="Logo de l'entreprise" class="h-48">
+                    
                     <div class="mt-4 md:mt-0 flex justify-center items-center md:ml-4">
                         <!-- Réduire la marge du logo -->
                         <img src="/public/assets/images/FHLR.png" alt="Logo de l'entreprise" class="h-48">
