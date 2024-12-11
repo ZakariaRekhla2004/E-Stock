@@ -56,8 +56,8 @@
                     <?php foreach ($remises as $remise): ?>
                     <tr class="border-b hover:bg-gray-100">
                         <td class="py-3 px-6 text-left"><?= htmlspecialchars($remise->getClientName() ?? $remise->getIdClient()) ?></td>
-                        <td class="py-3 px-6 text-left"><?= number_format($remise->getTotalAchats(), 0) ?> €</td>
-                        <td class="py-3 px-6 text-left"><?= number_format($remise->getRemise(), 0) ?> €</td>
+                        <td class="py-3 px-6 text-left"><?= number_format($remise->getTotalAchats(), 0) ?> Mad</td>
+                        <td class="py-3 px-6 text-left"><?= number_format($remise->getRemise(), 0) ?> Mad</td>
                         <td class="py-3 px-6 text-center"><?= htmlspecialchars($remise->getannee()) ?></td>
                         <td class="py-3 px-6 text-center">
                             <button onclick="deleteremise(<?= $remise->getId() ?>, <?= $remise->getIdClient() ?>)" class="text-red-600 hover:text-red-900">

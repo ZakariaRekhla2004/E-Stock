@@ -41,7 +41,7 @@
                     <i class="fas fa-euro-sign"></i>
                 </div>
                 <h2 class="text-lg font-semibold text-[#003366]">Revenus Totaux</h2>
-                <p class="text-2xl font-bold text-[#FFC107]"><?= number_format($revenusTotaux, 2) ?> €</p>
+                <p class="text-2xl font-bold text-[#FFC107]"><?= number_format($revenusTotaux, 2) ?> Mad</p>
             </div>
         </div>
 
@@ -131,7 +131,7 @@
         data: {
             labels: moisLabels,
             datasets: [{
-                label: 'Ventes (€)',
+                label: 'Ventes (Mad)',
                 data: ventesTotals,
                 borderColor: '#4CAF50',
                 tension: 0.4

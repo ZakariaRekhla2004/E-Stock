@@ -11,14 +11,12 @@
             <span>Gestion des Utilisateurs</span>
         </h1>
 
+        <!-- Bouton Ajouter un user -->
+        <div class="flex items-center justify-between mb-6">
         <?php if (App\Config\Auth::hasRole([
             App\Model\Enums\UserRoles::RH->value,
             App\Model\Enums\UserRoles::ADMIN->value,
         ])) { ?>
-        <!-- Bouton Ajouter un user -->
-<<<<<<< HEAD
-        <div class="flex items-center justify-between mb-6">
-
             <button
                 class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
                 onclick="toggleModal('addUserModal')">
@@ -29,6 +27,7 @@
                 </svg>
                 <span>Ajouter Utilisateur</span>
             </button>
+            <?php } ?>
             <div class="flex items-center space-x-2 border border-gray-300 rounded-lg px-2 py-1">
                 <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -40,19 +39,6 @@
                     onkeyup="filterTable()" />
             </div>
         </div>
-=======
-        <button
-            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
-            onclick="toggleModal('addUserModal')">
-            <!-- Icône SVG -->
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-            </svg>
-            <span>Ajouter Utilisateur</span>
-        </button>
-        <?php } ?>
->>>>>>> Bsaad
 
         </br>
 
@@ -76,22 +62,6 @@
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
                     <?php foreach ($users as $user): ?>
-<<<<<<< HEAD
-                        <tr class="hover:bg-gray-100 transition-colors duration-200">
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($user->getId()) ?></td>
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($user->getNom()) ?></td>
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($user->getPrenom()) ?></td>
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($user->getEmail()) ?></td>
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($user->getRole()) ?></td>
-                            <td class="py-3 px-6 text-center border flex justify-center space-x-4">
-                                <!-- Modifier bouton -->
-                                <button class="text-green-500 hover:text-green-700 flex items-center" onclick='openEditModal(<?= json_encode([
-                                    'id' => $user->getId(),
-                                    'nom' => $user->getNom(),
-                                    'prenom' => $user->getPrenom(),
-                                    'email' => $user->getEmail(),
-                                    'role' => $user->getRole(),
-=======
                     <tr class="hover:bg-gray-100 transition-colors duration-200">
                         <td class="py-3 px-6 border"><?= htmlspecialchars($user->getId()) ?></td>
                         <td class="py-3 px-6 border"><?= htmlspecialchars($user->getNom()) ?></td>
@@ -111,7 +81,6 @@
                                 'prenom' => $user->getPrenom(),
                                 'email' => $user->getEmail(),
                                 'role' => $user->getRole(),
->>>>>>> Bsaad
                                 ]) ?>)'>
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +90,6 @@
                                 </button>
 
 
-<<<<<<< HEAD
 
 
                                 <form method="POST" action="/user/delete"
@@ -138,12 +106,8 @@
 
 
                             </td>
+                            <?php } ?>
                         </tr>
-=======
-                        </td>
-                        <?php } ?>
-                    </tr>
->>>>>>> Bsaad
                     <?php endforeach; ?>
                 </tbody>
             </table>

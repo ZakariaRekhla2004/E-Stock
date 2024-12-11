@@ -47,7 +47,7 @@
                    <?php foreach ($clients as $client): ?>
                    <tr class="border-b hover:bg-gray-100">
                        <td class="py-3 px-6 text-left"><?= htmlspecialchars($client['client_name']) ?></td>
-                       <td class="py-3 px-6 text-left"><?= number_format($client['total_achats'], 2) ?> €</td>
+                       <td class="py-3 px-6 text-left"><?= number_format($client['total_achats'], 2) ?> Mad</td>
                        <td class="py-3 px-6 text-left"><?= htmlspecialchars($client['year']) ?></td>
                       
                        <td class="py-3 px-6 text-center">
@@ -103,7 +103,7 @@
         })
         .then(data => {
             if (data.success) {
-                alert(`Remise calculée: ${data.remise} €`);
+                alert(`Remise calculée: ${data.remise} Mad`);
                 location.reload();
             } else {
                 alert(data.message || 'Erreur lors du calcul de la prime');

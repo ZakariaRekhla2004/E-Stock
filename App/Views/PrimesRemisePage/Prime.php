@@ -52,8 +52,8 @@
                             <td class="py-3 px-6 text-left">
                                 <?= htmlspecialchars($prime->getCommercialName() ?? $prime->getIdCommercial()) ?>
                             </td>
-                            <td class="py-3 px-6 text-left"><?= number_format($prime->getChiffreAffaire(), 0) ?> €</td>
-                            <td class="py-3 px-6 text-left"><?= number_format($prime->getPrime(), 0) ?> €</td>
+                            <td class="py-3 px-6 text-left"><?= number_format($prime->getChiffreAffaire(), 0) ?> Mad</td>
+                            <td class="py-3 px-6 text-left"><?= number_format($prime->getPrime(), 0) ?> Mad</td>
                             <td class="py-3 px-6 text-left"><?= htmlspecialchars($prime->getYear()) ?></td>
                             <td class="py-3 px-6 text-center">
                                 <form method="POST" action="/Prime/delete"

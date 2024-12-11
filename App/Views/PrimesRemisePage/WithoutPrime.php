@@ -48,7 +48,7 @@
                    <tr class="border-b hover:bg-gray-100">
                        <td class="py-3 px-6 text-left"><?= htmlspecialchars($commercial['commercial_name']) ?></td>
                        <td class="py-3 px-6 text-left"><?= htmlspecialchars($commercial['year']) ?></td>
-                       <td class="py-3 px-6 text-left"><?= number_format($commercial['chiffre_affaire'], 2) ?> €</td>
+                       <td class="py-3 px-6 text-left"><?= number_format($commercial['chiffre_affaire'], 2) ?> Mad</td>
                        <td class="py-3 px-6 text-center">
                        <button onclick="calculatePrime(<?= $commercial['commercial_id'] ?>,<?= $commercial['year'] ?>, <?= $commercial['chiffre_affaire'] ?>)" 
                        class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
@@ -103,7 +103,7 @@
         })
         .then(data => {
             if (data.success) {
-                alert(`Prime calculée: ${data.prime} €`);
+                alert(`Prime calculée: ${data.prime} Mad`);
                 location.reload();
             } else {
                 alert(data.message || 'Erreur lors du calcul de la prime');
