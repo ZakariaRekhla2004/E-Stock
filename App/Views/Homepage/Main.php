@@ -19,18 +19,41 @@
         <!-- En-tête -->
         <header class="bg-[#eeeeee] text-[#003060] py-4 px-6 shadow-lg fixed top-0 left-0 w-full z-50">
             <div class="container mx-auto flex justify-between items-center">
+                <!-- Logo and Title -->
                 <div class="flex items-center">
                     <img src="/public/assets/images/logo.png" alt="Logo E-Stock" class="h-12 w-12 mr-3">
                     <h1 class="text-3xl text-[#003060] font-extrabold">E-Stock</h1>
                 </div>
+
+                <!-- Navigation Menu -->
                 <nav>
-                    <ul class="flex space-x-6">
+                    <ul class="hidden lg:flex space-x-6">
                         <li><a href="#accueil" class="hover:text-indigo-300 transition">Accueil</a></li>
                         <li><a href="#a-propos" class="hover:text-indigo-300 transition">À propos</a></li>
                         <li><a href="#entreprise" class="hover:text-indigo-300 transition">Entreprise</a></li>
                         <li><a href="#equipe" class="hover:text-indigo-300 transition">Équipe</a></li>
                     </ul>
                 </nav>
+
+                <!-- Mobile Menu Toggle -->
+                <button id="menu-toggle"
+                    class="lg:hidden text-[#003060] focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden bg-[#eeeeee] shadow-lg">
+                <ul class="flex flex-col space-y-2 py-4 px-6">
+                    <li><a href="#accueil" class="block hover:text-indigo-300 transition">Accueil</a></li>
+                    <li><a href="#a-propos" class="block hover:text-indigo-300 transition">À propos</a></li>
+                    <li><a href="#entreprise" class="block hover:text-indigo-300 transition">Entreprise</a></li>
+                    <li><a href="#equipe" class="block hover:text-indigo-300 transition">Équipe</a></li>
+                </ul>
             </div>
         </header>
 
@@ -64,10 +87,12 @@
             </section>
 
             <!-- Section Entreprise -->
-            <section id="entreprise" class="flex flex-col md:flex-row items-center py-20 bg-white">
-                <div class="container mx-auto px-4 md:flex md:justify-between md:items-center">
-                    <div class="text-center md:text-left">
-                        <h2 class="text-4xl font-bold text-gray-800 mb-6">À propos de l'entreprise</h2>
+            <section id="entreprise" class="md:flex-row items-center py-20 bg-white">
+
+                <h2 class="text-4xl text-center font-bold text-gray-800 mb-4">À propos de l'entreprise</h2>
+                <div class="container mx-auto px-4 md:flex md:justify-center md:items-center">
+                    <div class="text-center md:text-left md:mr-4"> <!-- Réduire la marge à droite -->
+                        <!-- Réduire la marge sous le titre -->
                         <p class="text-lg text-gray-600 max-w-2xl">
                             E-Stock a été développé par F.H.L.R. Digitalize, une entreprise leader en développement de
                             logiciels spécialisés dans les outils innovants de gestion d'entreprise. Notre mission est
@@ -75,89 +100,92 @@
                             tout en anticipant leurs besoins futurs.
                         </p>
                     </div>
-                    <div class="mt-6 md:mt-0">
-                        <img src="/public/assets/images/FHLR.png" alt="Logo de l'entreprise"
-                            class="h-48 mx-auto md:mx-0">
+                    <div class="mt-4 md:mt-0 flex justify-center items-center md:ml-4">
+                        <!-- Réduire la marge du logo -->
+                        <img src="/public/assets/images/FHLR.png" alt="Logo de l'entreprise" class="h-48">
                     </div>
                 </div>
             </section>
 
             <!-- Section Équipe -->
-<section id="team" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-4xl font-bold text-gray-800 mb-6">Rencontrez l'équipe</h2>
-        <div class="grid md:grid-cols-4 gap-8">
-            <!-- FELLAH Hamza -->
-            <div class="bg-white rounded-lg shadow-md p-6 text-center">
-                <img src="https://via.placeholder.com/150" alt="FELLAH Hamza"
-                    class="rounded-full h-24 w-24 mx-auto mb-4">
-                <h3 class="text-xl font-bold mb-2">FELLAH Hamza</h3>
-                <p class="text-gray-600">Fullstack Developer</p>
-                <div class="flex justify-center space-x-4 mt-4">
-                    <a href="https://github.com/Fhamza03" target="_blank" class="text-gray-600 hover:text-gray-800">
-                        <i class="fab fa-github text-2xl"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/hamzafellah" target="_blank"
-                        class="text-blue-600 hover:text-blue-800">
-                        <i class="fab fa-linkedin text-2xl"></i>
-                    </a>
-                </div>
-            </div>
+            <section id="team" class="py-20 bg-gray-50">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Rencontrez l'équipe</h2>
+                    <div class="grid md:grid-cols-4 gap-8">
+                        <!-- FELLAH Hamza -->
+                        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                            <img src="https://via.placeholder.com/150" alt="FELLAH Hamza"
+                                class="rounded-full h-24 w-24 mx-auto mb-4">
+                            <h3 class="text-xl font-bold mb-2">FELLAH Hamza</h3>
+                            <p class="text-gray-600">Fullstack Developer</p>
+                            <div class="flex justify-center space-x-4 mt-4">
+                                <a href="https://github.com/Fhamza03" target="_blank"
+                                    class="text-gray-600 hover:text-gray-800">
+                                    <i class="fab fa-github text-2xl"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/hamzafellah" target="_blank"
+                                    class="text-blue-600 hover:text-blue-800">
+                                    <i class="fab fa-linkedin text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
 
-            <!-- HADADIA Saad -->
-            <div class="bg-white rounded-lg shadow-md p-6 text-center">
-                <img src="https://via.placeholder.com/150" alt="HADADIA Saad"
-                    class="rounded-full h-24 w-24 mx-auto mb-4">
-                <h3 class="text-xl font-bold mb-2">HADADIA Saad</h3>
-                <p class="text-gray-600">Fullstack Developer</p>
-                <div class="flex justify-center space-x-4 mt-4">
-                    <a href="https://github.com/SaadHadadia" target="_blank" class="text-gray-600 hover:text-gray-800">
-                        <i class="fab fa-github text-2xl"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/saadhadadia" target="_blank"
-                        class="text-blue-600 hover:text-blue-800">
-                        <i class="fab fa-linkedin text-2xl"></i>
-                    </a>
-                </div>
-            </div>
+                        <!-- HADADIA Saad -->
+                        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                            <img src="https://via.placeholder.com/150" alt="HADADIA Saad"
+                                class="rounded-full h-24 w-24 mx-auto mb-4">
+                            <h3 class="text-xl font-bold mb-2">HADADIA Saad</h3>
+                            <p class="text-gray-600">Fullstack Developer</p>
+                            <div class="flex justify-center space-x-4 mt-4">
+                                <a href="https://github.com/SaadHadadia" target="_blank"
+                                    class="text-gray-600 hover:text-gray-800">
+                                    <i class="fab fa-github text-2xl"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/saadhadadia" target="_blank"
+                                    class="text-blue-600 hover:text-blue-800">
+                                    <i class="fab fa-linkedin text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
 
-            <!-- LEMKHRBECH Yahya -->
-            <div class="bg-white rounded-lg shadow-md p-6 text-center">
-                <img src="https://via.placeholder.com/150" alt="LEMKHRBECH Yahya"
-                    class="rounded-full h-24 w-24 mx-auto mb-4">
-                <h3 class="text-xl font-bold mb-2">LEMKHRBECH Yahya</h3>
-                <p class="text-gray-600">Fullstack Developer</p>
-                <div class="flex justify-center space-x-4 mt-4">
-                    <a href="https://github.com/yahyalem02" target="_blank" class="text-gray-600 hover:text-gray-800">
-                        <i class="fab fa-github text-2xl"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/yahyalmkhrbech" target="_blank"
-                        class="text-blue-600 hover:text-blue-800">
-                        <i class="fab fa-linkedin text-2xl"></i>
-                    </a>
-                </div>
-            </div>
+                        <!-- LEMKHRBECH Yahya -->
+                        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                            <img src="https://via.placeholder.com/150" alt="LEMKHRBECH Yahya"
+                                class="rounded-full h-24 w-24 mx-auto mb-4">
+                            <h3 class="text-xl font-bold mb-2">LEMKHRBECH Yahya</h3>
+                            <p class="text-gray-600">Fullstack Developer</p>
+                            <div class="flex justify-center space-x-4 mt-4">
+                                <a href="https://github.com/yahyalem02" target="_blank"
+                                    class="text-gray-600 hover:text-gray-800">
+                                    <i class="fab fa-github text-2xl"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/yahyalmkhrbech" target="_blank"
+                                    class="text-blue-600 hover:text-blue-800">
+                                    <i class="fab fa-linkedin text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
 
-            <!-- REKHLA Zakaria -->
-            <div class="bg-white rounded-lg shadow-md p-6 text-center">
-                <img src="https://via.placeholder.com/150" alt="REKHLA Zakaria"
-                    class="rounded-full h-24 w-24 mx-auto mb-4">
-                <h3 class="text-xl font-bold mb-2">REKHLA Zakaria</h3>
-                <p class="text-gray-600">Fullstack Developer</p>
-                <div class="flex justify-center space-x-4 mt-4">
-                    <a href="https://github.com/ZakariaRekhla2004" target="_blank"
-                        class="text-gray-600 hover:text-gray-800">
-                        <i class="fab fa-github text-2xl"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/zakariarekhla" target="_blank"
-                        class="text-blue-600 hover:text-blue-800">
-                        <i class="fab fa-linkedin text-2xl"></i>
-                    </a>
+                        <!-- REKHLA Zakaria -->
+                        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                            <img src="https://via.placeholder.com/150" alt="REKHLA Zakaria"
+                                class="rounded-full h-24 w-24 mx-auto mb-4">
+                            <h3 class="text-xl font-bold mb-2">REKHLA Zakaria</h3>
+                            <p class="text-gray-600">Fullstack Developer</p>
+                            <div class="flex justify-center space-x-4 mt-4">
+                                <a href="https://github.com/ZakariaRekhla2004" target="_blank"
+                                    class="text-gray-600 hover:text-gray-800">
+                                    <i class="fab fa-github text-2xl"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/zakariarekhla" target="_blank"
+                                    class="text-blue-600 hover:text-blue-800">
+                                    <i class="fab fa-linkedin text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
+            </section>
 
 
 
@@ -199,5 +227,14 @@
         </footer>
     </div>
 </body>
+<script>
+    // Mobile Menu Toggle Script
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
 
 </html>
