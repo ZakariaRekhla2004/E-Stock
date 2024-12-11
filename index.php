@@ -201,7 +201,7 @@ Router::get('/Product', function () {
 });
 
 Router::post('/Product/add', function () {
-    
+
     Middleware::role([
         UserRoles::ADMIN->value,
         UserRoles::ACHAT->value
@@ -210,7 +210,7 @@ Router::post('/Product/add', function () {
 });
 
 Router::post('/Product/edit', function () {
-    
+
     Middleware::role([
         UserRoles::ADMIN->value,
         UserRoles::ACHAT->value
@@ -226,7 +226,7 @@ Router::post('/Product/edit', function () {
 });
 
 Router::post('/Product/delete', function () {
-    
+
     Middleware::role([
         UserRoles::ADMIN->value,
         UserRoles::ACHAT->value
@@ -352,8 +352,10 @@ Router::get("/Primes/pdf", function (Request $request) {
 
 });
 Router::get('/', function () {
-    if (Auth::isAuthenticated()) (new DashboardController())->index();
-    else (new Home())->index();
+    if (Auth::isAuthenticated())
+        (new DashboardController())->index();
+    else
+        (new Home())->index();
 });
 
 Router::get('/prime', function () {
@@ -381,7 +383,7 @@ Router::get('/Commande', function ($id) {
 });
 
 
-Router::get('/categoriesPanier', function () {  
+Router::get('/categoriesPanier', function () {
     Middleware::role([
         UserRoles::ADMIN->value,
         UserRoles::COMERCIAL->value
@@ -460,7 +462,8 @@ Router::get('/audit', function () {
     Middleware::role([
         UserRoles::ADMIN->value,
     ]);
-    if (Auth::isAuthenticated()) (new AuditController())->index();
+    if (Auth::isAuthenticated())
+        (new AuditController())->index();
 });
 
 Router::get('/user/archives', function () {
