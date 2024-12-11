@@ -4,6 +4,7 @@ namespace App\Config;
 use PDO;
 use PDOException;
 use Exception;
+use Dotenv\Dotenv;
 
 class Database
 {
@@ -11,14 +12,21 @@ class Database
     private $connection; // Connexion PDO
 
     // Informations de connexion
-    private $host = "localhost"; // Serveur local
-    private $port = "3306"; // Port MySQL personnalisé
-    private $dbname = "gestion_stock"; // Nom de votre base de données locale
-    private $username = "root"; // Utilisateur local par défaut
-    private $password = ""; // Mot de passe (vide par défaut sur XAMPP/MAMP/WAMP)
+    private $host; // Serveur local
+    private $port; // Port MySQL personnalisé
+    private $dbname; // Nom de votre base de données locale
+    private $username; // Utilisateur local par défaut
+    private $password; // Mot de passe (vide par défaut sur XAMPP/MAMP/WAMP)
 
     private function __construct()
     {
+        // Directly use $_ENV or load from .env if not already loaded
+        $this->host = $_ENV['DB_HOST'] ?? 'localhost';
+        $this->port = $_ENV['DB_PORT'] ?? 3306;
+        $this->dbname = $_ENV['DB_DATABASE'] ?? 'gestion_stock';
+        $this->username = $_ENV['DB_USERNAME'] ?? 'root';
+        $this->password = $_ENV['DB_PASSWORD'] ?? '';
+
         try {
             $this->connection = new PDO(
                 "mysql:host={$this->host};port={$this->port};dbname={$this->dbname};charset=utf8",
