@@ -373,6 +373,17 @@ Router::post('/Commande/add', function () {
     (new CommandeController())->add();
 });
 
+
+Router::post('/Commande/updateEtat', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value,
+    ]);
+    (new CommandeController())->updateEtat();
+});
+
+
+
 Router::get('/Commande', function ($id) {
     Middleware::role([
         UserRoles::ADMIN->value,

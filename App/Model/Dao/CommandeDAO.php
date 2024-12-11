@@ -61,7 +61,7 @@ class CommandeDAO {
     public function getAllWithDetails(): array
 {
     $query = "
-        SELECT c.id, c.date, cl.nom AS client_nom, cl.prenom AS client_prenom, 
+        SELECT c.id, c.date,c.etat, cl.nom AS client_nom, cl.prenom AS client_prenom, 
                SUM(pc.quantity * p.prix) AS total
         FROM commande c
         JOIN client cl ON c.idClient = cl.id
@@ -125,4 +125,18 @@ public function getMonthlySales(): array
     $stmt = $this->db->query($query);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+public function updateEtat($idCommande, $etat)
+{
+    try {
+        $query = "UPDATE commande SET etat = :etat WHERE id = :idCommande";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':etat', $etat, PDO::PARAM_STR);
+        $stmt->bindParam(':idCommande', $idCommande, PDO::PARAM_INT);
+        $stmt->execute();
+    } catch (Exception $e) {
+        throw new Exception("Erreur lors de la mise à jour de l'état : " . $e->getMessage());
+    }
+}
+
 }
