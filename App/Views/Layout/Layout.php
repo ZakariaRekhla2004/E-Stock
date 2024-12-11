@@ -304,7 +304,7 @@
                                 class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden"
                                 x-cloak>
                                 <div class="py-1">
-                                    <a href="my-profile"
+                                    <a href="/my-profile"
                                         class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
                                         <svg class="h-5 w-5 text-gray-500 mr-3" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24" fill="currentColor">
