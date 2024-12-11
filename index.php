@@ -254,9 +254,6 @@ Router::post('/my-profile/update', function () {
 
 
 ////////////////////////////////     Remise // Prime //////////////////////////////////
-// Router::get('/Remise', function () {
-//     (new RemiseController())->index();
-// });
 
 
 Router::get('/Remise', function () {
@@ -307,22 +304,16 @@ Router::post("/Remise/delete", function () {
     }
 });
 
-Router::get('/Remise', function () {
-    Middleware::role([
-        UserRoles::DIRECTION->value,
-    ]);
-    (new RemiseController())->index();
-});
-
 Router::get('/WithoutPrime', function () {
     Middleware::role([
+        UserRoles::RH->value,
         UserRoles::DIRECTION->value,
     ]);
     (new PrimeController())->primesNotCalculated();
 });
 Router::post('/WithoutPrime/calculate', function () {
     Middleware::role([
-        UserRoles::DIRECTION->value,
+        UserRoles::RH->value,
     ]);
 
     $data = json_decode(file_get_contents('php://input'), true);
@@ -340,12 +331,13 @@ Router::post('/WithoutPrime/calculate', function () {
 });
 Router::post("/Prime/delete", function () {
     Middleware::role([
-        UserRoles::DIRECTION->value,
+        UserRoles::RH->value,
     ]);
     (new PrimeController())->deletePrimes();
 });
 Router::get("/Primes/pdf", function (Request $request) {
     Middleware::role([
+        UserRoles::RH->value,
         UserRoles::DIRECTION->value,
     ]);
     (new PrimeController())->generatePDF();
@@ -360,6 +352,7 @@ Router::get('/', function () {
 
 Router::get('/prime', function () {
     Middleware::role([
+        UserRoles::RH->value,
         UserRoles::DIRECTION->value,
     ]);
     (new PrimeController())->primesCalculated();

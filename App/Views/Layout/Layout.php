@@ -145,6 +145,7 @@
                     <?php } ?>
                     <?php if (
                         App\Config\Auth::hasRole([
+                            App\Model\Enums\UserRoles::RH->value,
                             App\Model\Enums\UserRoles::DIRECTION->value
                         ])
                     ) { ?>
@@ -172,7 +173,16 @@
                                 <a href="/prime" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Liste des
                                     prime</a>
                                 <a href="/WithoutPrime"
-                                    class="block py-2 text-sm text-gray-600 hover:text-blue-600">Calculer les primes</a>
+                                    class="block py-2 text-sm text-gray-600 hover:text-blue-600">
+                                    <?php if (
+                                    App\Config\Auth::hasRole([
+                                        App\Model\Enums\UserRoles::RH->value
+                                    ])) {
+                                        echo "Calculer les primes";
+                                    }else echo "Primes non calculées";
+                                    
+                                ?>
+                                    </a>
                             </div>
                         </div>
                     <?php } ?>
@@ -355,7 +365,6 @@
 
             button.addEventListener('click', () => {
                 submenu.classList.toggle('active');
-                arrow.style.transform = submenu.classList.contains('active') ? 'rotate(180deg)' : '';
             });
         });
 

@@ -40,7 +40,13 @@
                        <th class="py-3 px-6 text-left border">Nom du Commercial</th>
                        <th class="py-3 px-6 text-left border">Année</th>
                        <th class="py-3 px-6 text-left border">Chiffre d'Affaire</th>
+                        <?php if (
+                            App\Config\Auth::hasRole([
+                                App\Model\Enums\UserRoles::RH->value,
+                            ])
+                        ) { ?>
                        <th class="py-3 px-6 text-center border">Actions</th>
+                       <?php } ?>
                    </tr>
                </thead>
                <tbody>
@@ -49,12 +55,18 @@
                        <td class="py-3 px-6 text-left"><?= htmlspecialchars($commercial['commercial_name']) ?></td>
                        <td class="py-3 px-6 text-left"><?= htmlspecialchars($commercial['year']) ?></td>
                        <td class="py-3 px-6 text-left"><?= number_format($commercial['chiffre_affaire'], 2) ?> Mad</td>
+                        <?php if (
+                            App\Config\Auth::hasRole([
+                                App\Model\Enums\UserRoles::RH->value,
+                            ])
+                        ) { ?>
                        <td class="py-3 px-6 text-center">
                        <button onclick="calculatePrime(<?= $commercial['commercial_id'] ?>,<?= $commercial['year'] ?>, <?= $commercial['chiffre_affaire'] ?>)" 
                        class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
                                Calculer Prime
                            </button>
                        </td>
+                       <?php } ?>
                    </tr>
                    <?php endforeach; ?>
                </tbody>
