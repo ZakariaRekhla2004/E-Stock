@@ -97,7 +97,7 @@ class PrimeController
         }
 
         // Redirection vers la page des primes après suppression
-        header('Location: /Prime');
+        header('Location: /prime');
         exit;
     }
 

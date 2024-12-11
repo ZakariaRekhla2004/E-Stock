@@ -42,7 +42,13 @@
                         <th class="py-3 px-6 text-left border">Chiffre d'Affaire</th>
                         <th class="py-3 px-6 text-left border">Prime</th>
                         <th class="py-3 px-6 text-left border">Année</th>
+                        <?php if (
+                            App\Config\Auth::hasRole([
+                                App\Model\Enums\UserRoles::RH->value,
+                            ])
+                        ) { ?>
                         <th class="py-3 px-6 text-center border">Actions</th>
+                        <?php } ?>
                     </tr>
                 </thead>
 
@@ -55,6 +61,11 @@
                             <td class="py-3 px-6 text-left"><?= number_format($prime->getChiffreAffaire(), 0) ?> Mad</td>
                             <td class="py-3 px-6 text-left"><?= number_format($prime->getPrime(), 0) ?> Mad</td>
                             <td class="py-3 px-6 text-left"><?= htmlspecialchars($prime->getYear()) ?></td>
+                            <?php if (
+                                App\Config\Auth::hasRole([
+                                    App\Model\Enums\UserRoles::RH->value,
+                                ])
+                            ) { ?>
                             <td class="py-3 px-6 text-center">
                                 <form method="POST" action="/Prime/delete"
                                     onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette prime ? Cette action est irréversible.')">
@@ -66,6 +77,7 @@
                                     </button>
                                 </form>
                             </td>
+                            <?php } ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
