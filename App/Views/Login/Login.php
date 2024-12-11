@@ -24,9 +24,6 @@
                     required>
             </div>
             <div class="flex justify-between items-center mb-6">
-    <a href="#" class="text-md text-gray-500 hover:underline ml-auto font-poppins font-semibold">
-        Mot de passe oublié?
-    </a>
 </div>
 
 
@@ -56,6 +53,3 @@
     <?php unset($_SESSION['error_message']); ?>
     <?php endif; ?>
 </script>
-
-<?php 
-var_dump($_SESSION);

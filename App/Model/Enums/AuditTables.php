@@ -9,6 +9,8 @@ enum AuditTables: string
     case CLIENT = 'CLIENT';
     case USER = 'USER';
     case COMMANDE = 'COMMANDE';
+    case PRIME = 'PRIME';
+    case REMISE = 'REMISE';
 }
 
 ?>

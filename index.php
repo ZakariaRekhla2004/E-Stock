@@ -1,5 +1,9 @@
 <?php
 
+use App\Config\Auth;
+use App\Controller\ErrorController;
+use App\Model\Enums\UserRoles;
+
 use App\Config\Request;
 
 
@@ -30,19 +34,8 @@ use App\Controller\AuditController;
 use App\Controllers\PDFController;
 
 
+// use App\Model\Enums\UserRoles;
 
-
-// Routes existantes
-
-
-Router::get('/about', function () {
-    (new Home())->aboutView();
-});
-
-
-Router::get('/contact', function () {
-    (new Home())->contactForm();
-});
 
 Router::get('/login', function () {
     (new LoginController())->index();
@@ -54,25 +47,43 @@ Router::post('/login', function () {
 });
 
 Router::get('/logout', function () {
+    Middleware::authenticated();
     (new LoginController())->logout();
 });
 
 
 // Routes pour la gestion des clients
 Router::get('/Client', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value,
+        UserRoles::DIRECTION->value
+    ]);
     (new ClientController())->index(); // Afficher la liste des clients
 });
 
 Router::post('/Client/add', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value
+    ]);
     (new ClientController())->add(); // Ajouter un client
 });
 
 Router::post('/Client/edit', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value
+    ]);
     (new ClientController())->update($_POST['id']);
 });
 
 
 Router::post('/Client/delete', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value
+    ]);
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new ClientController())->delete($id);
@@ -84,19 +95,35 @@ Router::post('/Client/delete', function () {
 });
 
 Router::get('/Commande', function () {
+    Middleware::role([
+        UserRoles::COMERCIAL->value
+    ]);
     (new CommandeController())->index();
 });
 
 // Routes pour la gestion des catégories
 Router::get('/Category', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value,
+        UserRoles::DIRECTION->value
+    ]);
     (new CategorieController())->index(); // Afficher la liste des catégories
 });
 
 Router::post('/Category/add', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value
+    ]);
     (new CategorieController())->add(); // Ajouter une catégorie
 });
 
 Router::post('/Category/edit', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value
+    ]);
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new CategorieController())->update($id); // Modifier une catégorie
@@ -108,6 +135,10 @@ Router::post('/Category/edit', function () {
 });
 
 Router::post('/Category/delete', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value
+    ]);
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new CategorieController())->delete($id); // Supprimer une catégorie
@@ -120,19 +151,36 @@ Router::post('/Category/delete', function () {
 
 // Routes pour la gestion des users
 Router::get('/user', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::RH->value,
+        UserRoles::DIRECTION->value
+    ]);
     (new UserController())->index(); // Afficher la liste des Users
 });
 
 Router::post('/user/add', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::RH->value
+    ]);
     (new UserController())->add(); // Ajouter un user
 });
 
 Router::post('/user/edit', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::RH->value
+    ]);
     (new UserController())->update($_POST['id']);
 });
 
 
 Router::post('/user/delete', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::RH->value
+    ]);
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new UserController())->delete($id);
@@ -144,14 +192,29 @@ Router::post('/user/delete', function () {
 
 // Routes pour la gestion des produits
 Router::get('/Product', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value,
+        UserRoles::DIRECTION->value
+    ]);
     (new ProduitController())->index(); // Afficher la liste des produits
 });
 
 Router::post('/Product/add', function () {
+    
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value
+    ]);
     (new ProduitController())->add(); // Ajouter un produit
 });
 
 Router::post('/Product/edit', function () {
+    
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value
+    ]);
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new ProduitController())->update($id); // Modifier un produit
@@ -163,6 +226,11 @@ Router::post('/Product/edit', function () {
 });
 
 Router::post('/Product/delete', function () {
+    
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::ACHAT->value
+    ]);
     $id = $_POST['id'] ?? null;
     if ($id) {
         (new ProduitController())->delete($id); // Supprimer un produit
@@ -175,10 +243,12 @@ Router::post('/Product/delete', function () {
 
 // Routes pour la gestion du profile
 Router::get('/my-profile', function () {
+    Middleware::authenticated();
     (new UserController())->profile();
 });
 
 Router::post('/my-profile/update', function () {
+    Middleware::authenticated();
     (new UserController())->updateprofile();
 });
 
@@ -189,13 +259,13 @@ Router::post('/my-profile/update', function () {
 // });
 
 
-Router::get('/Remise', function (){
+Router::get('/Remise', function () {
     (new RemiseController())->remiseCalculated();
 });
-Router::get('/WithoutRemise', function (){
+Router::get('/WithoutRemise', function () {
     (new RemiseController())->remiseNotCalculated();
 });
-Router::post('/WithoutRemise/calculate', function() {
+Router::post('/WithoutRemise/calculate', function () {
     $data = json_decode(file_get_contents('php://input'), true);
     $client_id = $data['client_id'] ?? null;
     $year = $data['year'] ?? null;
@@ -210,38 +280,38 @@ Router::post('/WithoutRemise/calculate', function() {
     }
 });
 
-Router::post("/Remise/delete", function() {
+Router::post("/Remise/delete", function () {
     $data = json_decode(file_get_contents('php://input'), true);
     $remiseId = $data['remiseId'] ?? null;
     $clientId = $data['clientId'] ?? null;
-       if ($remiseId&& $clientId) { 
+    if ($remiseId && $clientId) {
         (new RemiseController())->deleteRemise($remiseId, $clientId);
     } else {
         http_response_code(400);
         echo json_encode([
-            'success' => false, 
+            'success' => false,
             'message' => 'ID de prime invalide'
         ]);
     }
 });
 
-Router::get('/remise', function () {
+Router::get('/Remise', function () {
     (new RemiseController())->index();
 });
 
-Router::get('/Prime', function (){
+Router::get('/Prime', function () {
     (new PrimeController())->primesCalculated();
 });
-Router::get('/WithoutPrime', function (){
+Router::get('/WithoutPrime', function () {
     (new PrimeController())->primesNotCalculated();
 });
-Router::post('/WithoutPrime/calculate', function() {
+Router::post('/WithoutPrime/calculate', function () {
 
     $data = json_decode(file_get_contents('php://input'), true);
     $commercialId = $data['commercialId'] ?? null;
     $year = $data['year'] ?? null;
     $chiffreAffaire = $data['chiffreAffaire'] ?? null;
-    
+
 
     if ($commercialId && $year && $chiffreAffaire) {
         (new PrimeController())->Calculate($commercialId, $year, $chiffreAffaire);
@@ -250,31 +320,45 @@ Router::post('/WithoutPrime/calculate', function() {
         echo json_encode(['success' => false, 'message' => 'Données invalides']);
     }
 });
-Router::post("Prime/delete", function() {
+Router::post("/Prime/delete", function () {
     (new PrimeController())->deletePrimes();
 });
-Router::get("/Primes/pdf", function(Request $request) {
+Router::get("/Primes/pdf", function (Request $request) {
     (new PrimeController())->generatePDF();
-    
+
 });
 Router::get('/', function () {
     (new DashboardController())->index();
 });
 
 Router::get('/prime', function () {
+    Middleware::authenticated();
     (new PrimeController())->index();
 });
 
 Router::post('/Commande/add', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value
+    ]);
     (new CommandeController())->add();
 });
 
 Router::get('/Commande', function ($id) {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value,
+        UserRoles::DIRECTION->value,
+    ]);
     (new CommandeController())->index();
 });
 
 
-Router::get('/categoriesPanier', function () {
+Router::get('/categoriesPanier', function () {  
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value
+    ]);
     $categorieDAO = new App\Model\Dao\CategorieDAO();
     $categories = $categorieDAO->getAllForPanel();
     header('Content-Type: application/json');
@@ -284,6 +368,10 @@ Router::get('/categoriesPanier', function () {
 
 
 Router::get('/productsPanier', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value
+    ]);
     $produitDAO = new App\Model\Dao\ProduitDAO();
     $products = $produitDAO->getAllForPannel();
     header('Content-Type: application/json');
@@ -292,6 +380,10 @@ Router::get('/productsPanier', function () {
 });
 
 Router::get('/clientPanier', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value
+    ]);
     $clientDAO = new App\Model\Dao\ClientDAO();
     $clients = $clientDAO->getAllForPanel();
     header('Content-Type: application/json');
@@ -300,9 +392,19 @@ Router::get('/clientPanier', function () {
 });
 
 Router::get('/CommandeListe', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value,
+        UserRoles::DIRECTION->value
+    ]);
     (new CommandeController())->indexListe();
 });
 Router::get('/Commande/produits', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value,
+        UserRoles::DIRECTION->value
+    ]);
     $id = $_GET['id'] ?? null;
     if ($id) {
         $produitCommandeDAO = new ProduitCommandeDAO();
@@ -317,14 +419,89 @@ Router::get('/Commande/produits', function () {
 });
 
 Router::get('/Commande/imprime', function () {
+    Middleware::role([
+        UserRoles::ADMIN->value,
+        UserRoles::COMERCIAL->value,
+        UserRoles::DIRECTION->value
+    ]);
     (new CommandeController())->imprime();
 });
 
 
 
 Router::get('/audit', function () {
-    (new AuditController())->index();
+    if (Auth::isAuthenticated()) (new AuditController())->index();
 });
 
-?>
+Router::get('/user/archives', function () {
+    (new UserController())->archives(); // Afficher les utilisateurs supprimés
+});
 
+Router::post('/user/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new UserController())->restore($id); // Restaurer un utilisateur
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /user/archives');
+    }
+});
+
+
+// Routes pour les archives des catégories
+Router::get('/Category/archives', function () {
+    (new CategorieController())->archives(); // Afficher les catégories supprimées
+});
+
+Router::post('/Category/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new CategorieController())->restore($id); // Restaurer une catégorie
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Category/archives');
+    }
+});
+
+Router::get('/Client/archives', function () {
+    (new ClientController())->archives(); // Afficher les clients supprimés
+});
+
+Router::post('/Client/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ClientController())->restore($id); // Restaurer un client
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Client/archives');
+    }
+});
+
+Router::get('/Product/archives', function () {
+    (new ProduitController())->archives(); // Afficher les produits supprimés
+});
+
+Router::post('/Product/restore', function () {
+    $id = $_POST['id'] ?? null;
+    if ($id) {
+        (new ProduitController())->restore($id); // Restaurer un produit
+    } else {
+        $_SESSION['error_message'] = 'Aucun ID fourni pour la restauration.';
+        header('Location: /Product/archives');
+    }
+    else (new Home())->index();
+});
+
+/**
+ * Error Routes
+ */
+Router::get('/unauthorized', function () {
+    (new ErrorController())->index(code: 403);
+});
+Router::get('/pagenotfound', function () {
+    (new ErrorController())->index(code: 404);
+});
+// Handle unmatched routes
+Router::handleNotFound('/pagenotfound');
+
+?>

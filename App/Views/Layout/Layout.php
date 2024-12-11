@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>e-Stock - Système de Gestion</title>
+    <title>E-Stock</title>
+    <link rel="icon" type="image/png" href="/public/assets/images/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/public/assets/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -43,33 +44,13 @@
                         Accueil
                     </a>
 
-                    <?php if (App\Config\Auth::isAuthenticated()): ?>
-                        <!-- Gestion des Clients -->
-                        <div class="nav-group">
-                            <button
-                                class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                                        </path>
-                                    </svg>
-                                    Gestion des Clients
-                                </div>
-                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-                            <div class="submenu pl-11 space-y-2">
-                                <a href="/Client" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Liste des
-                                    clients</a>
-                                <a href="/Client/add" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Ajouter
-                                    client</a>
-                            </div>
-                        </div>
+                    <?php if (App\Config\Auth::hasRole([
+                        App\Model\Enums\UserRoles::COMERCIAL->value,
+                        App\Model\Enums\UserRoles::ADMIN->value,
+                        App\Model\Enums\UserRoles::DIRECTION->value,
+                    ])) { ?>
 
+<<<<<<< HEAD
                         <div class="nav-group">
                             <button
                                 class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
@@ -139,18 +120,82 @@
                                 <a href="/Product" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Produits</a>
                             </div>
                         </div>
+=======
+                    <!-- Client -->
+                    <a href="/Client"
+                        class="nav-item flex items-center p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                        Clients
+                    </a>
+                    <?php } ?>
+>>>>>>> Bsaad
 
-                        <!-- Commandes -->
-                        <a href="/Commande"
-                            class="nav-item flex items-center p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <?php if (App\Config\Auth::hasRole([
+                        App\Model\Enums\UserRoles::RH->value,
+                        App\Model\Enums\UserRoles::ADMIN->value,
+                        App\Model\Enums\UserRoles::DIRECTION->value,
+                    ])) { ?>
+                    <!-- Personnel -->
+                    <a href="/user"
+                        class="nav-item flex items-center p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                        Personnel
+                    </a>
+
+                    <?php } ?>
+
+                    <?php if (App\Config\Auth::hasRole([
+                        App\Model\Enums\UserRoles::ACHAT->value,
+                        App\Model\Enums\UserRoles::ADMIN->value,
+                        App\Model\Enums\UserRoles::DIRECTION->value
+                    ])) { ?>
+                    <!-- Gestion du Stock -->
+                    <div class="nav-group">
+                        <button
+                            class="nav-item w-full flex items-center justify-between p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                </svg>
+                                Gestion du Stock
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3M8 7a2 2 0 002-2V3m4 4a2 2 0 002-2V3M8 7h8">
-                                </path>
+                                    d="M19 9l-7 7-7-7"></path>
                             </svg>
-                            Commandes
-                        </a>
-                    <?php endif; ?>
+                        </button>
+                        <div class="submenu pl-11 space-y-2">
+                            <a href="/Category"
+                                class="block py-2 text-sm text-gray-600 hover:text-blue-600">Catégories</a>
+                            <a href="/Product" class="block py-2 text-sm text-gray-600 hover:text-blue-600">Produits</a>
+                        </div>
+                    </div>
+                    <?php } ?>
+
+                    <?php if (App\Config\Auth::hasRole([
+                        App\Model\Enums\UserRoles::COMERCIAL->value,
+                    ])) { ?>
+                    <!-- Commandes -->
+                    <a href="/Commande"
+                        class="nav-item flex items-center p-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3M8 7a2 2 0 002-2V3m4 4a2 2 0 002-2V3M8 7h8">
+                            </path>
+                        </svg>
+                        Commandes
+                    </a>
+                    <?php } ?>
 
                 </div>
             </nav>
@@ -246,5 +291,26 @@
         });
 
     </script>
+
+<?php if (isset($_SESSION['success_message'])): ?>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Succès',
+        text: <?= json_encode($_SESSION['success_message']) ?>
+    });
+</script>
+<?php unset($_SESSION['success_message']); endif; ?>
+
+<?php if (isset($_SESSION['error_message'])): ?>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: <?= json_encode($_SESSION['error_message']) ?>
+    });
+</script>
+<?php unset($_SESSION['error_message']); endif; ?>
+
 
 </body>

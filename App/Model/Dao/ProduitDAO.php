@@ -171,5 +171,28 @@ class ProduitDAO {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Récupérer les produits supprimés
+public function getDeletedProducts(): array {
+    try {
+        $query = "SELECT * FROM produit WHERE deleted = 1";
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la récupération des produits supprimés : ' . $e->getMessage());
+    }
+}
+
+// Restaurer un produit supprimé
+public function restore(int $id): bool {
+    try {
+        $stmt = $this->db->prepare('UPDATE produit SET deleted = 0 WHERE id = :id');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la restauration du produit : ' . $e->getMessage());
+    }
+}
+
+
 }
 ?>

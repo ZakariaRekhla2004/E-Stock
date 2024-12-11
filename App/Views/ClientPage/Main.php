@@ -11,6 +11,7 @@
             <span>Gestion des Clients</span>
         </h1>
 
+<<<<<<< HEAD
         <div class="flex items-center justify-between mb-6">
 
             <!-- Bouton Ajouter un client -->
@@ -36,6 +37,24 @@
                     onkeyup="filterTable()" />
             </div>
         </div>
+=======
+        <?php if (App\Config\Auth::hasRole([
+            App\Model\Enums\UserRoles::COMERCIAL->value,
+            App\Model\Enums\UserRoles::ADMIN->value,
+        ])) { ?>
+        <!-- Bouton Ajouter un client -->
+        <button
+            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
+            onclick="toggleModal('addClientModal')">
+            <!-- Icône SVG -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span>Ajouter Client</span>
+        </button>
+        <?php } ?>
+>>>>>>> Bsaad
 
         </br>
 
@@ -49,11 +68,17 @@
                         <th class="py-3 px-6 text-left border">Prénom</th>
                         <th class="py-3 px-6 text-left border">Adresse</th>
                         <th class="py-3 px-6 text-left border">Ville</th>
+                        <?php if (App\Config\Auth::hasRole([
+                            App\Model\Enums\UserRoles::COMERCIAL->value,
+                            App\Model\Enums\UserRoles::ADMIN->value,
+                        ])) { ?>
                         <th class="py-3 px-6 text-center border">Actions</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
                     <?php foreach ($clients as $client): ?>
+<<<<<<< HEAD
                         <tr class="hover:bg-gray-100 transition-colors duration-200">
                             <td class="py-3 px-6 border"><?= htmlspecialchars($client->getId()) ?></td>
                             <td class="py-3 px-6 border"><?= htmlspecialchars($client->getNom()) ?></td>
@@ -68,6 +93,27 @@
                                     'prenom' => $client->getPrenom(),
                                     'adresse' => $client->getAdresse(),
                                     'ville' => $client->getVille(),
+=======
+                    <tr class="hover:bg-gray-100 transition-colors duration-200">
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getId()) ?></td>
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getNom()) ?></td>
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getPrenom()) ?></td>
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getAdresse()) ?></td>
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($client->getVille()) ?></td>
+                        <?php if (App\Config\Auth::hasRole([
+                            App\Model\Enums\UserRoles::COMERCIAL->value,
+                            App\Model\Enums\UserRoles::ADMIN->value,
+                        ])) { ?>
+                        <td class="py-3 px-6 text-center border flex justify-center space-x-4">
+                            <!-- Modifier bouton -->
+                            <button class="text-green-500 hover:text-green-700 flex items-center"
+                                onclick='openEditModal(<?= json_encode([
+        'id'=> $client->getId(),
+                                'nom' => $client->getNom(),
+                                'prenom' => $client->getPrenom(),
+                                'adresse' => $client->getAdresse(),
+                                'ville' => $client->getVille(),
+>>>>>>> Bsaad
                                 ]) ?>)'>
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -77,6 +123,7 @@
                                 </button>
 
 
+<<<<<<< HEAD
 
 
                                 <form method="POST" action="/Client/delete"
@@ -94,11 +141,21 @@
 
                             </td>
                         </tr>
+=======
+                        </td>
+                        <?php } ?>
+                    </tr>
+>>>>>>> Bsaad
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <?php if (App\Config\Auth::hasRole([
+        App\Model\Enums\UserRoles::COMERCIAL->value,
+        App\Model\Enums\UserRoles::ADMIN->value,
+    ])) { ?>
     <!-- Modal Ajouter -->
     <div id="addClientModal"
         class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
@@ -174,9 +231,10 @@
             </form>
         </div>
     </div>
-</main>
+    <?php } ?>
 
-<!-- Modal Ajouter -->
+    
+</main>
 
 <script>
     // Afficher ou masquer un modal

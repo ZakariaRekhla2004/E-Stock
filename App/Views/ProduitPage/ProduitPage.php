@@ -10,7 +10,12 @@
             <span>Gestion des Produits</span>
         </h1>
 
+        <?php if (App\Config\Auth::hasRole([
+            App\Model\Enums\UserRoles::ACHAT->value,
+            App\Model\Enums\UserRoles::ADMIN->value,
+        ])) { ?>
         <!-- Bouton Ajouter un produit -->
+<<<<<<< HEAD
         <div class="flex items-center justify-between mb-6">
 
             <button
@@ -35,6 +40,19 @@
             </div>
         </div>
 
+=======
+        <button
+            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md flex items-center space-x-2"
+            onclick="toggleModal('addProductModal')">
+            <!-- Icône SVG -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span>Ajouter Produit</span>
+        </button>
+        <?php } ?>
+>>>>>>> Bsaad
         </br>
 
         <!-- Tableau des produits -->
@@ -48,7 +66,12 @@
                         <th class="py-3 px-6 text-left border">Prix</th>
                         <th class="py-3 px-6 text-left border">Quantité</th>
                         <th class="py-3 px-6 text-left border">Catégorie</th>
+                        <?php if (App\Config\Auth::hasRole([
+                            App\Model\Enums\UserRoles::ACHAT->value,
+                            App\Model\Enums\UserRoles::ADMIN->value,
+                        ])) { ?>
                         <th class="py-3 px-6 text-center border">Actions</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
@@ -68,6 +91,13 @@
                             $categoryName = $categorieDAO->getCategoryById($product->getIdCategorie());
                             ?>
                             <td class="py-3 px-6 border"><?= htmlspecialchars($categoryName) ?></td>
+<<<<<<< HEAD
+=======
+                            <?php if (App\Config\Auth::hasRole([
+                                App\Model\Enums\UserRoles::ACHAT->value,
+                                App\Model\Enums\UserRoles::ADMIN->value,
+                            ])) { ?>
+>>>>>>> Bsaad
                             <td class="py-3 px-6 text-center border flex justify-center space-x-4">
                                 <!-- Modifier bouton -->
                                 <button class="text-green-500 hover:text-green-700 flex items-center" onclick='openEditProductModal(<?= json_encode([
@@ -98,11 +128,19 @@
                                     </button>
                                 </form>
                             </td>
+<<<<<<< HEAD
+=======
+                            <?php } ?>
+>>>>>>> Bsaad
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
+            <?php if (App\Config\Auth::hasRole([
+                App\Model\Enums\UserRoles::ACHAT->value,
+                App\Model\Enums\UserRoles::ADMIN->value,
+            ])) { ?>
             <!-- Edit Modal -->
             <div id="editProductModal"
                 class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
@@ -152,10 +190,18 @@
                     </form>
                 </div>
             </div>
+<<<<<<< HEAD
+=======
+            <?php } ?>
+>>>>>>> Bsaad
 
         </div>
     </div>
 
+    <?php if (App\Config\Auth::hasRole([
+        App\Model\Enums\UserRoles::ACHAT->value,
+        App\Model\Enums\UserRoles::ADMIN->value,
+    ])) { ?>
     <!-- Ajouter Modal -->
     <div id="addProductModal"
         class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
@@ -202,6 +248,9 @@
             </form>
         </div>
     </div>
+    <?php } ?>
+
+
 </main>
 <script>
     // Afficher ou masquer un modal
@@ -233,6 +282,7 @@
         toggleModal('editProductModal');
     }
 
+<<<<<<< HEAD
     function filterTable() {
         const searchInput = document.getElementById('searchBar').value.toLowerCase();
         const table = document.getElementById('ProduitTable');
@@ -253,6 +303,8 @@
         }
     }
 
+=======
+>>>>>>> Bsaad
     <?php if (!empty($_SESSION['error_message'])): ?>
         Swal.fire({
             icon: 'error',
