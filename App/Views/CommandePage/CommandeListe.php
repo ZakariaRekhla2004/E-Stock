@@ -23,45 +23,60 @@
                         <th class="py-3 px-6 text-left border">Client</th>
                         <th class="py-3 px-6 text-left border">Date</th>
                         <th class="py-3 px-6 text-left border">Total</th>
+                        <th class="py-3 px-6 text-left border">État</th>
+                        
                         <th class="py-3 px-6 text-center border">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-700 text-sm font-medium">
                     <?php foreach ($commandes as $commande): ?>
-                        <tr class="hover:bg-gray-100 transition-colors duration-200">
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($commande['id']) ?></td>
-                            <td class="py-3 px-6 border">
-                                <?= htmlspecialchars($commande['client_nom']) . ' ' . htmlspecialchars($commande['client_prenom']) ?>
-                            </td>
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($commande['date']) ?></td>
-                            <td class="py-3 px-6 border"><?= htmlspecialchars($commande['total']) ?> DH</td>
-                            <td class="py-3 px-6 text-center border space-x-2">
-                                <!-- Bouton pour imprimer la facture -->
-                                <a href="javascript:void(0);"
-                                    onclick="imprimerCommande('<?= htmlspecialchars($commande['id']) ?>')"
-                                    class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8v8m4-4H8"></path>
-                                    </svg>
-                                    Imprimer
-                                </a>
+                    <tr class="hover:bg-gray-100 transition-colors duration-200">
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($commande['id']) ?></td>
+                        <td class="py-3 px-6 border">
+                            <?= htmlspecialchars($commande['client_nom']) . ' ' . htmlspecialchars($commande['client_prenom']) ?>
+                        </td>
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($commande['date']) ?></td>
+                        <td class="py-3 px-6 border"><?= htmlspecialchars($commande['total']) ?> DH</td>
+                        <td class="py-3 px-6 border">
+                            <select onchange="updateEtat(<?= htmlspecialchars($commande['id']) ?>, this.value)"
+                                class="bg-gray-200 p-2 rounded">
+                                <option value="confirmé" <?= $commande['etat'] === 'confirmé' ? 'selected' : '' ?>>
+                                    Confirmé</option>
+                                <option value="annulé" <?= $commande['etat'] === 'annulé' ? 'selected' : '' ?>>Annulé
+                                </option>
+                                <option value="livré" <?= $commande['etat'] === 'livré' ? 'selected' : '' ?>>Livré
+                                </option>
+                            </select>
+                        </td>
 
-                                <!-- Bouton pour afficher les produits -->
-                                <button
-                                    class="inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out"
-                                    onclick="openProductsModal(<?= htmlspecialchars(json_encode($commande)) ?>)">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4v16m8-8H4"></path>
-                                    </svg>
-                                    Voir Produits
-                                </button>
-                            </td>
+                        <td class="py-3 px-6 text-center border space-x-2">
+                            <!-- Bouton pour imprimer la facture -->
+                            <a href="javascript:void(0);"
+                                onclick="imprimerCommande('<?= htmlspecialchars($commande['id']) ?>')"
+                                class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v8m4-4H8"></path>
+                                </svg>
+                                Imprimer
+                            </a>
 
-                        </tr>
+                            <!-- Bouton pour afficher les produits -->
+                            <button
+                                class="inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out"
+                                onclick="openProductsModal(<?= htmlspecialchars(json_encode($commande)) ?>)">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Voir Produits
+                            </button>
+                        </td>
+
+
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -131,7 +146,7 @@
         function imprimerCommande(id) {
             // Préparer le contenu à imprimer
             const printWindow = window.open('/Commande/imprime?id=' + id, '_blank');
-            printWindow.onload = function () {
+            printWindow.onload = function() {
                 printWindow.print();
             };
         }
@@ -155,5 +170,44 @@
                 rows[i].style.display = match ? '' : 'none';
             }
         }
+
+        function updateEtat(idCommande, etat) {
+    fetch('/Commande/updateEtat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idCommande, etat }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    title: 'Succès',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Erreur',
+                    text: data.error,
+                    icon: 'error',
+                    confirmButtonText: 'Réessayer'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la mise à jour de l\'état :', error);
+            Swal.fire({
+                title: 'Erreur',
+                text: 'Une erreur est survenue. Veuillez réessayer plus tard.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+}
+
+
     </script>
 </main>

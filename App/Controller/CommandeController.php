@@ -156,4 +156,64 @@ class CommandeController
         include_once './App/Views/CommandePage/Imprime.php';
     }
 
+    public function updateEtat()
+    {
+        header('Content-Type: application/json');
+    
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+    
+            if (!$data || !isset($data['idCommande'], $data['etat'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Données invalides']);
+                return;
+            }
+    
+            $idCommande = $data['idCommande'];
+            $etat = $data['etat'];
+    
+            if (!in_array($etat, ['confirmé', 'annulé', 'livré'])) {
+                http_response_code(400);
+                echo json_encode(['error' => 'État invalide']);
+                return;
+            }
+    
+            $commandeDAO = new CommandeDAO();
+    
+            // Récupérer l'état actuel pour l'enregistrement d'audit
+            $commande = $commandeDAO->getById($idCommande);
+            if (!$commande) {
+                http_response_code(404);
+                echo json_encode(['error' => "Commande introuvable avec l'ID $idCommande"]);
+                return;
+            }
+    
+            $etatPrecedent = $commande->getEtat(); // Assurez-vous que la classe `Commande` dispose d'un getter pour l'état.
+    
+            // Mettre à jour l'état de la commande
+            $commandeDAO->updateEtat($idCommande, $etat);
+    
+            // Enregistrer l'audit
+            $userId = Auth::getUser()->getId(); // Récupérer l'utilisateur actuel
+            $auditDAO = new AuditDAO();
+            $audit = new Audit(
+                null, // ID auto-généré
+                'commande', // Nom de la table affectée
+                AuditActions::UPDATE->value,
+                "Modification de l'état de la commande $idCommande vers  '$etat'", // Description
+                date('Y-m-d H:i:s'), // Date actuelle
+                $userId // ID de l'utilisateur
+            );
+            $auditDAO->logAudit($audit);
+    
+            echo json_encode(['success' => true, 'message' => "L'état de la commande a été mis à jour."]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur interne : ' . $e->getMessage()]);
+        }
+    }
+    
+    
+
+
 }

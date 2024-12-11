@@ -7,7 +7,7 @@ class Commande {
     private $dateCommande;
     private $idUser;
     private $idClient;
-
+    private $etat; 
     public function __construct($id, $dateCommande, $idUser, $idClient) {
         $this->id = $id;
         $this->dateCommande = $dateCommande;
@@ -29,5 +29,8 @@ class Commande {
 
     public function getIdClient() {
         return $this->idClient;
+    }
+    public function getEtat() {
+        return $this->etat;
     }
 }
